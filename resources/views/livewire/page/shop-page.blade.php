@@ -419,5 +419,7 @@
                 </div>
             </div>
         </div>
+        @include('partials.footer')
+
     </main>
 </x-layouts.main>

@@ -4,16 +4,13 @@
             <div class="left-content flex items-center">
                 <ul class="flex items-center gap-5">
                     <li>
-                        <a href="about" class="caption2 hover:underline"> About </a>
+                        <a href="{{route('about')}}" class="caption2 hover:underline"> About </a>
                     </li>
                     <li>
-                        <a href="contact" class="caption2 hover:underline"> Contact </a>
+                        <a href="{{route('contact')}}" class="caption2 hover:underline"> Contact </a>
                     </li>
                     <li>
-                        <a href="store-list" class="caption2 hover:underline"> Store Location </a>
-                    </li>
-                    <li>
-                        <a href="faqs" class="caption2 hover:underline"> Help </a>
+                        <a href="{{route('contact')}}" class="caption2 hover:underline"> Help </a>
                     </li>
                 </ul>
             </div>

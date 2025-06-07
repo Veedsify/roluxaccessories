@@ -19,7 +19,7 @@ let blogsData = [];
 
 // Function to fetch blogs from JSON file
 function fetchBlogs() {
-    fetch('./assets/data/Blog.json')
+    fetch('/frontend/data/Blog.json')
         .then(response => response.json())
         .then(data => {
             blogsData = data;
@@ -206,7 +206,7 @@ if (blogDetail) {
         .then(response => response.json())
         .then(data => {
             const blogMain = data[Number(blogId) - 1]
-    
+
             blogDetail.querySelector('.blog-img').setAttribute('src', blogMain.coverImg)
             blogDetail.querySelector('.blog-tag').innerHTML = blogMain.tag
             blogDetail.querySelector('.blog-title').innerHTML = blogMain.title
@@ -218,9 +218,9 @@ if (blogDetail) {
             })
             blogDetail.querySelector('.blog-date').innerHTML = blogMain.date
             blogDetail.querySelector('.blog-description').innerHTML = blogMain.description
-    
+
             const listImg = blogDetail.querySelector('.list-img')
-    
+
             blogMain.subImg.map(item => {
                 const imgItem = document.createElement('div')
                 imgItem.innerHTML = `
@@ -228,11 +228,11 @@ if (blogDetail) {
                 `
                 listImg.appendChild(imgItem)
             })
-    
+
             // Next, prev blog title
             const prevTitle = blogDetail.querySelector('.next-pre .left')
             const nextTitle = blogDetail.querySelector('.next-pre .right')
-    
+
             if (blogId === '1') {
                 prevTitle.querySelector('.prev').innerHTML = data[data.length - 1].title
                 prevTitle.addEventListener('click', () => {
@@ -244,7 +244,7 @@ if (blogDetail) {
                     window.location.href = `blog-detail1.html?id=${data[Number(blogId) - 2].id}`;
                 })
             }
-    
+
             if (Number(blogId) === data.length) {
                 nextTitle.querySelector('.next').innerHTML = data[0].title
                 nextTitle.addEventListener('click', () => {

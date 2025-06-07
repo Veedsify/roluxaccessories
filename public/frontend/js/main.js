@@ -283,14 +283,6 @@ async function initMain() {
     }
   }
 
-  // Modal login
-  const loginIcon = document.querySelector(".user-icon i");
-  const loginPopup = document.querySelector(".login-popup");
-
-  loginIcon?.addEventListener("click", () => {
-    loginPopup.classList.toggle("open");
-  });
-
   // initialize the variable(cart, wishlist, compare) in local storage
   let cartStore = localStorage.getItem("cartStore");
   if (cartStore === null) {
@@ -2646,15 +2638,6 @@ async function initMain() {
 
   handleQuantity();
 
-  const blogItems = document.querySelectorAll(".blog-item");
-
-  blogItems.forEach((blog) => {
-    // redirect to detail
-    blog.addEventListener("click", () => {
-      const blogId = blog.getAttribute("data-item");
-      window.location.href = `blog-detail1.html?id=${blogId}`;
-    });
-  });
 
   // list-testimonial
   if (document.querySelector(".swiper-list-testimonial")) {
@@ -3049,13 +3032,15 @@ async function initMain() {
   // Scroll to top
   const scrollTopBtn = document.querySelector(".scroll-to-top-btn");
 
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 600) {
-      scrollTopBtn.classList.add("active");
-    } else {
-      scrollTopBtn.classList.remove("active");
-    }
-  });
+  if (scrollTopBtn) {
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 600) {
+        scrollTopBtn.classList.add("active");
+      } else {
+        scrollTopBtn.classList.remove("active");
+      }
+    });
+  }
 
   // Handle layout cols in list product wishlist page, shop
   const layoutProductList = document.querySelector(
