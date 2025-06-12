@@ -16,7 +16,14 @@ return new class extends Migration
     {
         Schema::create('product_types', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger("product_id")->constrained();
+            $table->string("name")->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create("product_type_pivot", function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger("product_type_id")->contstrained();
+            $table->unsignedBigInteger("product_id")->constrained();
             $table->timestamps();
         });
     }

@@ -11,20 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('blog_comments', function (Blueprint $table) {
+        Schema::create('product_rating_comments', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('parent_id')->nullable(); // Optional parent comment ID for threaded comments
-            $table->foreignId('user_id')
-                ->nullable()
-                ->constrained()
-                ->onDelete('cascade'); // Foreign key to users table
-            $table->foreignId('blog_id')
-                ->constrained('blogs')
-                ->onDelete('cascade'); // Foreign key to blog_posts table
+            $table->foreignId('product_rating_id')
+                ->constrained('product_ratings')
+                ->onDelete('cascade'); // Foreign key to product_ratings table
+            $table->unsignedBigInteger(('parent_id'))->nullable(); // Optional parent comment ID for threaded comments
             $table->text('comment'); // The comment text
             $table->string('commenter_name')->nullable(); // Optional name of the commenter
             $table->string('commenter_email')->nullable(); // Optional email of the commenter
-            $table->boolean('is_verified')->default(false); // Indicates if the comment is verified
+            $table->boolean('is_verified_purchase')->default(false); // Indicates if the comment is from a verified purchase
             $table->timestamps();
         });
     }
@@ -34,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('blog_comments');
+        Schema::dropIfExists('product_rating_comments');
     }
 };

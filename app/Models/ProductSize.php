@@ -9,4 +9,15 @@ class ProductSize extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductSizeFactory> */
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'slug',
+        'image',
+    ];
+
+    public function products()
+    {
+        return $this->belongsToMany(Product::class, 'product_size_pivot', 'product_size_id', 'product_id');
+    }
 }

@@ -9,4 +9,21 @@ class ProductRating extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductRatingFactory> */
     use HasFactory;
+
+
+    protected $fillable = [
+        'product_id',
+        'user_id',
+        'rating',
+        'review',
+    ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

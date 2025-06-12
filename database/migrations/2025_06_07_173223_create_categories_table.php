@@ -13,6 +13,13 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
+            $table->string('name')->unique(); // Unique name for the category
+            $table->string('slug')->unique(); // Unique slug for the category
+            $table->text('description')->nullable(); // Optional description of the category
+            $table->string('icon')->nullable(); // Optional icon for the category
+            $table->string('image')->nullable(); // Optional image for the category
+            $table->boolean('is_active')->default(true); // Indicates if the category is active
+            $table->boolean('is_featured')->default(false); // Indicates if the category is featured
             $table->timestamps();
         });
     }

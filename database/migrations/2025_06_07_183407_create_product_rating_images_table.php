@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('product_rating_images', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('product_rating_id')
+                ->constrained('product_ratings')
+                ->onDelete('cascade'); // Foreign key to product_ratings table
+            $table->string('image_path'); // Path to the image file
+            $table->string('image_url')->nullable(); // Optional URL for the image
             $table->timestamps();
         });
     }

@@ -18,6 +18,13 @@ return new class extends Migration
             $table->string("image")->nullable();
             $table->timestamps();
         });
+
+        Schema::create("product_size_pivot", function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger("product_size_id")->contstrained();
+            $table->unsignedBigInteger("product_id")->contstrained();
+            $table->timestamps();
+        });
     }
 
     /**

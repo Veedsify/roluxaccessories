@@ -13,6 +13,16 @@ return new class extends Migration
     {
         Schema::create('product_colors', function (Blueprint $table) {
             $table->id();
+            $table->string("name")->nullable();
+            $table->string("slug")->nullable();
+            $table->string("image")->nullable();
+            $table->timestamps();
+        });
+
+        Schema::create("product_color_pivot", function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger("product_color_id")->contstrained();
+            $table->unsignedBigInteger("product_id")->contstrained();
             $table->timestamps();
         });
     }

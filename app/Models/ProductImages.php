@@ -9,4 +9,15 @@ class ProductImages extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductImagesFactory> */
     use HasFactory;
+
+
+    protected $fillable = [
+        'url',
+        'product_id',
+    ];
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

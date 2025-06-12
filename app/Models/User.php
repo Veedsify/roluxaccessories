@@ -22,6 +22,23 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
+        'is_active',
+        'is_verified',
+        'user_id',
+        'role', // customer, admin, vendor
+        'status', // active, inactive, suspended
+        'phone',
+        'country',
+        'address',
+        'gender',
+        'profile_picture',
+        'two_factor_secret',
+        'last_login_at',
+        'email_verified_at',
+        'remember_token',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -54,7 +71,7 @@ class User extends Authenticatable
     {
         return Str::of($this->name)
             ->explode(' ')
-            ->map(fn (string $name) => Str::of($name)->substr(0, 1))
+            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
             ->implode('');
     }
 }

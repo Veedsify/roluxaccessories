@@ -15,8 +15,21 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('user_id')->unique();
+            $table->string('role')->default('customer'); // customer, admin, vendor
+            $table->string('status')->default('active'); // active, inactive, suspended
+            $table->string('phone')->nullable();
+            $table->string('country')->nullable();
+            $table->string('address')->nullable();
+            $table->enum('gender', ['male', 'female', 'other'])->nullable();
+            $table->string('profile_picture')->nullable();
+            $table->boolean('is_verified')->default(false);
+            $table->boolean('is_active')->default(true);
+            $table->boolean('is_admin')->default(false);
+            $table->string('two_factor_secret')->nullable();
+            $table->timestamp('last_login_at')->nullable();
+            $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });
