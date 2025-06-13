@@ -13,6 +13,7 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,37 +42,20 @@ class User extends Authenticatable
         'updated_at',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
+    public function blogs()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->hasMany(Blog::class);
     }
-
-    /**
-     * Get the user's initials
-     */
-    public function initials(): string
+    public function orders()
     {
-        return Str::of($this->name)
-            ->explode(' ')
-            ->map(fn(string $name) => Str::of($name)->substr(0, 1))
-            ->implode('');
+        return $this->hasMany(Order::class);
+    }
+    public function ratings()
+    {
+        return $this->hasMany(ProductRating::class);
+    }
+    public function ratingComments()
+    {
+        return $this->hasMany(ProductRatingComment::class);
     }
 }
