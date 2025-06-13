@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\CategoryResource\Pages;
-use App\Filament\Resources\CategoryResource\RelationManagers;
-use App\Models\Category;
+use App\Filament\Resources\BlogCategoryResource\Pages;
+use App\Filament\Resources\BlogCategoryResource\RelationManagers;
+use App\Models\BlogCategory;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -14,42 +14,26 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class CategoryResource extends Resource
+class BlogCategoryResource extends Resource
 {
-    protected static ?string $model = Category::class;
+    protected static ?string $model = BlogCategory::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-tag';
-    protected static ?string $navigationGroup = 'Catalog';
+    protected static ?string $navigationIcon = 'phosphor-books';
+    protected static ?string $navigationGroup = 'Content Management';
+
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Category Details')
-                    ->description('Manage the category details.')
+                Section::make('Blog Category Details')
+                    ->description('Manage the blog category details.')
                     ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\TextInput::make('slug')
-                            ->required()
-                            ->maxLength(255)
-                            ->unique(Category::class, 'slug', ignoreRecord: true),
-                    ]),
-                Section::make('Additional Information')
-                    ->description('Optional additional information for the category.')
-                    ->columns(2)
-                    ->schema([
                         Forms\Components\Textarea::make('description')
                             ->columnSpanFull(),
-                        Forms\Components\TextInput::make('icon')
-                            ->maxLength(255),
-                        Forms\Components\FileUpload::make('image')
-                            ->image(),
-                        Forms\Components\Toggle::make('is_active')
-                            ->required(),
-                        Forms\Components\Toggle::make('is_featured')
-                            ->required(),
                     ]),
             ]);
     }
@@ -62,13 +46,6 @@ class CategoryResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
-                Tables\Columns\TextColumn::make('icon')
-                    ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->boolean(),
-                Tables\Columns\IconColumn::make('is_featured')
-                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -102,10 +79,10 @@ class CategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListCategories::route('/'),
-            'create' => Pages\CreateCategory::route('/create'),
-            'view' => Pages\ViewCategory::route('/{record}'),
-            'edit' => Pages\EditCategory::route('/{record}/edit'),
+            'index' => Pages\ListBlogCategories::route('/'),
+            'create' => Pages\CreateBlogCategory::route('/create'),
+            'view' => Pages\ViewBlogCategory::route('/{record}'),
+            'edit' => Pages\EditBlogCategory::route('/{record}/edit'),
         ];
     }
 }

@@ -14,12 +14,23 @@ class Blog extends Model
         'title',
         'slug',
         'content',
-        'blog_category_id',
-        'user_id',
         'thumbImg',
         'coverImg',
         'description',
+        'blog_category_id',
+        'user_id',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($blog) {
+            $slug = str($blog->title)->slug();
+            Blog::where('slug', $slug)->exists() ? $slug .= '-' . time() : null;
+            $blog->slug = $slug;
+        });
+    }
 
     public function blogCategory()
     {

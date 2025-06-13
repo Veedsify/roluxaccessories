@@ -14,9 +14,8 @@ class Order extends Model
         'user_id',
         'order_number',
         'status',
+        'address_id',
         'total_amount',
-        'shipping_address',
-        'billing_address',
         'payment_method',
         'tracking_number',
         'shipped_at',
@@ -30,5 +29,9 @@ class Order extends Model
     public function orderDetails()
     {
         return $this->hasMany(OrderDetail::class);
+    }
+    public function shippingAddress()
+    {
+        return $this->belongsTo(Address::class, 'address_id');
     }
 }

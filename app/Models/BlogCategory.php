@@ -16,6 +16,18 @@ class BlogCategory extends Model
         'description',
     ];
 
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($blogCategory) {
+            $slug = str($blogCategory->name)->slug();
+            Blog::where('slug', $slug)->exists() ? $slug .= '-' . time() : null;
+            $blogCategory->slug = $slug;
+        });
+    }
+
     public function blogs()
     {
         return $this->hasMany(Blog::class);
