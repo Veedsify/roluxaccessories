@@ -5090,4 +5090,69 @@ input[type=file]::-webkit-file-upload-button {
   color: var(--black);
 }
 
+
+.blog-content {
+  margin-top: 16px;
+}
+
+.blog-content div {
+  margin-bottom: 16px;
+}
+
+.blog-content h1,
+.blog-content h2,
+.blog-content h3 {
+  margin-top: 16px;
+  margin-bottom: 8px;
+}
+
+.blog-content h1 {
+  font-size: 24px;
+}
+
+.blog-content h2 {
+  font-size: 20px;
+}
+
+.blog-content h3 {
+  font-size: 18px;
+}
+
+.blog-content p {
+  margin-bottom: 16px;
+}
+
+.blog-content ul,
+.blog-content ol {
+  margin-bottom: 16px;
+  padding-left: 20px;
+}
+
+.blog-content ul li,
+.blog-content ol li {
+  margin-bottom: 8px;
+}
+
+.blog-content blockquote {
+  margin: 16px 0;
+  padding-left: 16px;
+  border-left: 4px solid var(--black);
+}
+
+.blog-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 16px 0;
+}
+
+.blog-content a {
+  color: var(--blue);
+  text-decoration: underline;
+}
+
+.blog-content a:hover {
+  color: var(--dark-blue);
+  text-decoration: none;
+}
+
 /*# sourceMappingURL=output-scss.css.map */

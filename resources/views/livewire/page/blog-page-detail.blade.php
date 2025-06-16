@@ -8,65 +8,60 @@
             <div class="container lg:pt-20 md:pt-14 pt-10">
                 <div class="blog-content flex justify-between max-lg:flex-col gap-y-10">
                     <div class="main xl:w-3/4 lg:w-2/3 lg:pr-[15px]">
-                        <div class="blog-tag bg-green py-1 px-2.5 rounded-full text-button-uppercase inline-block">blogMain.tag</div>
-                        <div class="heading3 blog-title mt-3">blogMain.title</div>
+                        <div class="blog-tag bg-green py-1 px-2.5 rounded-full text-button-uppercase inline-block">
+                            {{$post->blogCategory->name}}
+                        </div>
+                        <div class="heading3 blog-title mt-3">
+                            {{$post->title}}
+                        </div>
                         <div class="author flex items-center gap-4 mt-4">
                             <div class="avatar w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
-                                <img src="{{asset('/frontend/images/avatar/1.png')}}" alt="avatar" class="w-full h-full object-cover" />
+                                <img src="{{asset('storage/' . $post->user->profile_picture)}}" alt="avatar" class="w-full h-full object-cover" />
+
                             </div>
                             <div class="flex items-center gap-2">
-                                <div class="blog-author caption1 text-secondary">by blogMain.author</div>
+                                <div class="blog-author caption1 text-secondary">by
+                                    {{$post->user->name}}
+                                </div>
                                 <div class="line w-5 h-px bg-secondary"></div>
-                                <div class="blog-date caption1 text-secondary">blogMain.date</div>
+                                <div class="blog-date caption1 text-secondary">
+                                    {{\Carbon\Carbon::parse($post->created_at)->format('M d, Y')}}
+                                </div>
                             </div>
                         </div>
                         <div class="bg-img md:py-10 py-6">
-                            <img src="{{asset('/frontend/images/blog/1.png')}}" alt="img" class="blog-img w-full object-cover rounded-3xl" />
+                            <img src="{{asset('storage/' . $post->coverImg)}}" alt="img" class="blog-img w-full object-cover rounded-3xl" />
                         </div>
-                        <div class="content md:mt-8 mt-5">
-                            <div class="blog-description body1">blogMain.description</div>
-                            <div class="heading4 md:mt-8 mt-5">How did SKIMS start?</div>
-                            <div class="body1 mt-4">This is such a hard question! Honestly, every time we drop a new collection I get obsessed with it. The pieces that have been my go-tos though are some of our simplest styles that we launched with. I wear our Fits Everybody Thong every single day – it is the only underwear I have now, it’s so comfortable and stretchy and light enough that you can wear anything over it.</div>
-                            <div class="list-img grid sm:grid-cols-2 gap-[30px] md:mt-8 mt-5"></div>
-                            <div class="body1 mt-4">For bras, I love our Cotton Jersey Scoop Bralette – it's lined with this amazing power mesh so you get great support and is so comfy I can sleep in it. I also love our Seamless Sculpt Bodysuit – it's the perfect all in one sculpting, shaping and smoothing shapewear piece with different levels of support woven throughout.</div>
-                            <div class="heading4 md:mt-8 mt-5">How did SKIMS start?</div>
-                            <div class="body1 mt-4">This is such a hard question! Honestly, every time we drop a new collection I get obsessed with it. The pieces that have been my go-tos though are some of our simplest styles that we launched with. I wear our Fits Everybody Thong every single day – it is the only underwear I have now, it's so comfortable and stretchy and light enough that you can wear anything over it.</div>
-                            <div class="quote-block md:mt-8 mt-5 py-6 md:px-10 px-6 border border-line md:rounded-[20px] rounded-2xl flex items-center md:gap-10 gap-6">
-                                <i class="ph-fill ph-quotes text-green text-3xl rotate-180 flex-shrink-0"></i>
-                                <div>
-                                    <div class="heading6">"For bras, I love our Cotton Jersey Scoop Bralette – it's lined with this amazing power mesh so you get great support and is so comfy I can sleep in it."</div>
-                                    <div class="text-button-uppercase text-secondary mt-4">- Anthony Bourdain</div>
-                                </div>
-                            </div>
-                            <div class="body1 md:mt-8 mt-5">For bras, I love our Cotton Jersey Scoop Bralette – it's lined with this amazing power mesh so you get great support and is so comfy I can sleep in it. I also love our Seamless Sculpt Bodysuit – it's the perfect all in one sculpting, shaping and smoothing shapewear piece with different levels of support woven throughout.</div>
-                            <div class="body1 mt-4">For bras, I love our Cotton Jersey Scoop Bralette – it’s lined with this amazing power mesh so you get great support and is so comfy I can sleep in it. I also love our Seamless Sculpt Bodysuit – it’s the perfect all in one sculpting, shaping and smoothing shapewear piece with different levels of support woven throughout.</div>
+                        <div class="content md:mt-8 mt-5 blog-content" style="font-size: 16px; line-height: 1.75; color: #333;">
+
+                            {!! $post->content !!}
                         </div>
                         <div class="action flex items-center justify-between flex-wrap gap-5 md:mt-8 mt-5">
-                            <div class="left flex items-center gap-3 flex-wrap">
+                            {{-- <div class="left flex items-center gap-3 flex-wrap">
                                 <p>Tag:</p>
                                 <div class="list flex items-center gap-3 flex-wrap">
                                     <a href="blog-default.html" class="tags bg-surface py-1.5 px-4 rounded-full text-button-uppercase cursor-pointer duration-300 hover:bg-black hover:text-white"> fashion </a>
                                     <a href="blog-default.html" class="tags bg-surface py-1.5 px-4 rounded-full text-button-uppercase cursor-pointer duration-300 hover:bg-black hover:text-white"> yoga </a>
                                     <a href="blog-default.html" class="tags bg-surface py-1.5 px-4 rounded-full text-button-uppercase cursor-pointer duration-300 hover:bg-black hover:text-white"> organic </a>
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="right flex items-center gap-3 flex-wrap">
                                 <p>Share:</p>
                                 <div class="list flex items-center gap-3 flex-wrap">
                                     <a href="https://www.facebook.com/" target="_blank" class="bg-surface w-10 h-10 flex items-center justify-center rounded-full duration-300 hover:bg-black hover:text-white">
-                                        <div class="icon-facebook duration-100"></div>
+                                        <div class="ph ph-facebook duration-100"></div>
                                     </a>
                                     <a href="https://www.instagram.com/" target="_blank" class="bg-surface w-10 h-10 flex items-center justify-center rounded-full duration-300 hover:bg-black hover:text-white">
-                                        <div class="icon-instagram duration-100"></div>
+                                        <div class="ph ph-instagram duration-100"></div>
                                     </a>
                                     <a href="https://www.twitter.com/" target="_blank" class="bg-surface w-10 h-10 flex items-center justify-center rounded-full duration-300 hover:bg-black hover:text-white">
-                                        <div class="icon-twitter duration-100"></div>
+                                        <div class="ph ph-twitter duration-100"></div>
                                     </a>
                                     <a href="https://www.youtube.com/" target="_blank" class="bg-surface w-10 h-10 flex items-center justify-center rounded-full duration-300 hover:bg-black hover:text-white">
-                                        <div class="icon-youtube duration-100"></div>
+                                        <div class="ph ph-youtube duration-100"></div>
                                     </a>
                                     <a href="https://www.pinterest.com/" target="_blank" class="bg-surface w-10 h-10 flex items-center justify-center rounded-full duration-300 hover:bg-black hover:text-white">
-                                        <div class="icon-pinterest duration-100"></div>
+                                        <div class="ph ph-pinterest duration-100"></div>
                                     </a>
                                 </div>
                             </div>
@@ -74,11 +69,15 @@
                         <div class="next-pre flex items-center justify-between md:mt-8 mt-5 py-6 border-y border-line">
                             <div class="left cursor-pointer">
                                 <div class="text-button-uppercase text-secondary2">Previous</div>
-                                <div class="text-title prev mt-2">blogData[blogData.length - 1].title</div>
+                                <div class="text-title prev mt-2">
+                                    {{ $post->previousPost ? $post->previousPost->title : 'No Previous Post' }}
+                                </div>
                             </div>
                             <div class="right text-right cursor-pointer">
                                 <div class="text-button-uppercase text-secondary2">Next</div>
-                                <div class="text-title next mt-2">blogData[0].title</div>
+                                <div class="text-title next mt-2">
+                                    {{ $post->nextPost ? $post->nextPost->title : 'No Next Post' }}
+                                </div>
                             </div>
                         </div>
                         <div class="list-comment md:mt-[60px] mt-8">

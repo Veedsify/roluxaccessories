@@ -9,7 +9,9 @@
                 <div class="container lg:pt-[134px] pt-24 pb-10 relative">
                     <div class="main-content w-full h-full flex flex-col items-center justify-center relative z-[1]">
                         <div class="text-content">
-                            <div class="heading2 text-center">Blog Default</div>
+                            <div class="heading2 text-center">Blog Page
+                                {{request('page') ? ' - Page ' . request('page') : ''}}
+                            </div>
                             <div class="link flex items-center justify-center gap-1 caption1 mt-3">
                                 <a href="/">Homepage</a>
                                 <i class="ph ph-caret-right text-sm text-secondary2"></i>
@@ -25,34 +27,88 @@
             <div class="container">
                 <div class="flex justify-between max-md:flex-col gap-y-12">
                     <div class="left xl:w-3/4 md:w-2/3 pr-2">
+                        @if($posts->isEmpty())
+                        <div class="text-center text-secondary">No posts available at the moment.</div>
+                        @endif
+                        @foreach($posts as $post)
                         <div class="list-blog flex flex-col md:gap-10 gap-8" data-item="3">
                             <div>
                                 <div class="blog-item style-default h-full cursor-pointer" data-item="1">
                                     <div class="blog-main h-full block pb-8 border-b border-line">
                                         <div class="blog-thumb rounded-[20px] overflow-hidden">
-                                            <a href="{{route('blog.detail', ['slug' => 'test'])}}" class="block">
-                                                <img src="{{asset('/frontend/images/blog/1.png')}}" alt="blog-img" class="w-full duration-500">
+                                            <a href="{{route('blog.detail', ['slug' => $post->slug])}}" class="block">
+                                                <img src="{{asset('storage/' . $post->coverImg)}}" alt="blog-img" class="w-full duration-500">
+
                                             </a>
                                         </div>
                                         <div class="blog-infor mt-7">
-                                            <div class="blog-tag bg-green py-1 px-2.5 rounded-full text-button-uppercase inline-block">Jean, glasses</div>
-                                            <a href="{{route('blog.detail', ['slug' => 'test'])}}" class="block">
-                                                <div class="heading6 blog-title mt-3 duration-300">Fashion Trends to Watch Out for in Summer 2023</div>
+                                            <div class="blog-tag bg-green py-1 px-2.5 rounded-full text-button-uppercase inline-block">
+                                                {{ $post->blogCategory->name }}
+
+                                            </div>
+                                            <a href="{{route('blog.detail', ['slug' => $post->slug])}}" class="block">
+                                                <div class="heading6 blog-title mt-3 duration-300">
+                                                    {{ $post->title }}
+                                                </div>
                                             </a>
                                             <div class="flex items-center gap-2 mt-2">
-                                                <div class="blog-author caption1 text-secondary">by Chris Evans</div>
+                                                <div class="blog-author caption1 text-secondary">by
+                                                    {{ $post->user->name }}
+                                                </div>
                                                 <span class="w-[20px] h-[1px] bg-black"></span>
-                                                <div class="blog-date caption1 text-secondary">Dec 20, 2023</div>
+                                                <div class="blog-date caption1 text-secondary">
+                                                    {{ $post->created_at->format('F j, Y') }}
+                                                </div>
                                             </div>
-                                            <div class="body1 text-secondary mt-4">Discover the latest fashion trends that will dominate the upcoming season. From vibrant colors to unique patterns and innovative styles.</div>
-                                            <a href="{{route('blog.detail', ['slug' => 'test'])}}" class="text-button underline mt-4">Read More</a>
+                                            <div class="body1 text-secondary mt-4">
+                                                {{ Str::limit($post->description, 300, '...') }}
+                                            </div>
+                                            <a href="{{route('blog.detail', ['slug' => $post->slug])}}" class="text-button underline mt-4">Read More</a>
 
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="list-pagination w-full flex items-center justify-center gap-4 md:mt-10 mt-6"></div>
+                        @endforeach
+                        @if ($posts->hasPages())
+                        <div class="list-pagination w-full flex items-center justify-center gap-4 md:mt-10 mt-6">
+                            {{-- Previous Page Link --}}
+                            @if ($posts->onFirstPage())
+                            <button class="px-3 py-1 rounded bg-gray-200 text-gray-500 cursor-not-allowed" disabled>
+                                Prev
+                            </button>
+                            @else
+                            <a href="{{ $posts->previousPageUrl() }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" wire:navigate>
+                                Prev
+                            </a>
+                            @endif
+
+                            {{-- Pagination Elements --}}
+                            @foreach ($posts->links()->elements[0] as $page => $url)
+                            @if ($page == $posts->currentPage())
+                            <button class="px-3 py-1 rounded bg-black text-white font-bold">
+                                {{ $page }}
+                            </button>
+                            @else
+                            <a href="{{ $url }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" wire:navigate>
+                                {{ $page }}
+                            </a>
+                            @endif
+                            @endforeach
+
+                            {{-- Next Page Link --}}
+                            @if ($posts->hasMorePages())
+                            <a href="{{ $posts->nextPageUrl() }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" wire:navigate>
+                                Next
+                            </a>
+                            @else
+                            <button class="px-3 py-1 rounded bg-gray-200 text-gray-500 cursor-not-allowed" disabled>
+                                Next
+                            </button>
+                            @endif
+                        </div>
+                        @endif
                     </div>
 
                     <div class="right xl:w-1/4 md:w-1/3 xl:pl-[52px] md:pl-8">

@@ -45,4 +45,17 @@ class Blog extends Model
     {
         return $this->hasMany(BlogComment::class);
     }
+    public function previousPost()
+    {
+        return $this->hasOne(self::class, 'blog_category_id', 'blog_category_id')
+            ->where('created_at', '<', $this->created_at)
+            ->orderBy('created_at', 'desc');
+    }
+
+    public function nextPost()
+    {
+        return $this->hasOne(self::class, 'blog_category_id', 'blog_category_id')
+            ->where('created_at', '>', $this->created_at)
+            ->orderBy('created_at', 'asc');
+    }
 }

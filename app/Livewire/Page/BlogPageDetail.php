@@ -6,8 +6,19 @@ use Livewire\Component;
 
 class BlogPageDetail extends Component
 {
+    public $slug;
+
+    public function mount($slug)
+    {
+        $this->slug = $slug;
+    }
+
+
     public function render()
     {
-        return view('livewire.page.blog-page-detail');
+        $post = \App\Models\Blog::where('slug', $this->slug)->firstOrFail();
+        return view('livewire.page.blog-page-detail', [
+            'post' => $post,
+        ]);
     }
 }
