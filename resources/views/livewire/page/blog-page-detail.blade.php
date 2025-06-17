@@ -82,7 +82,7 @@
                         </div>
                         <div class="list-comment md:mt-[60px] mt-8">
                             <div class="heading flex items-center justify-between flex-wrap gap-4">
-                                <div class="heading4">03 Comments</div>
+                                <div class="heading4">{{$commentsCount}} Comments</div>
                                 <div class="right flex items-center gap-3">
                                     <label for="select-filter" class="uppercase">Sort by:</label>
                                     <div class="select-block relative">
@@ -100,22 +100,20 @@
                                 </div>
                             </div>
                             <div class="list-review mt-6">
+                                @foreach($comments as $comment)
                                 <div class="item">
                                     <div class="heading flex items-center justify-between">
                                         <div class="user-infor flex gap-4">
                                             <div class="avatar-cmt">
-                                                <img src="{{asset('/frontend/images/avatar/1.png')}}" alt="img" class="w-[52px] aspect-square rounded-full" />
+                                                <img src="{{asset('storage/' . $comment->user ? $comment->user->profile_picture : 'site/avatar.png
+                                                ')}}" alt="img" class="w-[52px] aspect-square rounded-full" />
                                             </div>
                                             <div class="user">
                                                 <div class="flex items-center gap-2">
-                                                    <div class="text-title">Tony Nguyen</div>
-                                                    <div class="span text-line">-</div>
-                                                    <div class="rate flex">
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i><i class="ph-fill ph-star text-xs text-yellow"></i>
+                                                    <div class="text-title">
+
                                                     </div>
+                                                    <div class="span text-line">-</div>
                                                 </div>
                                                 <div class="flex items-center gap-2">
                                                     <div class="text-secondary2">1 days ago</div>
@@ -124,118 +122,10 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="more-action cursor-pointer">
-                                            <i class="ph-bold ph-dots-three text-2xl"></i>
-                                        </div>
                                     </div>
-                                    <div class="mt-3">I can't get enough of the fashion pieces from this brand. They have a great selection for every occasion and the prices are reasonable. The shipping is fast and the items always arrive in perfect condition.</div>
-                                    <div class="action flex justify-between mt-3">
-                                        <div class="left flex items-center gap-4">
-                                            <div class="like-btn flex items-center gap-1 cursor-pointer">
-                                                <i class="ph ph-hands-clapping text-lg"></i>
-                                                <div class="text-button">20</div>
-                                            </div>
-                                            <div class="hide-rep-btn flex items-center gap-1 cursor-pointer">
-                                                <i class="ph ph-chat text-lg"></i>
-                                                <div class="text-button">Hide Replies</div>
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <div class="reply-btn text-button text-secondary">Reply</div>
-                                        </div>
-                                    </div>
+                                    <div class="">I can't get enough of the fashion pieces from this brand. They have a great selection for every occasion and the prices are reasonable. The shipping is fast and the items always arrive in perfect condition.</div>
                                 </div>
-                                <div class="item md:mt-8 mt-5">
-                                    <div class="heading flex items-center justify-between">
-                                        <div class="user-infor flex gap-4">
-                                            <div class="avatar-cmt">
-                                                <img src="{{asset('/frontend/images/avatar/2.png')}}" alt="img" class="w-[52px] aspect-square rounded-full" />
-                                            </div>
-                                            <div class="user">
-                                                <div class="flex items-center gap-2">
-                                                    <div class="text-title">Guy Hawkins</div>
-                                                    <div class="span text-line">-</div>
-                                                    <div class="rate flex">
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-secondary"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="text-secondary2">1 days ago</div>
-                                                    <div class="text-secondary2">-</div>
-                                                    <div class="text-secondary2"><span>Yellow</span> / <span>XL</span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="more-action cursor-pointer">
-                                            <i class="ph-bold ph-dots-three text-2xl"></i>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3">I can't get enough of the fashion pieces from this brand. They have a great selection for every occasion and the prices are reasonable. The shipping is fast and the items always arrive in perfect condition.</div>
-                                    <div class="action flex justify-between mt-3">
-                                        <div class="left flex items-center gap-4">
-                                            <div class="like-btn flex items-center gap-1 cursor-pointer">
-                                                <i class="ph ph-hands-clapping text-lg"></i>
-                                                <div class="text-button">20</div>
-                                            </div>
-                                            <div class="hide-rep-btn flex items-center gap-1 cursor-pointer">
-                                                <i class="ph ph-chat text-lg"></i>
-                                                <div class="text-button">Hide Replies</div>
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <div class="reply-btn text-button text-secondary">Reply</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="item md:mt-8 mt-5">
-                                    <div class="heading flex items-center justify-between">
-                                        <div class="user-infor flex gap-4">
-                                            <div class="avatar-cmt">
-                                                <img src="{{asset('/frontend/images/avatar/3.png')}}" alt="img" class="w-[52px] aspect-square rounded-full" />
-                                            </div>
-                                            <div class="user">
-                                                <div class="flex items-center gap-2">
-                                                    <div class="text-title">John Smith</div>
-                                                    <div class="span text-line">-</div>
-                                                    <div class="rate flex">
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                        <i class="ph-fill ph-star text-xs text-yellow"></i><i class="ph-fill ph-star text-xs text-yellow"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="flex items-center gap-2">
-                                                    <div class="text-secondary2">1 days ago</div>
-                                                    <div class="text-secondary2">-</div>
-                                                    <div class="text-secondary2"><span>Yellow</span> / <span>XL</span></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="more-action cursor-pointer">
-                                            <i class="ph-bold ph-dots-three text-2xl"></i>
-                                        </div>
-                                    </div>
-                                    <div class="mt-3">I can't get enough of the fashion pieces from this brand. They have a great selection for every occasion and the prices are reasonable. The shipping is fast and the items always arrive in perfect condition.</div>
-                                    <div class="action flex justify-between mt-3">
-                                        <div class="left flex items-center gap-4">
-                                            <div class="like-btn flex items-center gap-1 cursor-pointer">
-                                                <i class="ph ph-hands-clapping text-lg"></i>
-                                                <div class="text-button">20</div>
-                                            </div>
-                                            <div class="hide-rep-btn flex items-center gap-1 cursor-pointer">
-                                                <i class="ph ph-chat text-lg"></i>
-                                                <div class="text-button">Hide Replies</div>
-                                            </div>
-                                        </div>
-                                        <div class="right">
-                                            <div class="reply-btn text-button text-secondary">Reply</div>
-                                        </div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                             <div id="form-review" class="form-review md:p-10 p-6 bg-surface rounded-xl md:mt-10 mt-6">
                                 <div class="heading4">Leave A comment</div>
