@@ -13,7 +13,7 @@ class ProductSizePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class ProductSizePolicy
      */
     public function view(User $user, ProductSize $productSize): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class ProductSizePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductSizePolicy
      */
     public function update(User $user, ProductSize $productSize): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class ProductSizePolicy
      */
     public function delete(User $user, ProductSize $productSize): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class ProductSizePolicy
      */
     public function restore(User $user, ProductSize $productSize): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class ProductSizePolicy
      */
     public function forceDelete(User $user, ProductSize $productSize): bool
     {
-        return false;
+        return true;
     }
 }

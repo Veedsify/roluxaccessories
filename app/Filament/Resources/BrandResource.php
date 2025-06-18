@@ -67,7 +67,7 @@ class BrandResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\ImageColumn::make('logo')
-                    ->height(20)
+                    ->width(30)
                     ->searchable(),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),

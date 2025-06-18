@@ -18,11 +18,11 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Category::class)->nullable()->constrained()->nullOnDelete();
-            $table->foreignIdFor(ProductType::class)->constrained()->nullOnDelete()->nullable();
+            $table->foreignIdFor(ProductType::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Collection::class)->nullable()->constrained()->nullOnDelete();
             $table->foreignIdFor(Brand::class)->nullable()->constrained()->nullOnDelete();
             $table->string('name')->nullable();
-            $table->enum("gender", ["Male", "Female"]);
+            $table->enum("gender", ["Male", "Female", "Unisex"])->default("Unisex");
             $table->boolean("new")->default(false);
             $table->boolean("active")->default(true);
             $table->boolean("sale")->default(false);
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('slug')->unique()->nullable();
             $table->integer("sold")->default(0);
             $table->boolean("is_featured")->default(false);
-            $table->integer("qunatity")->default(0);
+            $table->integer("quantity")->default(0);
             $table->text('description')->nullable();
             $table->string("action")->default("buy now");
             $table->timestamps();

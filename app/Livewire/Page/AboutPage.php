@@ -2,18 +2,22 @@
 
 namespace App\Livewire\Page;
 
+use App\Models\Brand;
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
 
 class AboutPage extends Component
 {
 
-    public function test()
+
+    public function getBrands(): \Illuminate\Database\Eloquent\Collection
     {
-        Log::info("Test function called in About Page");
+        return Brand::where('is_active', true)->get();
     }
     public function render()
     {
-        return view('livewire.page.about-page');
+        return view('livewire.page.about-page', [
+            'brands' => $this->getBrands(),
+        ]);
     }
 }

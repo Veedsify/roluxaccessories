@@ -124,54 +124,43 @@
             </div>
         </div>
 
+        @if(count($collections) > 0)
         <div class="banner-block md:pt-20 pt-10">
             <div class="container">
                 <div class="list-banner grid lg:grid-cols-4 min-[480px]:grid-cols-2 gap-[30px]">
                     <div class="bg-black rounded-[20px] overflow-hidden h-full py-8 md:px-[30px] px-6 flex flex-col justify-center">
-                        <div class="caption2 font-semibold text-green uppercase">2024 winter trends</div>
-                        <div class="heading3 text-white mt-6">Faux-leather trousers</div>
-                        <div class="body1 text-white mt-3">Check out our latest collection of chic and trendy outfits
-                            that
-                            will
-                            keep you looking stylish all year round.</div>
+                        <div class="caption2 font-semibold text-green uppercase">2025 trends</div>
+                        <div class="heading3 text-white mt-6">
+                            Find the Latest Trends
+                        </div>
+                        <div class="body1 text-white mt-3">
+                            Explore our curated collection of trending jewelry and accessories for every style.
+                        </div>
                     </div>
-                    <a href="shop-breadcrumb1.html" class="banner-item relative bg-surface block rounded-[20px] overflow-hidden duration-500 cursor-pointer">
+                    @foreach($collections as $collection)
+                    <a href="shop-breadcrumb1.html" class="banner-item relative bg-surface block rounded-[20px] overflow-hidden duration-500 cursor-pointer" style="aspect-ratio:3/4;object-cover">
                         <div class="banner-img w-full h-full">
-                            <img src="{{ asset('frontend/images/collection/category-jewelry1.png')}}" alt="bg-img" class="w-full h-full object-cover duration-500" />
+                            <img src="{{ asset('storage/' . $collection->image)}}" alt="bg-img" class="w-full h-full object-cover duration-500" style="aspect-ratio:3/4;object-cover" />
                         </div>
                         <div class="banner-content absolute left-[30px] bottom-[30px]">
-                            <div class="caption1">15 Products</div>
-                            <div class="heading4">Ring</div>
+                            <div class="caption1">{{$collection->products->count()}} Products</div>
+                            <div class="heading4">
+                                {{$collection->name}}
+                            </div>
                         </div>
                     </a>
-                    <a href="shop-breadcrumb1.html" class="banner-item relative bg-surface block rounded-[20px] overflow-hidden duration-500 cursor-pointer">
-                        <div class="banner-img w-full h-full">
-                            <img src="{{ asset('frontend/images/collection/category-jewelry2.png')}}" alt="bg-img" class="w-full h-full object-cover duration-500" />
-                        </div>
-                        <div class="banner-content absolute left-[30px] bottom-[30px]">
-                            <div class="caption1">7 Products</div>
-                            <div class="heading4">necklaces</div>
-                        </div>
-                    </a>
-                    <a href="shop-breadcrumb1.html" class="banner-item relative bg-surface block rounded-[20px] overflow-hidden duration-500 cursor-pointer">
-                        <div class="banner-img w-full h-full">
-                            <img src="{{ asset('frontend/images/collection/category-jewelry3.png')}}" alt="bg-img" class="w-full h-full object-cover duration-500" />
-                        </div>
-                        <div class="banner-content absolute left-[30px] bottom-[30px]">
-                            <div class="caption1">12 Products</div>
-                            <div class="heading4">Earrings</div>
-                        </div>
-                    </a>
+                    @endforeach
                 </div>
             </div>
         </div>
+        @endif
 
         <div class="look-book-block md:mt-20 mt-10 lg:py-20 md:py-14 py-10 bg-linear">
             <div class="container">
                 <div class="main-content relative flex max-lg:flex-wrap gap-y-5 items-center lg:justify-end justify-center">
                     <div class="heading bg-white xl:py-20 py-10 xl:px-10 px-8 rounded-2xl lg:w-[30%] lg:absolute lg:top-1/2 lg:-translate-y-1/2 lg:left-0 z-[1] max-lg:text-center">
                         <div class="heading3">Discover the latest collection</div>
-                        <a href="/shop-collection.html" class="button-main bg-green lg:w-full text-center lg:mt-8 mt-5 text-black hover:bg-black hover:text-white">Shop
+                        <a href="{{route('collection')}}" class="button-main bg-green lg:w-full text-center lg:mt-8 mt-5 text-black hover:bg-black hover:text-white" wire:navigate>Shop
                             Collection </a>
                     </div>
                     <div class="list popular-product w-3/4 grid sm:grid-cols-2 gap-4 max-lg:w-full">
@@ -344,20 +333,6 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="newsletter-block bg-transparent md:py-20 sm:py-14 py-10 sm:px-8 px-6 sm:rounded-[32px] rounded-3xl flex flex-col items-center">
-                <div class="heading3 text-white text-center">Sign up and get 10% off</div>
-                <div class="text-white text-center mt-3">Sign up for early sale access, new in, promotions and more
-                </div>
-                <div class="input-block lg:w-1/2 sm:w-3/5 w-full h-[52px] sm:mt-10 mt-7">
-                    <form class="w-full h-full relative">
-                        <input type="email" placeholder="Enter your e-mail" class="caption1 w-full h-full pl-4 pr-14 rounded-xl border border-line" required />
-                        <button class="button-main bg-green text-black absolute top-1 bottom-1 right-1 flex items-center justify-center">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-
         <div class="benefit-block py-[60px] bg-linear">
             <div class="container">
                 <div class="list-benefit grid items-start lg:grid-cols-4 grid-cols-2 gap-[30px]">
@@ -467,51 +442,29 @@
             </div>
         </div>
 
+        @if(count($brands)>0)
         <div class="brand-block md:py-[60px] py-[32px]">
             <div class="container">
                 <div class="list-brand">
                     <div class="swiper swiper-list-brand">
                         <div class="swiper-wrapper">
+                            @foreach($brands as $brand)
                             <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/1.png')}}" alt="1" class="h-full w-auto duration-500 relative object-cover" />
+                                <div class="brand-item relative flex flex-col items-center justify-center" style="width: 60px;">
+                                    <img src="{{ asset($brand->logo) }}" alt="{{ $brand->name }}" class="h-full w-auto duration-500 relative object-cover" />
+                                    <p class="text-center text-secondary2 mt-2 font-semibold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl" style="max-width: 200px; margin: 0 auto;">
+                                        {{ $brand->name }}
+                                    </p>
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/2.png')}}" alt="2" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/3.png')}}" alt="3" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/4.png')}}" alt="4" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/5.png')}}" alt="5" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/6.png')}}" alt="6" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/7.png')}}" alt="7" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
 
         @include('partials.footer')
     </main>

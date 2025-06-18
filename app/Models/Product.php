@@ -25,6 +25,7 @@ class Product extends Model
         'is_featured',
         'category_id',
         'action',
+        'description',
         'product_type_id',
         'brand_id',
         'collection_id',
@@ -42,9 +43,9 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductFeature::class, 'product_feature_pivot', 'product_id', 'product_feature_id');
     }
-    public function productTypes()
+    public function productType()
     {
-        return $this->belongsToMany(ProductType::class, 'product_type_pivot', 'product_id', 'product_type_id');
+        return $this->belongsTo(ProductType::class, 'product_type_id');
     }
     public function category()
     {

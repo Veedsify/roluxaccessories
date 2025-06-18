@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BlogCategoryResource\Pages;
-use App\Filament\Resources\BlogCategoryResource\RelationManagers;
-use App\Models\BlogCategory;
+use App\Filament\Resources\ProductTypeResource\Pages;
+use App\Filament\Resources\ProductTypeResource\RelationManagers;
+use App\Models\ProductType;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -14,27 +14,26 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BlogCategoryResource extends Resource
+class ProductTypeResource extends Resource
 {
-    protected static ?string $model = BlogCategory::class;
+    protected static ?string $model = ProductType::class;
 
-    protected static ?string $navigationIcon = 'phosphor-books';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationIcon = 'phosphor-sneaker';
+    protected static ?string $navigationGroup = 'Products';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Blog Category Details')
-                    ->description('Manage the blog category details.')
-                    ->columns(2)
+                Section::make('Product Type Details')
+                    ->description('Manage the product type details.')
+                    ->columns(1)
                     ->schema([
                         Forms\Components\TextInput::make('name')
                             ->required()
-                            ->maxLength(255),
-                        Forms\Components\Textarea::make('description')
-                            ->columnSpanFull(),
+                            ->maxLength(255)
+                            ->unique(ProductType::class, 'name', ignoreRecord: true)
                     ]),
             ]);
     }
@@ -44,8 +43,6 @@ class BlogCategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
@@ -80,10 +77,10 @@ class BlogCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBlogCategories::route('/'),
-            'create' => Pages\CreateBlogCategory::route('/create'),
-            'view' => Pages\ViewBlogCategory::route('/{record}'),
-            'edit' => Pages\EditBlogCategory::route('/{record}/edit'),
+            'index' => Pages\ListProductTypes::route('/'),
+            'create' => Pages\CreateProductType::route('/create'),
+            'view' => Pages\ViewProductType::route('/{record}'),
+            'edit' => Pages\EditProductType::route('/{record}/edit'),
         ];
     }
 }

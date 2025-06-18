@@ -13,7 +13,7 @@ class ProductFeaturePolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,7 +21,7 @@ class ProductFeaturePolicy
      */
     public function view(User $user, ProductFeature $productFeature): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -29,7 +29,7 @@ class ProductFeaturePolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -37,7 +37,7 @@ class ProductFeaturePolicy
      */
     public function update(User $user, ProductFeature $productFeature): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -45,7 +45,7 @@ class ProductFeaturePolicy
      */
     public function delete(User $user, ProductFeature $productFeature): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -53,7 +53,7 @@ class ProductFeaturePolicy
      */
     public function restore(User $user, ProductFeature $productFeature): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -61,6 +61,6 @@ class ProductFeaturePolicy
      */
     public function forceDelete(User $user, ProductFeature $productFeature): bool
     {
-        return false;
+        return true;
     }
 }

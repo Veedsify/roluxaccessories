@@ -34,12 +34,10 @@ class OrderDetailsRelationManager extends RelationManager
                             ->relationship('product', 'name')
                             ->label('Product ID'),
                         Forms\Components\Select::make('variant_id')
-                            ->required()
                             ->relationship('variant', 'color')
                             ->label('Variant ID'),
-                        Forms\Components\RichEditor::make('product_details')
+                        Forms\Components\Textarea::make('product_details')
                             ->required()
-                            ->maxLength(255)
                             ->label('Product Details'),
                         Forms\Components\TextInput::make('quantity')
                             ->required()

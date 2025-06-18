@@ -16,7 +16,6 @@ class ProductType extends Model
 
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'product_type_pivot', 'product_type_id', 'product_id')
-            ->withTimestamps();
+        return $this->hasMany(Product::class, 'product_type_id');
     }
 }

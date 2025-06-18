@@ -16,6 +16,10 @@ return new class extends Migration
             $table->foreignId('order_id')
                 ->constrained('orders')
                 ->onDelete('cascade'); // Foreign key to orders table
+            $table->foreignId('variant_id')
+                ->nullable() // Allow null for orders without a specific variant
+                ->constrained('product_variants')
+                ->onDelete('set null'); // Foreign key to product_variants table, set to
             $table->foreignId('product_id')
                 ->constrained('products')
                 ->onDelete('cascade'); // Foreign key to products table

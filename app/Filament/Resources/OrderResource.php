@@ -8,6 +8,10 @@ use App\Models\Order;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
+use Filament\Infolists\Components\RepeatableEntry;
+use Filament\Infolists\Components\Section as ComponentsSection;
+use Filament\Infolists\Components\TextEntry;
+use Filament\Infolists\Infolist;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -73,6 +77,66 @@ class OrderResource extends Resource
             ]);
     }
 
+    public static function infolist(Infolist $infolist): Infolist
+    {
+        return $infolist
+            ->schema([
+                ComponentsSection::make('Order Information')
+                    ->schema([
+                        TextEntry::make('order_number')
+                            ->label('Order Number'),
+                        TextEntry::make('user.name')
+                            ->label('Customer'),
+                        TextEntry::make('total_amount')
+                            ->label('Total Amount')
+                            ->money('USD'),
+                        TextEntry::make('status')
+                            ->badge()
+                            ->color(fn(string $state): string => match ($state) {
+                                'pending' => 'warning',
+                                'processing' => 'info',
+                                'completed' => 'success',
+                                'cancelled' => 'danger',
+                                'shipped' => 'primary',
+                                'delivered' => 'success',
+                            }),
+                        TextEntry::make('tracking_number')
+                            ->label('Tracking Number'),
+                    ])
+                    ->columns(2),
+
+                ComponentsSection::make('Shipping Information')
+                    ->schema([
+                        TextEntry::make('shippingAddress.address_line1')
+                            ->label('Shipping Address'),
+                        TextEntry::make('shipped_at')
+                            ->label('Shipped Date')
+                            ->dateTime(),
+                        TextEntry::make('delivered_at')
+                            ->label('Delivered Date')
+                            ->dateTime(),
+                    ])
+                    ->columns(2),
+
+                ComponentsSection::make('Order Details')
+                    ->schema([
+                        RepeatableEntry::make('orderDetails')
+                            ->label('')
+                            ->schema([
+                                TextEntry::make('product.name')
+                                    ->label('Product'),
+                                // ->url(fn($record) => route('filament.admin.resources.products.view', $record->product)),
+                                TextEntry::make('quantity')
+                                    ->label('Quantity'),
+                                TextEntry::make('price')
+                                    ->label('Unit Price')
+                                    ->money('USD'),
+                            ])
+                            ->columns(4),
+                    ]),
+            ]);
+    }
+
     public static function table(Table $table): Table
     {
         return $table
@@ -86,6 +150,15 @@ class OrderResource extends Resource
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
+                    ->badge()
+                    ->color(fn(string $state): string => match ($state) {
+                        'pending' => 'warning',
+                        'processing' => 'info',
+                        'completed' => 'success',
+                        'cancelled' => 'danger',
+                        'shipped' => 'primary',
+                        'delivered' => 'success',
+                    })
                     ->searchable(),
                 Tables\Columns\TextColumn::make('tracking_number')
                     ->searchable(),
@@ -130,7 +203,6 @@ class OrderResource extends Resource
         return [
             'index' => Pages\ListOrders::route('/'),
             'create' => Pages\CreateOrder::route('/create'),
-            'view' => Pages\ViewOrder::route('/{record}'),
             'edit' => Pages\EditOrder::route('/{record}/edit'),
         ];
     }

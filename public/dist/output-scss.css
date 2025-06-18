@@ -5095,9 +5095,6 @@ input[type=file]::-webkit-file-upload-button {
   margin-top: 16px;
 }
 
-.blog-content div {
-  margin-bottom: 16px;
-}
 
 .blog-content h1,
 .blog-content h2,
@@ -5153,6 +5150,10 @@ input[type=file]::-webkit-file-upload-button {
 .blog-content a:hover {
   color: var(--dark-blue);
   text-decoration: none;
+}
+
+.border-gray-50 {
+  border-color: #eeeeee;
 }
 
 /*# sourceMappingURL=output-scss.css.map */

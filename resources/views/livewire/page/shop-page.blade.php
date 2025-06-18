@@ -15,16 +15,11 @@
                             </div>
                         </div>
                         <div class="filter-type menu-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
-                            <div class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px" data-item="t-shirt">t-shirt
+                            @foreach($productTypes as $type)
+                            <div class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px" data-item="{{ $type['name']}}">
+                                {{ $type['name'] }}
                             </div>
-                            <div class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px" data-item="dress">dress
-                            </div>
-                            <div class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px" data-item="top">top
-                            </div>
-                            <div class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px" data-item="swimwear">swimwear
-                            </div>
-                            <div class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px" data-item="shirt">shirt
-                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
@@ -37,54 +32,17 @@
                         <div class="filter-type-block pb-8 border-b border-line">
                             <div class="heading6">Products Type</div>
                             <div class="list-type filter-type menu-tab mt-4">
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="t-shirt">
+                                @foreach($productTypes as $type)
+                                <div wire:click.prevent="filterByType('{{ $type['name'] }}')" class=" item tab-item flex items-center justify-between cursor-pointer" data-item="t-shirt" type="button">
+
                                     <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        t-shirt
+                                        {{ $type['name'] }}
                                     </div>
-                                    <div class="text-secondary2 number">6</div>
-                                </div>
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="dress">
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        dress
+                                    <div class="text-secondary2 number">
+                                        {{ $type['count'] }}
                                     </div>
-                                    <div class="text-secondary2 number">6</div>
                                 </div>
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="top">
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        top
-                                    </div>
-                                    <div class="text-secondary2 number">6</div>
-                                </div>
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="swimwear">
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        swimwear
-                                    </div>
-                                    <div class="text-secondary2 number">6</div>
-                                </div>
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="shirt">
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        shirt
-                                    </div>
-                                    <div class="text-secondary2 number">6</div>
-                                </div>
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="underwear">
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        underwear
-                                    </div>
-                                    <div class="text-secondary2 number">6</div>
-                                </div>
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="sets">
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        sets
-                                    </div>
-                                    <div class="text-secondary2 number">6</div>
-                                </div>
-                                <div class="item tab-item flex items-center justify-between cursor-pointer" data-item="accessories">
-                                    <div class="type-name text-secondary has-line-before hover:text-black capitalize">
-                                        accessories
-                                    </div>
-                                    <div class="text-secondary2 number">6</div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="filter-size pb-8 border-b border-line mt-8">

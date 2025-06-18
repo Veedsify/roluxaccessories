@@ -185,51 +185,30 @@
             </div>
         </div>
 
+        @if(count($brands)>0)
         <div class="brand-block md:py-[60px] py-[32px]">
             <div class="container">
                 <div class="list-brand">
                     <div class="swiper swiper-list-brand">
                         <div class="swiper-wrapper">
+                            @foreach($brands as $brand)
                             <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/1.png')}}" alt="1" class="h-full w-auto duration-500 relative object-cover" />
+                                <div class="brand-item relative flex flex-col items-center justify-center" style="width: 60px;">
+                                    <img src="{{ asset($brand->logo) }}" alt="{{ $brand->name }}" class="h-full w-auto duration-500 relative object-cover" />
+                                    <p class="text-center text-secondary2 mt-2 font-semibold text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl" style="max-width: 200px; margin: 0 auto;">
+                                        {{ $brand->name }}
+                                    </p>
                                 </div>
                             </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/2.png')}}" alt="2" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/3.png')}}" alt="3" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/4.png')}}" alt="4" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/5.png')}}" alt="5" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/6.png')}}" alt="6" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
-                            <div class="swiper-slide">
-                                <div class="brand-item relative flex items-center justify-center h-[36px]">
-                                    <img src="{{ asset('frontend/images/brand/7.png')}}" alt="7" class="h-full w-auto duration-500 relative object-cover" />
-                                </div>
-                            </div>
+                            @endforeach
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        @endif
+
 
         @include('partials.footer')
 

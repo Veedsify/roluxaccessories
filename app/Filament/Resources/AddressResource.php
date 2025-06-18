@@ -19,6 +19,7 @@ class AddressResource extends Resource
     protected static ?string $model = Address::class;
 
     protected static ?string $navigationIcon = 'phosphor-map-pin';
+    protected static ?int $navigationSort = 2;
     protected static ?string $navigationGroup = 'Orders';
 
     public static function form(Form $form): Form

@@ -2,9 +2,9 @@
 
 namespace App\Filament\Resources;
 
-use App\Filament\Resources\BlogCategoryResource\Pages;
-use App\Filament\Resources\BlogCategoryResource\RelationManagers;
-use App\Models\BlogCategory;
+use App\Filament\Resources\ProductColorResource\Pages;
+use App\Filament\Resources\ProductColorResource\RelationManagers;
+use App\Models\ProductColor;
 use Filament\Forms;
 use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
@@ -14,27 +14,36 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 
-class BlogCategoryResource extends Resource
+class ProductColorResource extends Resource
 {
-    protected static ?string $model = BlogCategory::class;
+    protected static ?string $model = ProductColor::class;
 
-    protected static ?string $navigationIcon = 'phosphor-books';
-    protected static ?string $navigationGroup = 'Content Management';
+    protected static ?string $navigationIcon = 'phosphor-palette';
+    protected static ?string $navigationGroup = 'Products';
     protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
         return $form
             ->schema([
-                Section::make('Blog Category Details')
-                    ->description('Manage the blog category details.')
+                Section::make('Product Color')
+                    ->description('Manage product colors')
                     ->columns(2)
                     ->schema([
                         Forms\Components\TextInput::make('name')
+                            ->label('Color Name')
+                            ->columnSpanFull()
                             ->required()
                             ->maxLength(255),
-                        Forms\Components\Textarea::make('description')
-                            ->columnSpanFull(),
+                        Forms\Components\TextInput::make('slug')
+                            ->label('Slug')
+                            ->columnSpanFull()
+                            ->required()
+                            ->maxLength(255)
+                            ->unique(ProductColor::class, 'slug', ignoreRecord: true),
+                        Forms\Components\ColorPicker::make('image')
+                            ->label('Color')
+                            ->required(),
                     ]),
             ]);
     }
@@ -47,6 +56,7 @@ class BlogCategoryResource extends Resource
                     ->searchable(),
                 Tables\Columns\TextColumn::make('slug')
                     ->searchable(),
+                Tables\Columns\ColorColumn::make('image'),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -80,10 +90,10 @@ class BlogCategoryResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListBlogCategories::route('/'),
-            'create' => Pages\CreateBlogCategory::route('/create'),
-            'view' => Pages\ViewBlogCategory::route('/{record}'),
-            'edit' => Pages\EditBlogCategory::route('/{record}/edit'),
+            'index' => Pages\ListProductColors::route('/'),
+            'create' => Pages\CreateProductColor::route('/create'),
+            'view' => Pages\ViewProductColor::route('/{record}'),
+            'edit' => Pages\EditProductColor::route('/{record}/edit'),
         ];
     }
 }
