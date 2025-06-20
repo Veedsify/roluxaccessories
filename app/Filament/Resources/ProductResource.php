@@ -6,6 +6,7 @@ use App\Filament\Resources\ProductResource\Pages;
 use App\Filament\Resources\ProductResource\RelationManagers;
 use App\Models\Product;
 use Filament\Forms;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -178,6 +179,25 @@ class ProductResource extends Resource
                                     ->default('Buy Now'),
                             ]),
                     ]),
+                Forms\Components\Section::make('Images')
+                    ->collapsible()
+                    ->schema([
+                        Repeater::make('images')
+                            ->label('Product Images')
+                            ->relationship()
+                            ->grid(4)
+                            ->minItems(2)
+                            ->schema([
+                                Forms\Components\FileUpload::make('url')
+                                    ->label('Image')
+                                    ->image()
+                                    ->required()
+                                    ->maxSize(1024)
+                                    ->columnSpanFull(),
+                            ])
+                            ->columns(1)
+                            ->defaultItems(1)
+                    ])
             ]);
     }
 
@@ -313,7 +333,13 @@ class ProductResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->defaultSort('created_at', 'desc')
             ->columns([
+                Tables\Columns\ImageColumn::make('images')
+                    ->width(50)
+                    ->getStateUsing(function ($record) {
+                        return $record->images[0]->url;
+                    }),
                 Tables\Columns\TextColumn::make('name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('gender')
@@ -357,7 +383,7 @@ class ProductResource extends Resource
                     Tables\Actions\Action::make("view product")
                         ->label('Preview Product')
                         ->requiresConfirmation()
-                        ->url(fn(Product $record): string => route('blog.detail', $record->slug))
+                        ->url(fn(Product $record): string => route('product.detail', $record->slug || "hello"))
                         ->icon('phosphor-eye')
                         ->openUrlInNewTab(),
                 ]),

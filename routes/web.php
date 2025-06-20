@@ -16,6 +16,7 @@ Route::get('/blog', BlogPage::class)->name('blog');
 Route::get('/blog/{slug}', BlogPageDetail::class)->name('blog.detail');
 Route::get('/collection', CollectionPage::class)->name('collection');
 Volt::route('/contact', 'page.contact-page')->name('contact');
+Route::get("/product/{slug}", function () {})->name("product.detail");
 
 
 require __DIR__ . '/auth.php';

@@ -31,6 +31,27 @@ class Product extends Model
         'collection_id',
     ];
 
+    public static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($product) {
+            $slug = str($product->title)->slug();
+            Product::where('slug', $slug)->exists() ? $slug .= '-' . time() : null;
+            return $product->slug = $slug;
+        });
+    }
+
+    public function onSale()
+    {
+        return $this->sale;
+    }
+
+    public function isNew()
+    {
+        return $this->new;
+    }
+
     public function productSizes()
     {
         return $this->belongsToMany(ProductSize::class, 'product_size_pivot', 'product_id', 'product_size_id');

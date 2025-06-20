@@ -32,7 +32,7 @@
                         </li>
                         <li class="h-full flex items-center justify-center logo" style="color: {{ request()->routeIs('home') ? 'red' : 'black' }}">
 
-                            <a href="{{route('home')}}" class="heading4" wire:navigate> Rolux </a>
+                            <a href="{{route('home')}}" class="heading4" wire:navigate> Roluxe </a>
                         </li>
                         <li class="h-full">
                             <a href="{{route('collection')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('collection') ? 'active' : '' }}" wire:navigate>
