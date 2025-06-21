@@ -4,12 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
     /** @use HasFactory<\Database\Factories\ProductFactory> */
     use HasFactory;
-
     protected $fillable = [
         'name',
         'gender',
@@ -31,16 +31,26 @@ class Product extends Model
         'collection_id',
     ];
 
-    public static function boot()
-    {
-        parent::boot();
+public static function boot()
+{
+    parent::boot();
 
-        static::creating(function ($product) {
-            $slug = str($product->title)->slug();
-            Product::where('slug', $slug)->exists() ? $slug .= '-' . time() : null;
-            return $product->slug = $slug;
-        });
-    }
+    static::creating(function ($product) {
+        $slug = Str::slug($product->name);
+        if (Product::where('slug', $slug)->exists()) {
+            $slug .= '-' . time();
+        }
+        $product->slug = $slug;
+    });
+
+    static::updating(function ($product) {
+        $slug = Str::slug($product->name);
+        if (Product::where('slug', $slug)->where('id', '!=', $product->id)->exists()) {
+            $slug .= '-' . time();
+        }
+        $product->slug = $slug;
+    });
+}
 
     public function onSale()
     {

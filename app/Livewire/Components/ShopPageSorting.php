@@ -12,6 +12,7 @@ class ShopPageSorting extends Component
     public $productType = "Shirts";
     public $productColor = "";
     public $productSize = [];
+    public $productBrand = "";
 
     public function mount()
     {
@@ -30,24 +31,60 @@ class ShopPageSorting extends Component
     }
     public function filterBySize($size)
     {
-        if (in_array($size, $this->productSize)) {
-            $this->productSize = array_diff($this->productSize, [$size]);
+        if (empty($size)) {
+            return; // skip empty/null/invalid input
+        }
+
+        // Ensure we’re working with unique values
+        $this->productSize = $this->productSize ?? [];
+
+        // Find index of $size using strict comparison
+        $index = array_search($size, $this->productSize, true);
+
+        if ($index !== false) {
+            // Remove the value while preserving array keys
+            unset($this->productSize[$index]);
         } else {
             $this->productSize[] = $size;
         }
+
+        // Reindex to keep the array clean
+        $this->productSize = array_values($this->productSize);
     }
 
-    public function resetFilters()
+    public function productBrands (){
+
+    }
+
+    public function resetFilters(): void
     {
         $this->productType = "";
         $this->productColor = "";
+        $this->productSize = [];
+    }
+
+    public function getBrands(){
+        try {
+            $brands = \App\Models\Brand::whereHas('products', function ($query) {
+                $query->where('active', true);
+            })->get()->map(function ($brand) {
+                return [
+                    'id' => $brand->id,
+                    'name' => $brand->name,
+                    'image' => $brand->image,
+                    'count' => $brand->products->count(),
+                ];
+            });
+            return $brands;
+        } catch (\Exception $e) {
+            Log::error("Error fetching brands: " . $e->getMessage());
+            return collect([]);
+        }
     }
     public function getProductSizes()
     {
         try {
-            $productSizes = \App\Models\ProductSize::whereHas('products', function ($query) {
-                $query->where('active', true);
-            })->get()->map(function ($productSize) {
+            $productSizes = \App\Models\ProductSize::get()->map(function ($productSize) {
                 return [
                     'id' => $productSize->id,
                     'name' => $productSize->name,
@@ -115,14 +152,30 @@ class ShopPageSorting extends Component
                         $q->where('name', $this->productColor);
                     });
                 })
+                ->when($this->productSize, function ($query) {
+                    return $query->whereHas('productSizes', function ($q) {
+                        $q->whereIn('name', $this->productSize);
+                    });
+                })
+                ->when($this->productBrand, function ($query) {
+                    return $query->whereHas('brand', function ($q) {
+                        $q->where('name', $this->productBrand);
+                    });
+                })
                 ->orderBy('id', 'desc')
                 ->paginate(12);
 
+            Log::info(($this->productSize));
             return $products;
         } catch (\Exception $e) {
             Log::error("Error fetching products: " . $e->getMessage());
             return collect([]);
         }
+    }
+
+    public function quickView($productId)
+    {
+        $this->dispatch('openQuickViewModal', ['productId' => $productId]);
     }
 
     public function render()
@@ -131,6 +184,7 @@ class ShopPageSorting extends Component
             'productTypes' => $this->getProductTypes(),
             'productColors' => $this->getProductColors(),
             'productSizes' => $this->getProductSizes(),
+            'brands' => $this->getBrands(),
             'products' => $this->getProducts(),
         ]);
     }

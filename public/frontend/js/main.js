@@ -1247,165 +1247,165 @@ async function initMain() {
     modalQuickviewMain.classList.add("open");
   };
 
-  const closeModalQuickview = () => {
-    modalQuickviewMain.classList.remove("open");
-  };
+  // const closeModalQuickview = () => {
+  //   modalQuickviewMain.classList.remove("open");
+  // };
 
-  modalQuickview?.addEventListener("click", closeModalQuickview);
-  closeQuickviewIcon?.addEventListener("click", closeModalQuickview);
+  // modalQuickview?.addEventListener("click", closeModalQuickview);
+  // closeQuickviewIcon?.addEventListener("click", closeModalQuickview);
 
   modalQuickviewMain?.addEventListener("click", (e) => {
     e.stopPropagation();
   });
 
   // show information about product in modalQuickview
-  const handleItemModalQuickview = () => {
-    quickViewStore = localStorage.getItem("quickViewStore");
-    quickViewStore = quickViewStore ? JSON.parse(quickViewStore) : [];
-
-    // Set quickView item
-    quickViewStore.forEach((item) => {
-      modalQuickviewMain.setAttribute('data-item', item.id)
-
-      const listImg = modalQuickviewMain.querySelector('.list-img')
-      listImg.innerHTML = `
-      ${item.images.map((img) => (
-        `
-        <div class="bg-img w-full aspect-[3/4] max-md:w-[150px] max-md:flex-shrink-0 rounded-[20px] overflow-hidden md:mt-6">
-          <img
-            src=${img}
-            alt="item"
-            class="w-full h-full object-cover"
-          />
-        </div>
-        `
-      )).join('')}
-    `
-
-      modalQuickviewMain.querySelector('.product-infor .category').innerHTML = item.category
-      modalQuickviewMain.querySelector('.product-infor .name').innerHTML = item.name
-
-      let arrOfStar = "";
-      for (let i = 0; i < 5; i++) {
-        if (item.rate) {
-          if (i >= item.rate) {
-            arrOfStar += '<i class="ph-fill ph-star text-sm text-secondary"></i>';
-          } else {
-            arrOfStar += '<i class="ph-fill ph-star text-sm text-yellow"></i>';
-          }
-        }
-      }
-      modalQuickviewMain.querySelector('.product-infor .rate').innerHTML = arrOfStar
-      modalQuickviewMain.querySelector('.product-infor .product-price').innerHTML = '$' + item.price + '.00'
-      modalQuickviewMain.querySelector('.product-infor .product-origin-price del').innerHTML = '$' + item.originPrice + '.00'
-      modalQuickviewMain.querySelector('.product-infor .product-sale').innerHTML = '-' + Math.floor(100 - (item.price / item.originPrice) * 100) + '%'
-      modalQuickviewMain.querySelector('.product-infor .desc').innerHTML = item.description
-
-      const listColor = modalQuickviewMain.querySelector('.list-color')
-      listColor.innerHTML = `
-      ${item.variation.map((color) => (
-        `
-        <div class="color-item w-12 h-12 rounded-xl duration-300 relative">
-          <img
-              src="${color.colorImage}"
-              alt='color'
-              class='rounded-xl w-full h-full object-cover'
-          />
-          <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">${color.color}</div>
-        </div>
-        `
-      )).join('')}
-    `
-
-      const listCategory = modalQuickviewMain.querySelector('.list-category')
-
-      listCategory.innerHTML = `
-      <a href="shop-breadcrumb1.html" class="text-secondary">${item.category},</a>
-      <a href="shop-breadcrumb1.html" class="text-secondary"> ${item.gender}</a>
-    `
-
-      const listTag = modalQuickviewMain.querySelector('.list-tag')
-
-      listTag.innerHTML = `
-      <a href="shop-breadcrumb1.html" class="text-secondary">${item.type}</a>
-    `
-
-      let wishlistStore = localStorage.getItem("wishlistStore");
-      wishlistStore = wishlistStore ? JSON.parse(wishlistStore) : [];
-      const addWishlistIcon = modalQuickviewMain.querySelector('.add-wishlist-btn')
-
-      const existingIndex = wishlistStore.findIndex(
-        (prd) => prd.id === item.id
-      );
-
-      if (existingIndex > -1) {
-        // If prd existed in wishlist, remove it from wishlist
-        addWishlistIcon.classList.add("active");
-        addWishlistIcon.querySelector("i").classList.remove("ph");
-        addWishlistIcon.querySelector("i").classList.add("ph-fill");
-      } else {
-        // If prd not exist in wishlist, add it to wishlist
-        addWishlistIcon.classList.remove("active");
-        addWishlistIcon.querySelector("i").classList.add("ph");
-        addWishlistIcon.querySelector("i").classList.remove("ph-fill");
-      }
-
-      addWishlistIcon.addEventListener("click", (e) => {
-        const existingIndex = wishlistStore.findIndex(
-          (prd) => prd.id === item.id
-        );
-
-        if (existingIndex > -1) {
-          // If prd existed in wishlist, remove it from wishlist
-          wishlistStore.splice(existingIndex, 1);
-          addWishlistIcon.classList.remove("active");
-          addWishlistIcon.querySelector("i").classList.add("ph");
-          addWishlistIcon.querySelector("i").classList.remove("ph-fill");
-        } else {
-          // If prd not exist in wishlist, add it to wishlist
-          wishlistStore.push(item);
-          addWishlistIcon.classList.add("active");
-          addWishlistIcon.querySelector("i").classList.remove("ph");
-          addWishlistIcon.querySelector("i").classList.add("ph-fill");
-        }
-
-        // Save wishlist to localStorage
-        localStorage.setItem("wishlistStore", JSON.stringify(wishlistStore));
-
-        handleItemModalWishlist()
-        openModalWishlist()
-      });
-
-      let cartStore = localStorage.getItem("cartStore");
-      cartStore = cartStore ? JSON.parse(cartStore) : [];
-      const addCartIcon = modalQuickviewMain.querySelector('.add-cart-btn')
-
-      addCartIcon.addEventListener("click", (e) => {
-        e.stopPropagation();
-
-        const existingIndex = cartStore.findIndex(
-          (prd) => prd.id === item.id
-        );
-
-        if (existingIndex > -1) {
-          // If prd existed in cart
-          openModalCart();
-        } else {
-          // If prd not exist in cart, add it to cart
-          cartStore.push(item);
-          openModalCart();
-        }
-
-        // Save cart to localStorage
-        localStorage.setItem("cartStore", JSON.stringify(cartStore));
-        handleItemModalCart();
-      });
-
-      handleActiveSizeChange()
-      handleActiveColorChange()
-    });
-  };
-
+  // const handleItemModalQuickview = () => {
+  //   quickViewStore = localStorage.getItem("quickViewStore");
+  //   quickViewStore = quickViewStore ? JSON.parse(quickViewStore) : [];
+  //
+  //   // Set quickView item
+  //   quickViewStore.forEach((item) => {
+  //     modalQuickviewMain.setAttribute('data-item', item.id)
+  //
+  //     const listImg = modalQuickviewMain.querySelector('.list-img')
+  //     listImg.innerHTML = `
+  //     ${item.images.map((img) => (
+  //       `
+  //       <div class="bg-img w-full aspect-[3/4] max-md:w-[150px] max-md:flex-shrink-0 rounded-[20px] overflow-hidden md:mt-6">
+  //         <img
+  //           src=${img}
+  //           alt="item"
+  //           class="w-full h-full object-cover"
+  //         />
+  //       </div>
+  //       `
+  //     )).join('')}
+  //   `
+  //
+  //     modalQuickviewMain.querySelector('.product-infor .category').innerHTML = item.category
+  //     modalQuickviewMain.querySelector('.product-infor .name').innerHTML = item.name
+  //
+  //     let arrOfStar = "";
+  //     for (let i = 0; i < 5; i++) {
+  //       if (item.rate) {
+  //         if (i >= item.rate) {
+  //           arrOfStar += '<i class="ph-fill ph-star text-sm text-secondary"></i>';
+  //         } else {
+  //           arrOfStar += '<i class="ph-fill ph-star text-sm text-yellow"></i>';
+  //         }
+  //       }
+  //     }
+  //     modalQuickviewMain.querySelector('.product-infor .rate').innerHTML = arrOfStar
+  //     modalQuickviewMain.querySelector('.product-infor .product-price').innerHTML = '$' + item.price + '.00'
+  //     modalQuickviewMain.querySelector('.product-infor .product-origin-price del').innerHTML = '$' + item.originPrice + '.00'
+  //     modalQuickviewMain.querySelector('.product-infor .product-sale').innerHTML = '-' + Math.floor(100 - (item.price / item.originPrice) * 100) + '%'
+  //     modalQuickviewMain.querySelector('.product-infor .desc').innerHTML = item.description
+  //
+  //     const listColor = modalQuickviewMain.querySelector('.list-color')
+  //     listColor.innerHTML = `
+  //     ${item.variation.map((color) => (
+  //       `
+  //       <div class="color-item w-12 h-12 rounded-xl duration-300 relative">
+  //         <img
+  //             src="${color.colorImage}"
+  //             alt='color'
+  //             class='rounded-xl w-full h-full object-cover'
+  //         />
+  //         <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">${color.color}</div>
+  //       </div>
+  //       `
+  //     )).join('')}
+  //   `
+  //
+  //     const listCategory = modalQuickviewMain.querySelector('.list-category')
+  //
+  //     listCategory.innerHTML = `
+  //     <a href="shop-breadcrumb1.html" class="text-secondary">${item.category},</a>
+  //     <a href="shop-breadcrumb1.html" class="text-secondary"> ${item.gender}</a>
+  //   `
+  //
+  //     const listTag = modalQuickviewMain.querySelector('.list-tag')
+  //
+  //     listTag.innerHTML = `
+  //     <a href="shop-breadcrumb1.html" class="text-secondary">${item.type}</a>
+  //   `
+  //
+  //     let wishlistStore = localStorage.getItem("wishlistStore");
+  //     wishlistStore = wishlistStore ? JSON.parse(wishlistStore) : [];
+  //     const addWishlistIcon = modalQuickviewMain.querySelector('.add-wishlist-btn')
+  //
+  //     const existingIndex = wishlistStore.findIndex(
+  //       (prd) => prd.id === item.id
+  //     );
+  //
+  //     if (existingIndex > -1) {
+  //       // If prd existed in wishlist, remove it from wishlist
+  //       addWishlistIcon.classList.add("active");
+  //       addWishlistIcon.querySelector("i").classList.remove("ph");
+  //       addWishlistIcon.querySelector("i").classList.add("ph-fill");
+  //     } else {
+  //       // If prd not exist in wishlist, add it to wishlist
+  //       addWishlistIcon.classList.remove("active");
+  //       addWishlistIcon.querySelector("i").classList.add("ph");
+  //       addWishlistIcon.querySelector("i").classList.remove("ph-fill");
+  //     }
+  //
+  //     addWishlistIcon.addEventListener("click", (e) => {
+  //       const existingIndex = wishlistStore.findIndex(
+  //         (prd) => prd.id === item.id
+  //       );
+  //
+  //       if (existingIndex > -1) {
+  //         // If prd existed in wishlist, remove it from wishlist
+  //         wishlistStore.splice(existingIndex, 1);
+  //         addWishlistIcon.classList.remove("active");
+  //         addWishlistIcon.querySelector("i").classList.add("ph");
+  //         addWishlistIcon.querySelector("i").classList.remove("ph-fill");
+  //       } else {
+  //         // If prd not exist in wishlist, add it to wishlist
+  //         wishlistStore.push(item);
+  //         addWishlistIcon.classList.add("active");
+  //         addWishlistIcon.querySelector("i").classList.remove("ph");
+  //         addWishlistIcon.querySelector("i").classList.add("ph-fill");
+  //       }
+  //
+  //       // Save wishlist to localStorage
+  //       localStorage.setItem("wishlistStore", JSON.stringify(wishlistStore));
+  //
+  //       handleItemModalWishlist()
+  //       openModalWishlist()
+  //     });
+  //
+  //     let cartStore = localStorage.getItem("cartStore");
+  //     cartStore = cartStore ? JSON.parse(cartStore) : [];
+  //     const addCartIcon = modalQuickviewMain.querySelector('.add-cart-btn')
+  //
+  //     addCartIcon.addEventListener("click", (e) => {
+  //       e.stopPropagation();
+  //
+  //       const existingIndex = cartStore.findIndex(
+  //         (prd) => prd.id === item.id
+  //       );
+  //
+  //       if (existingIndex > -1) {
+  //         // If prd existed in cart
+  //         openModalCart();
+  //       } else {
+  //         // If prd not exist in cart, add it to cart
+  //         cartStore.push(item);
+  //         openModalCart();
+  //       }
+  //
+  //       // Save cart to localStorage
+  //       localStorage.setItem("cartStore", JSON.stringify(cartStore));
+  //       handleItemModalCart();
+  //     });
+  //
+  //     handleActiveSizeChange()
+  //     handleActiveColorChange()
+  //   });
+  // };
+  //
 
 
   // Modal SizeGuide
@@ -1705,7 +1705,7 @@ async function initMain() {
   };
 
   function addEventToProductItem(products) {
-    // Product item
+            // Product item
     const productItems = document.querySelectorAll(".product-item");
 
     if (productItems) {
@@ -1719,8 +1719,7 @@ async function initMain() {
         const compareIcon = product.querySelector(".compare-btn");
         const addWishlistIcon = product.querySelector(".add-wishlist-btn");
         const addCartIcon = product.querySelectorAll(".add-cart-btn");
-        const quickviewIcon = product.querySelector(".quick-view-btn");
-        const quickshopIcon = product.querySelector(".quick-shop-btn");
+                const quickshopIcon = product.querySelector(".quick-shop-btn");
         const modalQuickshop = product.querySelector(".quick-shop-block");
 
         if (addWishlistIcon) {
@@ -1820,32 +1819,6 @@ async function initMain() {
             localStorage.setItem("compareStore", JSON.stringify(compareStore));
             handleItemModalCompare();
             openModalCompare();
-          });
-        }
-
-        if (quickviewIcon) {
-          quickviewIcon.addEventListener("click", (e) => {
-            e.stopPropagation();
-            // save prd to quick view in local storage
-            const productItem = quickviewIcon.closest(".product-item");
-            const productId = productItem.getAttribute("data-item");
-            let quickViewStore = localStorage.getItem("quickViewStore");
-            quickViewStore = quickViewStore && [];
-
-            // add it to quick view
-            const productToAdd = products?.find((item) => item.id === productId);
-            if (productToAdd) {
-              quickViewStore.push(productToAdd);
-            }
-
-            // Save quickView to localStorage
-            localStorage.setItem(
-              "quickViewStore",
-              JSON.stringify(quickViewStore)
-            );
-            handleItemModalQuickview();
-            closeModalCart()
-            openModalQuickview();
           });
         }
 
