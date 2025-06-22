@@ -1,13 +1,14 @@
 <?php
 
-namespace App\Livewire\Components;
+namespace App\Livewire\Page;
 
 use App\Models\Product;
 use Livewire\Component;
 
-class QuickViewModal extends Component
+class ProductDetailPage extends Component
 {
 
+    public $slug;
     public $productId;
     public $isOpen = false;
     public $product;
@@ -15,12 +16,9 @@ class QuickViewModal extends Component
     public $size;
     public $color;
 
-
-    #[\Livewire\Attributes\On('openQuickViewModal')]
-    public function openQuickViewModal($productId, $open)
+    public function mount($slug)
     {
-        $this->isOpen = $open;
-        $this->productId = $productId;
+        $this->slug = $slug;
     }
 
     public function selectThisSize($size)
@@ -90,7 +88,7 @@ class QuickViewModal extends Component
 
     public function render()
     {
-        $this->product = Product::where('id', $this->productId)
+        $this->product = Product::where('slug', $this->slug)
             ->with(['images', 'category', 'brand', 'productSizes', 'productColors', 'productFeatures'])
             ->first();
         return view('livewire.components.quick-view-modal', [

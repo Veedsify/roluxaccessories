@@ -1,4 +1,5 @@
 @livewireScripts
+<script src="{{ asset('frontend/js/sweetalert.min.js') }}" defer></script>
 <script src="{{ asset('frontend/js/phosphor-icons.js')}}" defer></script>
 <script src="{{ asset('frontend/js/swiper-bundle.min.js')}}" defer></script>
 @if(request()->routeIs("blog"))

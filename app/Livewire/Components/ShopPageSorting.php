@@ -4,15 +4,17 @@ namespace App\Livewire\Components;
 
 use Illuminate\Support\Facades\Log;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class ShopPageSorting extends Component
 {
-
+    use WithPagination;
     public $display = "grid";
     public $productType = "Shirts";
     public $productColor = "";
     public $productSize = [];
     public $productBrand = "";
+    public $sorting = "default"; // Default sorting option
 
     public function mount()
     {
@@ -52,9 +54,7 @@ class ShopPageSorting extends Component
         $this->productSize = array_values($this->productSize);
     }
 
-    public function productBrands (){
-
-    }
+    public function productBrands() {}
 
     public function resetFilters(): void
     {
@@ -63,7 +63,8 @@ class ShopPageSorting extends Component
         $this->productSize = [];
     }
 
-    public function getBrands(){
+    public function getBrands()
+    {
         try {
             $brands = \App\Models\Brand::whereHas('products', function ($query) {
                 $query->where('active', true);
@@ -162,7 +163,27 @@ class ShopPageSorting extends Component
                         $q->where('name', $this->productBrand);
                     });
                 })
-                ->orderBy('id', 'desc')
+                ->when($this->sorting === 'best_selling', function ($query) {
+                    return $query->orderBy('sold', 'desc');
+                })
+                ->when($this->sorting === 'price_asc', function ($query) {
+                    return $query->orderBy('price', 'asc');
+                })
+                ->when($this->sorting === 'price_desc', function ($query) {
+                    return $query->orderBy('price', 'desc');
+                })
+                ->when($this->sorting === 'newest', function ($query) {
+                    return $query->orderBy('created_at', 'desc');
+                })
+                ->when($this->sorting === 'oldest', function ($query) {
+                    return $query->orderBy('created_at', 'asc');
+                })
+                ->when($this->sorting === 'a_z', function ($query) {
+                    return $query->orderBy('name', 'asc');
+                })
+                ->when($this->sorting === 'default', function ($query) {
+                    return $query->orderBy('id', 'desc');
+                })
                 ->paginate(12);
 
             Log::info(($this->productSize));
@@ -176,7 +197,7 @@ class ShopPageSorting extends Component
     public function quickView($productId)
     {
         // $this->dispatch('openQuickViewModal', ['productId' => $productId]);
-    }   
+    }
 
     public function render()
     {

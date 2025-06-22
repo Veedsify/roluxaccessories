@@ -81,7 +81,7 @@
                         @endif
                         <div class="choose-size mt-5">
                             <div class="list-size flex items-center flex-wrap gap-3 gap-y-4 mt-4">
-                                @foreach($product->productSizes as $sizeVariant => $size)   
+                                @foreach($product->productSizes as $sizeVariant => $size)
                                 <div wire:click="selectThisSize('{{ $size['id'] }}')" class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line {{$this->size == $size['id'] ? 'active': ''}}" data-item="{{$size['name']}}">
                                     {{$size['name']}}
                                 </div>
@@ -92,9 +92,7 @@
                         <div class="text-title mt-5">Quantity:</div>
                         <div class="choose-quantity flex items-center flex-wrap lg:justify-between gap-5 mt-3">
                             <div class="quantity-block md:p-3 max-md:py-1.5 max-md:px-3 flex items-center justify-between rounded-lg border border-line sm:w-[180px] w-[120px] flex-shrink-0">
-                                <span
-                                    wire:click='decreaseAmount'
-                                    class="cursor-pointer">    
+                                <span wire:click='decreaseAmount' class="cursor-pointer">
                                     <i class="ph-bold ph-minus cursor-pointer body1"></i>
                                 </span>
                                 <div class="quantity body1 font-semibold">
@@ -104,7 +102,16 @@
                                     <i class="ph-bold ph-plus cursor-pointer body1"></i>
                                 </span>
                             </div>
-                            <div class="add-cart-btn button-main w-full text-center bg-white text-black border border-black">
+                            <div class="flex flex-col">
+                                <div>
+                                    @session('error')
+                                    <div class="text-red-500 text-sm mt-2" style="color: red;">
+                                        {{ session('error') }}
+                                    </div>
+                                    @endsession
+                                </div>
+                            </div>
+                            <div wire:click="addToCart" class="add-cart-btn button-main w-full text-center bg-white text-black border border-black">
                                 Add To Cart</div>
                         </div>
                         <div class="button-block mt-5">
