@@ -175,8 +175,8 @@ class ShopPageSorting extends Component
 
     public function quickView($productId)
     {
-        $this->dispatch('openQuickViewModal', ['productId' => $productId]);
-    }
+        // $this->dispatch('openQuickViewModal', ['productId' => $productId]);
+    }   
 
     public function render()
     {

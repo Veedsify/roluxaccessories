@@ -5,3 +5,4 @@
 {{-- <script src="{{ asset('frontend/js/blog.js')}}" defer></script> --}}
 @endif
 <script src="{{ asset('frontend/js/main.js')}}" defer></script>
+<script src="{{ asset('frontend/js/custom.js')}}" defer></script>

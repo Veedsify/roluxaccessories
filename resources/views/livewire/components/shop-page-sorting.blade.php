@@ -399,7 +399,7 @@
                                                     Add To Wishlist</div>
                                                 <i class="ph ph-heart text-lg"></i>
                                             </div>
-                                            <div wire:click="quickView('{{$product->id}}')"
+                                            <div wire:click.prevent="quickView('{{$product->id}}')"
                                                 class="quick-view-btn quick-view-btn-list w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative">
                                                 <div
                                                     class="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">
