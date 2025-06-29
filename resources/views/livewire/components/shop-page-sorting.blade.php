@@ -131,40 +131,40 @@
                             </div>
                         </div>
                     </div>
-                    @if($this->productType || $this->productColor)
-                    <div class="list-filtered flex items-center gap-3 flex-wrap">
-                        <div class="total-product">
-                            {{count($products)}}
-                            <span class="text-secondary pl-1">Products Found</span>
-                        </div>
-                        @if($this->productType)
-                        <div class="list flex items-center gap-3">
-                            <div class="w-px h-4 bg-line"></div>
-                            <div wire:click.prevent="filterByType('')" class="item flex items-center px-2 py-1 gap-1 bg-linear rounded-full capitalize" data-type="type">
-                                <i class="ph ph-x cursor-pointer"></i>
-                                <span>
-                                    {{$this->productType}}
-                                </span>
+                        @if($this->productType || $this->productColor)
+                        <div class="list-filtered flex items-center gap-3 flex-wrap">
+                            <div class="total-product">
+                                {{count($products)}}
+                                <span class="text-secondary pl-1">Products Found</span>
+                            </div>
+                            @if($this->productType)
+                            <div class="list flex items-center gap-3">
+                                <div class="w-px h-4 bg-line"></div>
+                                <div wire:click.prevent="filterByType('')" class="item flex items-center px-2 py-1 gap-1 bg-linear rounded-full capitalize" data-type="type">
+                                    <i class="ph ph-x cursor-pointer"></i>
+                                    <span>
+                                        {{$this->productType}}
+                                    </span>
+                                </div>
+                            </div>
+                            @endif
+                            @if($this->productColor)
+                            <div class="list flex items-center gap-3">
+                                <div class="w-px h-4 bg-line"></div>
+                                <div wire:click.prevent="filterByColor('')" class="item flex items-center px-2 py-1 gap-1 bg-linear rounded-full capitalize" data-type="type">
+                                    <i class="ph ph-x cursor-pointer"></i>
+                                    <span>
+                                        {{$this->productColor}}
+                                    </span>
+                                </div>
+                            </div>
+                            @endif
+                            <div wire:click.prevent="resetFilters()" class="clear-btn flex items-center px-2 py-1 gap-1 rounded-full w-fit border border-red cursor-pointer">
+                                <i class="ph ph-x cursor-pointer text-red"></i>
+                                <span class="text-button-uppercase text-red">Clear All</span>
                             </div>
                         </div>
                         @endif
-                        @if($this->productColor)
-                        <div class="list flex items-center gap-3">
-                            <div class="w-px h-4 bg-line"></div>
-                            <div wire:click.prevent="filterByColor('')" class="item flex items-center px-2 py-1 gap-1 bg-linear rounded-full capitalize" data-type="type">
-                                <i class="ph ph-x cursor-pointer"></i>
-                                <span>
-                                    {{$this->productColor}}
-                                </span>
-                            </div>
-                        </div>
-                        @endif
-                        <div wire:click.prevent="resetFilters()" class="clear-btn flex items-center px-2 py-1 gap-1 rounded-full w-fit border border-red cursor-pointer">
-                            <i class="ph ph-x cursor-pointer text-red"></i>
-                            <span class="text-button-uppercase text-red">Clear All</span>
-                        </div>
-                    </div>
-                    @endif
 
                     <div x-show="display === 'grid'" class="list-product hide-product-sold grid lg:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7" data-item="9">
                         @foreach($products as $product)
@@ -186,43 +186,25 @@
                                             <i class="ph ph-heart text-lg"></i>
                                         </div>
                                     </div>
-                                    <a href={{route('product.detail', ['slug'=> $product->slug])}} class="product-img block w-full h-full aspect-[3/4]" wire:navigate>
+                                    <a href={{route('product.detail', ['slug'=> $product->slug])}} class="product-img block w-full h-full aspect-[3/4]">
 
                                         <img key="0" class="w-full h-full object-cover duration-700" src="{{asset('storage/'. $product->images[0]['url'])}}" alt="img">
 
                                         <img key="1" class="w-full h-full object-cover duration-700" src="{{asset('storage/'. $product->images[1]['url'])}}" alt="img">
                                     </a>
                                     <div class="list-action grid grid-cols-2 gap-3 px-5 absolute w-full bottom-5 max-lg:hidden">
-                                        <div wire:click="quickView('{{$product->id}}')" class="quick-view-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white">
+                                        <div class="quick-view-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white">
                                             <span class="max-lg:hidden">Quick View</span>
                                             <i class="ph ph-eye lg:hidden text-xl"></i>
                                         </div>
 
-                                        <div class="add-cart-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white">
-                                            <span class="max-lg:hidden">Add To Cart</span>
+                                        <div wire:click="addToCart('{{$product->id}}')" class="w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white">
+                                            <span  class="max-lg:hidden">Add To Cart</span>
                                             <i class="ph ph-shopping-bag-open lg:hidden text-xl"></i>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="product-infor mt-4 lg:mb-7">
-                                    <div class="product-sold sm:pb-4 pb-2">
-                                        <div class="progress bg-line h-1.5 w-full rounded-full overflow-hidden relative">
-                                            <div class="progress-sold bg-red absolute left-0 top-0 h-full" style="width: 12%">
-                                            </div>
-                                        </div>
-                                        <div class="flex items-center justify-between gap-3 gap-y-1 flex-wrap mt-2">
-                                            <div class="text-button-uppercase">
-                                                <span class="text-secondary2 max-sm:text-xs">Sold:
-                                                </span>
-                                                <span class="max-sm:text-xs">8</span>
-                                            </div>
-                                            <div class="text-button-uppercase">
-                                                <span class="text-secondary2 max-sm:text-xs">Available:
-                                                </span>
-                                                <span class="max-sm:text-xs">56</span>
-                                            </div>
-                                        </div>
-                                    </div>
                                     <div class="product-name text-title duration-300">
                                         <a href="{{ route('product.detail', $product->slug) }}" class="hover:text-black">
                                             {{ $product->name }}
@@ -256,13 +238,12 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                         @endforeach
                     </div>
                     <div x-show="display === 'list'" class="list-product hide-product-sold gap-8 mt-7 lg:grid-cols-3 flex flex-col" data-item="4">
                         @foreach($products as $product)
-                        <a data-item="{{$product->id}}" class="product-item list-type block" href={{route('product.detail', ['slug'=> $product->slug])}} wire:navigate>
+                        <a data-item="{{$product->id}}" class="product-item list-type block" href={{route('product.detail', ['slug'=> $product->slug])}}>
 
                             <div class="product-main cursor-pointer flex lg:items-center sm:justify-between gap-7 max-lg:gap-5">
                                 <div class="product-thumb bg-white relative overflow-hidden rounded-2xl block max-sm:w-1/2">
@@ -289,7 +270,7 @@
                                                 @endforeach
 
                                             </div>
-                                            <div class="add-cart-btn button-main w-full text-center rounded-full py-3 mt-4">
+                                            <div wire:click='addToCart("{{$product->id}}")' class="add-cart-btn button-main w-full text-center rounded-full py-3 mt-4">
                                                 Add To cart</div>
                                         </div>
                                     </div>
@@ -331,19 +312,16 @@
                                             description available.' !!}
                                         </div>
                                     </div>
-                                    <div class="action w-fit flex flex-col items-center justify-center">
-                                        <div class="quick-shop-btn button-main whitespace-nowrap py-2 px-9 max-lg:px-5 rounded-full bg-white text-black border border-black hover:bg-black hover:text-white">
-                                            View
+                                    <div class="action w-fit flex flex-col items-center justify-center product-item" data-item={{$product->id}}>
+                                        <div wire:click='addToCart("{{$product->id}}")' class="button-main whitespace-nowrap py-2 px-9 max-lg:px-5 rounded-full bg-white text-black border border-black hover:bg-black hover:text-white">
+                                            Add To Cart
                                         </div>
-                                        <div class="list-action-right flex items-center justify-center gap-3 mt-4">
-                                            <div class="add-wishlist-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative">
-                                                <div class="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">
-                                                    Add To Wishlist</div>
+                                        <div class="list-action-right flex items-center justify-center gap-3 mt-4 product-item" data-item="{{$product->id}}">
+
+                                            <div class="add-wishlist-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white border border-line duration-300 relative hover:bg-black hover:text-white">
                                                 <i class="ph ph-heart text-lg"></i>
                                             </div>
-                                            <div wire:click.prevent="quickView('{{$product->id}}')" class="quick-view-btn quick-view-btn-list w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white duration-300 relative">
-                                                <div class="tag-action bg-black text-white caption2 px-1.5 py-0.5 rounded-sm">
-                                                    Quick View</div>
+                                            <div class="quick-view-btn w-[32px] h-[32px] flex items-center justify-center rounded-full bg-white border border-line duration-300 relative hover:bg-black hover:text-white group">
                                                 <i class="ph ph-eye text-lg"></i>
                                             </div>
                                         </div>

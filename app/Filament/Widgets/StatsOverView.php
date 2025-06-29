@@ -14,16 +14,24 @@ class StatsOverView extends BaseWidget
         return [
             Stat::make('Users', \App\Models\User::count())
                 ->icon('heroicon-o-users')
-                ->color('primary'),
-            Stat::make('Pending Orders', \App\Models\Order::count())
+                ->color('primary')
+                ->description('Active'),
+            Stat::make('Pending Orders', \App\Models\Order::where('status', 'pending')->count())
                 ->icon('heroicon-o-rectangle-group')
-                ->color('danger'),
-            Stat::make('Posts', \App\Models\Product::count())
+                ->color('danger')
+                ->description('Urgent'),
+            Stat::make('Processing Orders', \App\Models\Order::where('status', 'processing')->count())
+                ->icon('heroicon-o-cog')
+                ->color('info')
+                ->description('In Progress'),
+            Stat::make('Products', \App\Models\Product::where('active', 1)->count())
                 ->icon('heroicon-o-document-text')
-                ->color('success'),
+                ->color('success')
+                ->description('Published'),
             Stat::make('Articles', \App\Models\Blog::count())
                 ->icon('heroicon-o-book-open')
-                ->color('warning'),
+                ->color('warning')
+                ->description('Live'),
         ];
     }
 }

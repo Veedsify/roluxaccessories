@@ -68,11 +68,12 @@
                         @if($product->productColors->count() > 0)
                         <div class="-color">
                             <div class="text-title">Colors: <span class="text-title color"></span></div>
-                            <div class="list-color py-2 max-md:hidden flex items-center gap-3 flex-wrap duration-500">
-                                @foreach($product->productColors as $variantColor => $color)
-                                <div key="0" wire:click="selectThisColor('{{ $color['id'] }}')" class="color-item w-8 h-8 rounded-full duration-300 relative" style="background-color:{{$color->image}}; outline: 1px solid #eee;">
+                            <div class="list-color p-2 max-md:hidden flex items-center gap-3 flex-wrap duration-500">
+                                @foreach($product->productColors as $variantColor => $pColor)
+                                <div key="0" wire:click="selectThisColor('{{ $pColor['id'] }}', '{{$pColor['name']}}')" class="color-item w-8 h-8 rounded-full duration-300 relative" style="background-color:{{$pColor->image}}; {{$color && $color['id'] == $pColor['id'] ? 'outline: 3px solid black;' : ''}} ">
+
                                     <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">
-                                        {{ $color->name }}
+                                        {{ $pColor->name }}
                                     </div>
                                 </div>
                                 @endforeach
@@ -82,7 +83,7 @@
                         <div class="choose-size mt-5">
                             <div class="list-size flex items-center flex-wrap gap-3 gap-y-4 mt-4">
                                 @foreach($product->productSizes as $sizeVariant => $size)
-                                <div wire:click="selectThisSize('{{ $size['id'] }}')" class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line {{$this->size == $size['id'] ? 'active': ''}}" data-item="{{$size['name']}}">
+                                <div wire:click="selectThisSize('{{ $size['id'] }}', '{{$size['name']}}')" class="size-item text-button w-[44px] h-[44px] flex items-center justify-center rounded-full border border-line {{$this->size && $this->size['id'] == $size['id'] ? 'active': ''}}" data-item="{{$size['name']}}">
                                     {{$size['name']}}
                                 </div>
                                 @endforeach

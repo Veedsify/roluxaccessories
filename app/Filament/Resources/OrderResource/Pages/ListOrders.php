@@ -32,6 +32,13 @@ class ListOrders extends ListRecords
                     fn(Builder $query) => $query->where('status', 'pending')
                 )
                 ->badge(fn() => $this->getModel()::where('status', 'pending')->count()),
+            'confirmed' => Tab::make('Confirmed')
+                ->icon('phosphor-check')
+                ->modifyQueryUsing(
+                    fn(Builder $query) => $query->where('status', 'confirmed')
+                )
+                ->badgeColor('success')
+                ->badge(fn() => $this->getModel()::where('status', 'confirmed')->count()),
             'processing' => Tab::make('Processing')
                 ->icon('phosphor-spinner-ball')
                 ->modifyQueryUsing(
@@ -39,20 +46,7 @@ class ListOrders extends ListRecords
                 )
                 ->badgeColor('info')
                 ->badge(fn() => $this->getModel()::where('status', 'processing')->count()),
-            'completed' => Tab::make('Completed')
-                ->icon('phosphor-check')
-                ->modifyQueryUsing(
-                    fn(Builder $query) => $query->where('status', 'completed')
-                )
-                ->badgeColor('success')
-                ->badge(fn() => $this->getModel()::where('status', 'completed')->count()),
-            'cancelled' => Tab::make('Cancelled')
-                ->icon('phosphor-x')
-                ->modifyQueryUsing(
-                    fn(Builder $query) => $query->where('status', 'cancelled')
-                )
-                ->badgeColor('danger')
-                ->badge(fn() => $this->getModel()::where('status', 'cancelled')->count()),
+           
             'shipped' => Tab::make('Shipped')
                 ->icon('phosphor-truck')
                 ->modifyQueryUsing(
@@ -66,7 +60,14 @@ class ListOrders extends ListRecords
                     fn(Builder $query) => $query->where('status', 'delivered')
                 )
                 ->badgeColor('secondary')
-                ->icon('phosphor-package')
+                ->icon('phosphor-package'),
+            'cancelled' => Tab::make('Cancelled')
+                ->icon('phosphor-x')
+                ->modifyQueryUsing(
+                    fn(Builder $query) => $query->where('status', 'cancelled')
+                )
+                ->badgeColor('danger')
+                ->badge(fn() => $this->getModel()::where('status', 'cancelled')->count()),
         ];
     }
 }

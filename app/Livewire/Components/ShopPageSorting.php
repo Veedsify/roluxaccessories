@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -22,6 +23,37 @@ class ShopPageSorting extends Component
         $this->productType = ""; // Default product type filter
         $this->productColor = ""; // Default product color filter
         $this->productSize = []; // Default product size filter
+    }
+
+    public function addToCart($productId)
+    {
+        try {
+            $product = \App\Models\Product::findOrFail($productId);
+            $productSize = $product->productSizes->first() ?? null;
+            $productColor = $product->productColors->first() ?? null;
+            $this->dispatch(
+                "newCartItem",
+                [
+                    'id' => $product->id,
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'image' => asset('storage/' . $product->images->first()?->url ?? null),
+                    'quantity' => 1,
+                    'cartId'=> Str::random(),
+                    'size' => [
+                        'id' => $productSize?->id ?? null,
+                        'name' => $productSize?->name ?? null,
+                    ],
+                    'color' => [
+                        'id' => $productColor?->id ?? null,
+                        'name' => $productColor?->name ?? null,
+                    ]
+                ]
+            );
+        } catch (\Exception $e) {
+            Log::error("Error adding product to cart: " . $e->getMessage());
+            session()->flash('error', 'Failed to add product to cart.');
+        }
     }
     public function filterByType($productType)
     {
@@ -192,11 +224,6 @@ class ShopPageSorting extends Component
             Log::error("Error fetching products: " . $e->getMessage());
             return collect([]);
         }
-    }
-
-    public function quickView($productId)
-    {
-        // $this->dispatch('openQuickViewModal', ['productId' => $productId]);
     }
 
     public function render()

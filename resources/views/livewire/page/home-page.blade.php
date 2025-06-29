@@ -160,7 +160,7 @@
                 <div class="main-content relative flex max-lg:flex-wrap gap-y-5 items-center lg:justify-end justify-center">
                     <div class="heading bg-white xl:py-20 py-10 xl:px-10 px-8 rounded-2xl lg:w-[30%] lg:absolute lg:top-1/2 lg:-translate-y-1/2 lg:left-0 z-[1] max-lg:text-center">
                         <div class="heading3">Discover the latest collection</div>
-                        <a href="{{route('collection')}}" class="button-main bg-green lg:w-full text-center lg:mt-8 mt-5 text-black hover:bg-black hover:text-white" wire:navigate>Shop
+                        <a href="{{route('collection')}}" class="button-main bg-green lg:w-full text-center lg:mt-8 mt-5 text-black hover:bg-black hover:text-white" >Shop
                             Collection </a>
                     </div>
                     <div class="list popular-product w-3/4 grid sm:grid-cols-2 gap-4 max-lg:w-full">

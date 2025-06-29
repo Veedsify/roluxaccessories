@@ -79,7 +79,7 @@
                                 Prev
                             </button>
                             @else
-                            <a href="{{ $posts->previousPageUrl() }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" wire:navigate>
+                            <a href="{{ $posts->previousPageUrl() }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300">
                                 Prev
                             </a>
                             @endif
@@ -91,7 +91,7 @@
                                 {{ $page }}
                             </button>
                             @else
-                            <a href="{{ $url }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" wire:navigate>
+                            <a href="{{ $url }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" >
                                 {{ $page }}
                             </a>
                             @endif
@@ -99,7 +99,7 @@
 
                             {{-- Next Page Link --}}
                             @if ($posts->hasMorePages())
-                            <a href="{{ $posts->nextPageUrl() }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" wire:navigate>
+                            <a href="{{ $posts->nextPageUrl() }}" class="px-3 py-1 rounded bg-white border border-line hover:bg-black hover:text-white duration-300" >
                                 Next
                             </a>
                             @else

@@ -18,36 +18,36 @@
                 <div class="menu-main h-full w-screen xl:absolute xl:left-1/2 xl:-translate-x-1/2 max-lg:hidden">
                     <ul class="flex items-center justify-center gap-8 h-full">
                         <li class="h-full relative">
-                            <a href="{{route('home')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('home') ? 'active' : '' }}" wire:navigate>
+                            <a href="{{route('home')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center gap-1 {{ request()->routeIs('home') ? 'active' : '' }}" >
                                 Home </a>
                         </li>
                         <li class="h-full">
-                            <a href="{{route('about')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('about') ? 'active' : '' }}" wire:navigate>
+                            <a href="{{route('about')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('about') ? 'active' : '' }}" >
                                 About </a>
                         </li>
                         <li class="h-full">
-                            <a href="{{route('shop')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('shop') ? 'active' : '' }}" wire:navigate>
+                            <a href="{{route('shop')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('shop') ? 'active' : '' }}" >
                                 Shop
                             </a>
                         </li>
                         <li class="h-full flex items-center justify-center logo" style="color: {{ request()->routeIs('home') ? 'red' : 'black' }}">
 
-                            <a href="{{route('home')}}" class="heading4" wire:navigate> Roluxe </a>
+                            <a href="{{route('home')}}" class="heading4" > Roluxe </a>
                         </li>
                         <li class="h-full">
-                            <a href="{{route('collection')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('collection') ? 'active' : '' }}" wire:navigate>
+                            <a href="{{route('collection')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('collection') ? 'active' : '' }}" >
 
 
                                 Collections </a>
                         </li>
                         <li class="h-full relative">
-                            <a href="{{route('blog')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('blog') ? 'active' : '' }}" wire:navigate>
+                            <a href="{{route('blog')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('blog') ? 'active' : '' }}" >
 
                                 Blog
                             </a>
                         </li>
                         <li class="h-full relative">
-                            <a href="{{route('contact')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('contact') ? 'active' : '' }}" wire:navigate>
+                            <a href="{{route('contact')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('contact') ? 'active' : '' }}" >
                                 Contact </a>
                         </li>
                     </ul>
@@ -108,28 +108,28 @@
                     <div class="list-nav mt-6">
                         <ul>
                             <li>
-                                <a href="{{route('home')}}" class="text-xl font-semibold flex items-center justify-between" wire:navigate>
+                                <a href="{{route('home')}}" class="text-xl font-semibold flex items-center justify-between" >
                                     Home
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('about')}}" class="text-xl font-semibold flex items-center justify-between mt-5" wire:navigate>About
+                                <a href="{{route('about')}}" class="text-xl font-semibold flex items-center justify-between mt-5" >About
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('shop')}}" class="text-xl font-semibold flex items-center justify-between mt-5" wire:navigate>Shop
+                                <a href="{{route('shop')}}" class="text-xl font-semibold flex items-center justify-between mt-5" >Shop
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('collection')}}" class="text-xl font-semibold flex items-center justify-between mt-5" wire:navigate>Collections
+                                <a href="{{route('collection')}}" class="text-xl font-semibold flex items-center justify-between mt-5" >Collections
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('blog')}}" class="text-xl font-semibold flex items-center justify-between mt-5" wire:navigate>Blog
+                                <a href="{{route('blog')}}" class="text-xl font-semibold flex items-center justify-between mt-5" >Blog
                                 </a>
                             </li>
                             <li>
-                                <a href="{{route('contact')}}" class="text-xl font-semibold flex items-center justify-between mt-5" wire:navigate>Contact
+                                <a href="{{route('contact')}}" class="text-xl font-semibold flex items-center justify-between mt-5" >Contact
                                 </a>
                             </li>
                         </ul>
@@ -156,9 +156,9 @@
                 <span class="ph-bold ph-magnifying-glass text-2xl block"></span>
                 <span class="menu_bar-title caption2 font-semibold">Search</span>
             </a>
-            <a href="{{route('home')}}" class="menu_bar-link flex flex-col items-center gap-1">
+            <a href="{{route('cart')}}" class="menu_bar-link flex flex-col items-center gap-1">
 
-                <div class="cart-icon relative">
+                <div class="relative">
                     <span class="ph-bold ph-handbag text-2xl block"></span>
                     <span class="quantity cart-quantity absolute -right-1.5 -top-1.5 text-xs text-white bg-black w-4 h-4 flex items-center justify-center rounded-full">0</span>
                 </div>

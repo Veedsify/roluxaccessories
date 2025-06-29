@@ -31,27 +31,31 @@ class Product extends Model
         'collection_id',
     ];
 
-public static function boot()
-{
-    parent::boot();
+    public static function boot()
+    {
+        parent::boot();
 
-    static::creating(function ($product) {
-        $slug = Str::slug($product->name);
-        if (Product::where('slug', $slug)->exists()) {
-            $slug .= '-' . time();
-        }
-        $product->slug = $slug;
-    });
+        static::creating(function ($product) {
+            $slug = Str::slug($product->name);
+            if (Product::where('slug', $slug)->exists()) {
+                $slug .= '-' . time();
+            }
+            $product->slug = $slug;
+        });
 
-    static::updating(function ($product) {
-        $slug = Str::slug($product->name);
-        if (Product::where('slug', $slug)->where('id', '!=', $product->id)->exists()) {
-            $slug .= '-' . time();
-        }
-        $product->slug = $slug;
-    });
-}
+        static::updating(function ($product) {
+            $slug = Str::slug($product->name);
+            if (Product::where('slug', $slug)->where('id', '!=', $product->id)->exists()) {
+                $slug .= '-' . time();
+            }
+            $product->slug = $slug;
+        });
+    }
 
+    public function isActive()
+    {
+        return $this->active;
+    }
     public function onSale()
     {
         return $this->sale;

@@ -13,4 +13,6 @@
 <link rel="stylesheet" href="{{ asset('frontend/css/style.css')}}" />
 <link rel="stylesheet" href="{{ asset('dist/output-scss.css')}}" />
 <link rel="stylesheet" href="{{ asset('dist/output-tailwind.css')}}" />
+<link rel="stylesheet" href="{{ asset('frontend/css/checkout-enhancements.css') }}">
+<link rel="stylesheet" href="{{ asset('frontend/css/order-confirmation.css') }}">
 @livewireStyles

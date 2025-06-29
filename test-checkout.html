@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Test - RoluxeAccessories</title>
+    <link rel="stylesheet" href="frontend/css/checkout-enhancements.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8fafc;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .test-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+        }
+        .test-button {
+            background: #4f46e5;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        .test-button:hover {
+            background: #4338ca;
+        }
+        .status {
+            display: inline-block;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .status.success {
+            background: #10b981;
+            color: white;
+        }
+        .status.error {
+            background: #ef4444;
+            color: white;
+        }
+        .status.info {
+            background: #3b82f6;
+            color: white;
+        }
+        #console-output {
+            background: #1f2937;
+            color: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            max-height: 300px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-size: 16px;
+        }
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="test-header">
+            <h1><i class="ph ph-shopping-cart"></i> Checkout System Test</h1>
+            <p>This page tests the checkout functionality independently</p>
+        </div>
+
+        <!-- Status Section -->
+        <div class="test-section">
+            <h3>System Status</h3>
+            <div id="status-indicators">
+                <span id="manager-status" class="status info">Checking...</span>
+                <span id="dom-status" class="status info">Loading...</span>
+                <span id="functions-status" class="status info">Validating...</span>
+            </div>
+        </div>
+
+        <!-- Test Controls -->
+        <div class="test-section">
+            <h3>Test Controls</h3>
+            <button class="test-button" onclick="initializeSystem()">Initialize System</button>
+            <button class="test-button" onclick="testFormValidation()">Test Validation</button>
+            <button class="test-button" onclick="testShippingUpdate()">Test Shipping Update</button>
+            <button class="test-button" onclick="testFileUpload()">Test File Upload</button>
+            <button class="test-button" onclick="fillSampleData()">Fill Sample Data</button>
+            <button class="test-button" onclick="clearConsole()">Clear Console</button>
+        </div>
+
+        <!-- Progress Indicator -->
+        <div class="checkout-progress mb-8">
+            <div class="progress-step active">
+                <i class="ph ph-user-circle"></i>
+                <span>Information</span>
+            </div>
+            <div class="progress-step" id="payment-step">
+                <i class="ph ph-credit-card"></i>
+                <span>Payment</span>
+            </div>
+            <div class="progress-step" id="confirmation-step">
+                <i class="ph ph-check-circle"></i>
+                <span>Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Mock Form -->
+        <div class="test-section">
+            <h3>Mock Checkout Form</h3>
+            <form id="test-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name *</label>
+                        <input type="text" id="firstName" required>
+                        <span class="text-red-500 text-sm" id="firstNameError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name *</label>
+                        <input type="text" id="lastName" required>
+                        <span class="text-red-500 text-sm" id="lastNameError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" required>
+                        <span class="text-red-500 text-sm" id="emailError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="phoneNumber">Phone *</label>
+                        <input type="tel" id="phoneNumber" required>
+                        <span class="text-red-500 text-sm" id="phoneNumberError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">City *</label>
+                        <input type="text" id="city" required>
+                        <span class="text-red-500 text-sm" id="cityError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="state">State *</label>
+                        <select id="state" onchange="updateShipping()" required>
+                            <option value="">Choose State *</option>
+                            <option value="Lagos">Lagos</option>
+                            <option value="Abuja">Abuja</option>
+                            <option value="Kano">Kano</option>
+                        </select>
+                        <span class="text-red-500 text-sm" id="stateError"></span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="street">Street Address *</label>
+                        <input type="text" id="street" required>
+                        <span class="text-red-500 text-sm" id="streetError"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="postalCode">Postal Code *</label>
+                        <input type="text" id="postalCode" required>
+                        <span class="text-red-500 text-sm" id="postalCodeError"></span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="paymentReceipt">Payment Receipt *</label>
+                    <input type="file" id="paymentReceipt" accept="image/*,application/pdf" onchange="handleFileUpload(this)">
+                    <div id="fileStatus">No file selected</div>
+                    <span class="text-red-500 text-sm" id="paymentReceiptError"></span>
+                </div>
+            </form>
+        </div>
+
+        <!-- Mock Order Summary -->
+        <div class="test-section">
+            <h3>Order Summary</h3>
+            <div id="orderSummary">
+                <div id="cartItems">
+                    <div class="empty-cart text-center py-8">
+                        <div class="text-gray-500">
+                            <i class="ph ph-shopping-cart text-4xl mb-2 block"></i>
+                            Loading cart...
+                        </div>
+                    </div>
+                </div>
+                <div class="ship-block py-2 flex justify-between">
+                    <span>Shipping <span id="selectedState"></span></span>
+                    <span id="shippingCost">Select state</span>
+                </div>
+                <div class="flex justify-between">
+                    <span>Subtotal:</span>
+                    <span>₦<span id="subtotal">0.00</span></span>
+                </div>
+                <div class="flex justify-between font-bold">
+                    <span>Total:</span>
+                    <span>₦<span id="total">0.00</span></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Console Output -->
+        <div class="test-section">
+            <h3>Console Output</h3>
+            <div id="console-output">Waiting for initialization...</div>
+        </div>
+    </div>
+
+    <!-- Load the checkout script -->
+    <script src="frontend/js/checkout.js"></script>
+
+    <script>
+        // Override console.log to capture output
+        const originalLog = console.log;
+        const originalError = console.error;
+        const consoleOutput = document.getElementById('console-output');
+
+        function addToConsole(message, type = 'log') {
+            const timestamp = new Date().toLocaleTimeString();
+            const prefix = type === 'error' ? '❌' : type === 'warn' ? '⚠️' : 'ℹ️';
+            consoleOutput.textContent += `[${timestamp}] ${prefix} ${message}\n`;
+            consoleOutput.scrollTop = consoleOutput.scrollHeight;
+        }
+
+        console.log = function(...args) {
+            originalLog.apply(console, args);
+            addToConsole(args.join(' '), 'log');
+        };
+
+        console.error = function(...args) {
+            originalError.apply(console, args);
+            addToConsole(args.join(' '), 'error');
+        };
+
+        // Test functions
+        function updateStatus() {
+            const managerStatus = document.getElementById('manager-status');
+            const domStatus = document.getElementById('dom-status');
+            const functionsStatus = document.getElementById('functions-status');
+
+            // Check if checkout manager exists
+            if (window.checkoutManager) {
+                managerStatus.className = 'status success';
+                managerStatus.textContent = 'Manager: Ready';
+            } else {
+                managerStatus.className = 'status error';
+                managerStatus.textContent = 'Manager: Missing';
+            }
+
+            // Check DOM readiness
+            if (document.readyState === 'complete') {
+                domStatus.className = 'status success';
+                domStatus.textContent = 'DOM: Ready';
+            } else {
+                domStatus.className = 'status info';
+                domStatus.textContent = 'DOM: Loading';
+            }
+
+            // Check functions
+            const requiredFunctions = ['updateShipping', 'handleFileUpload', 'proceedToPayment'];
+            const missingFunctions = requiredFunctions.filter(fn => typeof window[fn] !== 'function');
+
+            if (missingFunctions.length === 0) {
+                functionsStatus.className = 'status success';
+                functionsStatus.textContent = 'Functions: Available';
+            } else {
+                functionsStatus.className = 'status error';
+                functionsStatus.textContent = `Functions: Missing ${missingFunctions.length}`;
+            }
+        }
+
+        function initializeSystem() {
+            console.log('Manually initializing checkout system...');
+            try {
+                if (typeof SimpleCheckoutManager !== 'undefined') {
+                    window.checkoutManager = new SimpleCheckoutManager();
+                    console.log('Checkout manager initialized successfully');
+                } else {
+                    console.error('SimpleCheckoutManager class not found');
+                }
+            } catch (error) {
+                console.error('Initialization failed:', error);
+            }
+            updateStatus();
+        }
+
+        function testFormValidation() {
+            console.log('Testing form validation...');
+            if (window.checkoutManager && window.checkoutManager.validateForm) {
+                const isValid = window.checkoutManager.validateForm();
+                console.log('Form validation result:', isValid);
+            } else {
+                console.error('Validation method not available');
+            }
+        }
+
+        function testShippingUpdate() {
+            console.log('Testing shipping update...');
+            const stateSelect = document.getElementById('state');
+            stateSelect.value = 'Lagos';
+
+            if (typeof updateShipping === 'function') {
+                updateShipping();
+                console.log('Shipping update triggered');
+            } else {
+                console.error('updateShipping function not found');
+            }
+        }
+
+        function testFileUpload() {
+            console.log('Testing file upload functionality...');
+            if (typeof handleFileUpload === 'function') {
+                console.log('File upload function available');
+                // Create a mock file for testing
+                const mockFile = new File(['test'], 'test.pdf', { type: 'application/pdf' });
+                if (window.checkoutManager) {
+                    window.checkoutManager.uploadedFile = mockFile;
+                    console.log('Mock file uploaded');
+                }
+            } else {
+                console.error('File upload function not found');
+            }
+        }
+
+        function fillSampleData() {
+            console.log('Filling sample data...');
+            const sampleData = {
+                firstName: 'John',
+                lastName: 'Doe',
+                email: 'john.doe@example.com',
+                phoneNumber: '+234 812 345 6789',
+                city: 'Lagos',
+                street: '123 Test Street',
+                state: 'Lagos',
+                postalCode: '100001'
+            };
+
+            Object.keys(sampleData).forEach(field => {
+                const element = document.getElementById(field);
+                if (element) {
+                    element.value = sampleData[field];
+                }
+            });
+            console.log('Sample data filled');
+        }
+
+        function clearConsole() {
+            consoleOutput.textContent = 'Console cleared...\n';
+        }
+
+        // Initialize when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Test page loaded');
+            setTimeout(() => {
+                updateStatus();
+                // Try to initialize if not already done
+                if (!window.checkoutManager && typeof SimpleCheckoutManager !== 'undefined') {
+                    initializeSystem();
+                }
+            }, 1000);
+        });
+
+        // Update status periodically
+        setInterval(updateStatus, 2000);
+    </script>
+</body>
+</html>

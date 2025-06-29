@@ -13,33 +13,33 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
-
     /**
      * The attributes that are mass assignable.
      *
      * @var list<string>
      */
     protected $fillable = [
-        'name',
-        'email',
-        'password',
-        'is_admin',
-        'is_active',
-        'is_verified',
-        'user_id',
-        'role', // customer, admin, vendor
-        'status', // active, inactive, suspended
-        'phone',
-        'country',
-        'address',
-        'gender',
-        'profile_picture',
-        'two_factor_secret',
-        'last_login_at',
-        'email_verified_at',
-        'remember_token',
-        'created_at',
-        'updated_at',
+        "name",
+        "email",
+        "password",
+        "is_guest",
+        "is_admin",
+        "is_active",
+        "is_verified",
+        "user_id",
+        "role", // customer, admin, vendor
+        "status", // active, inactive, suspended
+        "phone",
+        "country",
+        "address",
+        "gender",
+        "profile_picture",
+        "two_factor_secret",
+        "last_login_at",
+        "email_verified_at",
+        "remember_token",
+        "created_at",
+        "updated_at",
     ];
 
     public function blogs()

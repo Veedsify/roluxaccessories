@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use App\Models\Product;
+use Illuminate\Support\Str;
 use Livewire\Component;
 
 class QuickViewModal extends Component
@@ -15,6 +16,11 @@ class QuickViewModal extends Component
     public $size;
     public $color;
 
+    public function mount()
+    {
+        $this->isOpen = false; // Initialize modal as closed
+    }
+
 
     #[\Livewire\Attributes\On('openQuickViewModal')]
     public function openQuickViewModal($productId, $open)
@@ -23,40 +29,55 @@ class QuickViewModal extends Component
         $this->productId = $productId;
     }
 
-    public function selectThisSize($size)
+    public function selectThisSize($sizeId, $sizeName = null)
     {
-        if (empty($size)) {
+        if (empty($sizeId)) {
             return; // skip empty/null/invalid input
         }
-        if ($this->size === $size) {
+
+        $sizeData = [
+            'id' => $sizeId,
+            'name' => $sizeName
+        ];
+
+        if ($this->size && $this->size['id'] === $sizeId) {
             $this->size = null; // Deselect if the same size is clicked
             return;
         }
-        $this->size = $size;
+        $this->size = $sizeData;
     }
 
-    public function selectThisColor($color)
+    public function selectThisColor($colorId, $colorName = null)
     {
-        if (empty($color)) {
+        if (empty($colorId)) {
             return; // skip empty/null/invalid input
         }
-        if ($this->color === $color) {
+
+        $colorData = [
+            'id' => $colorId,
+            'name' => $colorName
+        ];
+
+        if ($this->color && $this->color['id'] === $colorId) {
             $this->color = null; // Deselect if the same color is clicked
             return;
         }
-        $this->color = $color;
+        $this->color = $colorData;
     }
 
     public function increaseAmount()
     {
-        $this->amount++;
+        $this->amount = (int) $this->amount; // Ensure amount is a valid integer
+        $this->amount = min($this->amount + 1, $this->product->quantity); // Ensure amount does not exceed product quantity
     }
     public function decreaseAmount()
     {
+        $this->amount = (int) $this->amount; // Ensure amount is a valid integer
         if ($this->amount > 1) {
             $this->amount--;
         }
     }
+
 
     public function addToCart()
     {
@@ -75,10 +96,11 @@ class QuickViewModal extends Component
         }
 
         $this->dispatch("newCartItem", [
-            'id' => $this->productId,
+            'id' => $this->product->id,
+            'cartId' => Str::random(),
             'name' => $this->product->name,
             'price' => $this->product->price,
-            'image' => $this->product->images->first()->url ?? null,
+            'image' => asset('storage/' . $this->product->images->first()?->url ?? null),
             'quantity' => $this->amount,
             'size' => $this->size,
             'color' => $this->color,

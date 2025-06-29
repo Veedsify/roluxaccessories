@@ -22,9 +22,9 @@ return new class extends Migration
                 ->onDelete('cascade'); // Foreign key to users table
             $table->string('order_number')->unique(); // Unique order number
             $table->decimal('total_amount', 10, 2); // Total amount for the order
-            $table->enum('status', ['pending', 'processing', 'completed', 'cancelled', 'shipped', 'delivered'])
+            $table->enum('status', ['pending', 'confirmed', 'processing', 'completed', 'cancelled', 'shipped', 'delivered'])
                 ->default('pending');
-            // Order status (e.g., pending, completed, cancelled)
+            // Order status (e.g., pending, confirmed, processing, completed, cancelled)
             $table->string('tracking_number')->nullable(); // Tracking number for the order shipment
             $table->timestamp('shipped_at')->nullable(); // Timestamp when the order was shipped
             $table->timestamp('delivered_at')->nullable(); // Timestamp when the order was delivered
