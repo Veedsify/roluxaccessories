@@ -28,6 +28,11 @@ class BlogCategory extends Model
         });
     }
 
+    public function blog_count()
+    {
+        return $this->blogs()->count();
+    }
+
     public function blogs()
     {
         return $this->hasMany(Blog::class);

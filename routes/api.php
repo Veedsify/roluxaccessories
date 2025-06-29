@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\ShippingRateController;
+use App\Http\Controllers\SearchController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -36,4 +37,11 @@ Route::prefix("checkout")->group(function () {
         App\Http\Controllers\Api\CheckoutController::class,
         "placeOrder",
     ]);
+});
+
+// Search API Routes
+Route::prefix("search")->group(function () {
+    Route::get("/products", [SearchController::class, "searchProducts"]);
+    Route::get("/suggestions", [SearchController::class, "searchSuggestions"]);
+    Route::get("/filters", [SearchController::class, "getFilterOptions"]);
 });

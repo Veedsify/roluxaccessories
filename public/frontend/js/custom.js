@@ -647,5 +647,34 @@ $(document).on("livewire:navigated", function () {
   }
 });
 
+
+
+// Sidebar
+const filterSidebarBtn = document.querySelector('.filter-sidebar-btn')
+const sidebar = document.querySelector('.sidebar')
+const sidebarMain = document.querySelector('.sidebar .sidebar-main')
+const closeSidebarBtn = document.querySelector('.sidebar .sidebar-main .close-sidebar-btn')
+
+if (filterSidebarBtn && sidebar) {
+  filterSidebarBtn.addEventListener('click', () => {
+    sidebar.classList.toggle('open')
+  })
+
+  if (sidebarMain) {
+    sidebar.addEventListener('click', () => {
+      sidebar.classList.remove('open')
+    })
+
+    sidebarMain.addEventListener('click', (e) => {
+      e.stopPropagation()
+    })
+
+    closeSidebarBtn.addEventListener('click', () => {
+      sidebar.classList.remove('open')
+    })
+  }
+}
+
 // Export for external use
 window.CartManager = CartManager;
+

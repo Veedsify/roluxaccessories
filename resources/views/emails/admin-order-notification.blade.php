@@ -4,406 +4,333 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order Notification - {{ $order->order_number }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            max-width: 650px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
-        }
-        .email-container {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        }
-        .header {
-            text-align: center;
-            border-bottom: 2px solid #dc3545;
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-        }
-        .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: #dc3545;
-            margin-bottom: 10px;
-        }
-        .alert-box {
-            background-color: #f8d7da;
-            border: 2px solid #dc3545;
-            border-radius: 8px;
-            padding: 20px;
-            text-align: center;
-            margin: 20px 0;
-        }
-        .alert-box.new-order {
-            background-color: #d4edda;
-            border-color: #28a745;
-        }
-        .alert-box.payment-uploaded {
-            background-color: #fff3cd;
-            border-color: #ffc107;
-        }
-        .alert-icon {
-            font-size: 48px;
-            margin-bottom: 10px;
-        }
-        .new-order .alert-icon {
-            color: #28a745;
-        }
-        .payment-uploaded .alert-icon {
-            color: #ffc107;
-        }
-        .order-updated .alert-icon {
-            color: #17a2b8;
-        }
-        .order-info {
-            background-color: #f8f9fa;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 20px 0;
-        }
-        .order-info h3 {
-            margin-top: 0;
-            color: #dc3545;
-        }
-        .quick-stats {
-            display: flex;
-            justify-content: space-around;
-            background-color: #e9ecef;
-            padding: 20px;
-            border-radius: 6px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-        }
-        .stat-item {
-            text-align: center;
-            margin: 10px;
-        }
-        .stat-value {
-            font-size: 24px;
-            font-weight: bold;
-            color: #dc3545;
-        }
-        .stat-label {
-            font-size: 12px;
-            color: #6c757d;
-            text-transform: uppercase;
-        }
-        .customer-info {
-            background-color: #e3f2fd;
-            border-left: 4px solid #2196f3;
-            padding: 15px;
-            margin: 20px 0;
-        }
-        .product-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-        .product-table th,
-        .product-table td {
-            padding: 12px;
-            text-align: left;
-            border-bottom: 1px solid #ddd;
-        }
-        .product-table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        .payment-section {
-            background-color: #fff3cd;
-            border: 1px solid #ffeaa7;
-            padding: 15px;
-            border-radius: 6px;
-            margin: 20px 0;
-        }
-        .action-buttons {
-            text-align: center;
-            margin: 30px 0;
-        }
-        .button {
-            display: inline-block;
-            padding: 12px 24px;
-            margin: 5px 10px;
-            text-decoration: none;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 14px;
-        }
-        .button.primary {
-            background-color: #dc3545;
-            color: white;
-        }
-        .button.success {
-            background-color: #28a745;
-            color: white;
-        }
-        .button.info {
-            background-color: #17a2b8;
-            color: white;
-        }
-        .priority-indicator {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-        }
-        .priority-high {
-            background-color: #dc3545;
-            color: white;
-        }
-        .priority-medium {
-            background-color: #ffc107;
-            color: #000;
-        }
-        .priority-low {
-            background-color: #28a745;
-            color: white;
-        }
-        .footer {
-            text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid #ddd;
-            color: #666;
-            font-size: 14px;
-        }
-        .receipt-info {
-            background-color: #f0f8ff;
-            border: 1px solid #b3d9ff;
-            padding: 15px;
-            border-radius: 6px;
-            margin: 20px 0;
-        }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: bold;
-            background-color: #ffc107;
-            color: #000;
-        }
-        .guest-indicator {
-            background-color: #e74c3c;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 10px;
-            font-weight: bold;
-        }
-    </style>
 </head>
-<body>
-    <div class="email-container">
-        <div class="header">
-            <div class="logo">{{ config('app.name', 'RoluxeAccessories') }} Admin</div>
-            <h2>
-                @if($type === 'new_order')
-                    🚨 New Order Alert
-                @elseif($type === 'payment_uploaded')
-                    💳 Payment Receipt Uploaded
-                @else
-                    📋 Order Update
-                @endif
-            </h2>
-        </div>
-
-        <div class="alert-box {{ $type }}">
-            <div class="alert-icon">
-                @if($type === 'new_order')
-                    🛍️
-                @elseif($type === 'payment_uploaded')
-                    💳
-                @else
-                    📋
-                @endif
-            </div>
-
-            @if($type === 'new_order')
-                <h3>New Order Received!</h3>
-                <p>A new order has been placed and requires your attention.</p>
-            @elseif($type === 'payment_uploaded')
-                <h3>Payment Receipt Uploaded!</h3>
-                <p>Customer has uploaded a payment receipt for verification.</p>
-            @else
-                <h3>Order Status Updated!</h3>
-                <p>An order status has been changed and customer has been notified.</p>
-            @endif
-
-            <div class="priority-indicator priority-high">Action Required</div>
-        </div>
-
-        <div class="quick-stats">
-            <div class="stat-item">
-                <div class="stat-value">₦{{ number_format($order->getTotalAmountWithShipping(), 2) }}</div>
-                <div class="stat-label">Order Total</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">{{ $orderDetails->sum('quantity') }}</div>
-                <div class="stat-label">Items</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-value">{{ $order->created_at->diffForHumans() }}</div>
-                <div class="stat-label">Time Ago</div>
-            </div>
-        </div>
-
-        <div class="order-info">
-            <h3>Order Details</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <p><strong>Order Number:</strong> {{ $order->order_number }}</p>
-                    <p><strong>Status:</strong> <span class="status-badge">{{ ucfirst($order->status) }}</span></p>
-                    <p><strong>Payment Method:</strong> {{ ucfirst(str_replace('_', ' ', $order->payment_method)) }}</p>
-                    <p><strong>Order Date:</strong> {{ $order->created_at->format('M j, Y \a\t g:i A') }}</p>
-                </div>
-                <div>
-                    <p><strong>Subtotal:</strong> ₦{{ number_format($order->total_amount, 2) }}</p>
-                    <p><strong>Shipping:</strong> ₦{{ number_format($order->shipping_cost, 2) }}</p>
-                    <p><strong>Total:</strong> ₦{{ number_format($order->getTotalAmountWithShipping(), 2) }}</p>
-                    @if($order->tracking_number)
-                        <p><strong>Tracking:</strong> {{ $order->tracking_number }}</p>
+<body style="margin:0;padding:0;background:#f4f4f4;">
+    <table width="100%" cellpadding="0" cellspacing="0" bgcolor="#f4f4f4" style="font-family:Arial,sans-serif;">
+        <tr>
+            <td align="center">
+                <table width="650" cellpadding="0" cellspacing="0" bgcolor="#ffffff" style="margin:30px 0;border-radius:8px;box-shadow:0 2px 10px rgba(0,0,0,0.07);overflow:hidden;">
+                    <!-- Header -->
+                    <tr>
+                        <td bgcolor="#dc3545" style="padding:30px 0;text-align:center;">
+                            <span style="font-size:28px;font-weight:bold;color:#fff;letter-spacing:2px;">
+                                {{ config('app.name', 'RoluxeAccessories') }} Admin
+                            </span>
+                            <br>
+                            <span style="font-size:20px;color:#fff;">
+                                @if($type === 'new_order')
+                                    🚨 New Order Alert
+                                @elseif($type === 'payment_uploaded')
+                                    💳 Payment Receipt Uploaded
+                                @else
+                                    📋 Order Update
+                                @endif
+                            </span>
+                        </td>
+                    </tr>
+                    <!-- Alert Box -->
+                    <tr>
+                        <td align="center" style="padding:30px 20px 10px 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;">
+                                <tr>
+                                    <td align="center" bgcolor="@if($type === 'new_order')#eafaf1 @elseif($type === 'payment_uploaded')#fffbe6 @else #eaf4fb @endif" style="border-radius:8px;padding:20px 10px;border:2px solid @if($type === 'new_order')#28a745 @elseif($type === 'payment_uploaded')#ffc107 @else #17a2b8 @endif;">
+                                        <div style="font-size:44px;line-height:1.2;">
+                                            @if($type === 'new_order')
+                                                🛍️
+                                            @elseif($type === 'payment_uploaded')
+                                                💳
+                                            @else
+                                                📋
+                                            @endif
+                                        </div>
+                                        <div style="font-size:20px;font-weight:bold;margin:10px 0;">
+                                            @if($type === 'new_order')
+                                                New Order Received!
+                                            @elseif($type === 'payment_uploaded')
+                                                Payment Receipt Uploaded!
+                                            @else
+                                                Order Status Updated!
+                                            @endif
+                                        </div>
+                                        <div style="color:#555;font-size:15px;">
+                                            @if($type === 'new_order')
+                                                A new order has been placed and requires your attention.
+                                            @elseif($type === 'payment_uploaded')
+                                                Customer has uploaded a payment receipt for verification.
+                                            @else
+                                                An order status has been changed and customer has been notified.
+                                            @endif
+                                        </div>
+                                        <div style="margin-top:12px;">
+                                            <span style="display:inline-block;background:#dc3545;color:#fff;padding:4px 16px;border-radius:20px;font-size:12px;font-weight:bold;letter-spacing:1px;">
+                                                Action Required
+                                            </span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Quick Stats -->
+                    <tr>
+                        <td align="center" style="padding:10px 20px 0 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;">
+                                <tr>
+                                    <td align="center" style="padding:10px;">
+                                        <table cellpadding="0" cellspacing="0" width="100%" style="background:#f8f9fa;border-radius:6px;">
+                                            <tr>
+                                                <td align="center" style="padding:18px 0;">
+                                                    <table cellpadding="0" cellspacing="0" width="100%">
+                                                        <tr>
+                                                            <td align="center" style="width:33%;">
+                                                                <div style="font-size:22px;font-weight:bold;color:#dc3545;">₦{{ number_format($order->getTotalAmountWithShipping(), 2) }}</div>
+                                                                <div style="font-size:12px;color:#6c757d;text-transform:uppercase;">Order Total</div>
+                                                            </td>
+                                                            <td align="center" style="width:33%;">
+                                                                <div style="font-size:22px;font-weight:bold;color:#28a745;">{{ $orderDetails->sum('quantity') }}</div>
+                                                                <div style="font-size:12px;color:#6c757d;text-transform:uppercase;">Items</div>
+                                                            </td>
+                                                            <td align="center" style="width:33%;">
+                                                                <div style="font-size:22px;font-weight:bold;color:#17a2b8;">{{ $order->created_at->diffForHumans() }}</div>
+                                                                <div style="font-size:12px;color:#6c757d;text-transform:uppercase;">Time Ago</div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Order Details -->
+                    <tr>
+                        <td align="center" style="padding:20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;background:#f8f9fa;border-radius:6px;">
+                                <tr>
+                                    <td style="padding:18px;">
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="vertical-align:top;width:50%;">
+                                                    <div style="font-size:15px;">
+                                                        <strong>Order Number:</strong> {{ $order->order_number }}<br>
+                                                        <strong>Status:</strong>
+                                                        <span style="display:inline-block;background:#ffc107;color:#000;padding:3px 12px;border-radius:20px;font-size:12px;font-weight:bold;">
+                                                            {{ ucfirst($order->status) }}
+                                                        </span><br>
+                                                        <strong>Payment Method:</strong> {{ ucfirst(str_replace('_', ' ', $order->payment_method)) }}<br>
+                                                        <strong>Order Date:</strong> {{ $order->created_at->format('M j, Y \a\t g:i A') }}
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:top;width:50%;">
+                                                    <div style="font-size:15px;">
+                                                        <strong>Subtotal:</strong> ₦{{ number_format($order->total_amount, 2) }}<br>
+                                                        <strong>Shipping:</strong> ₦{{ number_format($order->shipping_cost, 2) }}<br>
+                                                        <strong>Total:</strong> ₦{{ number_format($order->getTotalAmountWithShipping(), 2) }}<br>
+                                                        @if($order->tracking_number)
+                                                            <strong>Tracking:</strong> {{ $order->tracking_number }}
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Customer Info -->
+                    <tr>
+                        <td align="center" style="padding:0 20px 20px 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;background:#e3f2fd;border-left:4px solid #2196f3;border-radius:6px;">
+                                <tr>
+                                    <td style="padding:18px;">
+                                        <table width="100%">
+                                            <tr>
+                                                <td style="vertical-align:top;width:50%;">
+                                                    <div style="font-size:15px;">
+                                                        <strong>Name:</strong> {{ $user->name }}
+                                                        @if($user->is_guest ?? false)
+                                                            <span style="background:#e74c3c;color:#fff;padding:2px 8px;border-radius:12px;font-size:10px;font-weight:bold;margin-left:4px;">GUEST</span>
+                                                        @endif
+                                                        <br>
+                                                        <strong>Email:</strong> {{ $user->email }}<br>
+                                                        @if($shippingAddress->phone_number)
+                                                            <strong>Phone:</strong> {{ $shippingAddress->phone_number }}<br>
+                                                        @endif
+                                                    </div>
+                                                </td>
+                                                <td style="vertical-align:top;width:50%;">
+                                                    <div style="font-size:15px;">
+                                                        <strong>Shipping Address:</strong><br>
+                                                        {{ $shippingAddress->address_line1 }}<br>
+                                                        {{ $shippingAddress->city }}, {{ $shippingAddress->state }}<br>
+                                                        {{ $shippingAddress->postal_code }}<br>
+                                                        {{ $shippingAddress->country }}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Payment Receipt -->
+                    @if($order->payment_receipt)
+                    <tr>
+                        <td align="center" style="padding:0 20px 20px 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;background:#f0f8ff;border:1px solid #b3d9ff;border-radius:6px;">
+                                <tr>
+                                    <td style="padding:18px;">
+                                        <div style="font-size:17px;font-weight:bold;margin-bottom:8px;">💳 Payment Receipt</div>
+                                        <div style="font-size:14px;margin-bottom:6px;"><strong>Status:</strong> Uploaded - Awaiting Verification</div>
+                                        <div style="font-size:14px;margin-bottom:6px;">
+                                            <strong>File:</strong>
+                                            <a href="{{ asset('storage/' . $order->payment_receipt) }}" target="_blank" style="color:#2196f3;text-decoration:underline;">View Receipt</a>
+                                        </div>
+                                        <div style="font-size:14px;margin-bottom:4px;"><strong>Bank Details Used:</strong></div>
+                                        <div style="background:#fff;padding:10px;border-radius:4px;margin-top:6px;font-size:14px;">
+                                            <strong>Wema Bank</strong><br>
+                                            Account: Aseye Ronke Oluwagbemisola<br>
+                                            Number: 0268105037<br>
+                                            Sort Code: 035
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                     @endif
-                </div>
-            </div>
-        </div>
-
-        <div class="customer-info">
-            <h3>Customer Information</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                <div>
-                    <p><strong>Name:</strong> {{ $user->name }}
-                        @if($user->is_guest ?? false)
-                            <span class="guest-indicator">GUEST</span>
-                        @endif
-                    </p>
-                    <p><strong>Email:</strong> {{ $user->email }}</p>
-                    @if($shippingAddress->phone_number)
-                        <p><strong>Phone:</strong> {{ $shippingAddress->phone_number }}</p>
+                    <!-- Order Items -->
+                    <tr>
+                        <td align="center" style="padding:0 20px 20px 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;">
+                                <tr>
+                                    <td>
+                                        <div style="font-size:17px;font-weight:bold;margin-bottom:8px;">Order Items</div>
+                                        <table cellpadding="0" cellspacing="0" width="100%" style="border-collapse:collapse;">
+                                            <thead>
+                                                <tr style="background:#f8f9fa;">
+                                                    <th align="left" style="padding:10px 6px;font-size:14px;border-bottom:1px solid #ddd;">Product</th>
+                                                    <th align="left" style="padding:10px 6px;font-size:14px;border-bottom:1px solid #ddd;">Details</th>
+                                                    <th align="center" style="padding:10px 6px;font-size:14px;border-bottom:1px solid #ddd;">Qty</th>
+                                                    <th align="right" style="padding:10px 6px;font-size:14px;border-bottom:1px solid #ddd;">Price</th>
+                                                    <th align="right" style="padding:10px 6px;font-size:14px;border-bottom:1px solid #ddd;">Total</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach($orderDetails as $item)
+                                                <tr>
+                                                    <td style="padding:8px 6px;font-size:14px;"><strong>{{ $item->product_name }}</strong></td>
+                                                    <td style="padding:8px 6px;font-size:14px;">
+                                                        @if($item->product_size)
+                                                            Size: {{ $item->product_size }}<br>
+                                                        @endif
+                                                        @if($item->product_color)
+                                                            Color: {{ $item->product_color }}
+                                                        @endif
+                                                    </td>
+                                                    <td align="center" style="padding:8px 6px;font-size:14px;">{{ $item->quantity }}</td>
+                                                    <td align="right" style="padding:8px 6px;font-size:14px;">₦{{ number_format($item->product_price, 2) }}</td>
+                                                    <td align="right" style="padding:8px 6px;font-size:14px;">₦{{ number_format($item->product_price * $item->quantity, 2) }}</td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Customer Notes -->
+                    @if($order->notes)
+                    <tr>
+                        <td align="center" style="padding:0 20px 20px 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;background:#f8f9fa;border-radius:6px;">
+                                <tr>
+                                    <td style="padding:18px;">
+                                        <div style="font-size:16px;font-weight:bold;margin-bottom:6px;">Customer Notes</div>
+                                        <div style="font-size:14px;color:#555;"><em>"{{ $order->notes }}"</em></div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
                     @endif
-                </div>
-                <div>
-                    <p><strong>Shipping Address:</strong></p>
-                    <p style="margin: 0; line-height: 1.4;">
-                        {{ $shippingAddress->address_line1 }}<br>
-                        {{ $shippingAddress->city }}, {{ $shippingAddress->state }}<br>
-                        {{ $shippingAddress->postal_code }}<br>
-                        {{ $shippingAddress->country }}
-                    </p>
-                </div>
-            </div>
-        </div>
-
-        @if($order->payment_receipt)
-        <div class="receipt-info">
-            <h3>💳 Payment Receipt</h3>
-            <p><strong>Status:</strong> Uploaded - Awaiting Verification</p>
-            <p><strong>File:</strong> <a href="{{ asset('storage/' . $order->payment_receipt) }}" target="_blank">View Receipt</a></p>
-            <p><strong>Bank Details Used:</strong></p>
-            <div style="background-color: white; padding: 10px; border-radius: 4px; margin-top: 10px;">
-                <strong>Wema Bank</strong><br>
-                Account: Aseye Ronke Oluwagbemisola<br>
-                Number: 0268105037<br>
-                Sort Code: 035
-            </div>
-        </div>
-        @endif
-
-        <h3>Order Items</h3>
-        <table class="product-table">
-            <thead>
-                <tr>
-                    <th>Product</th>
-                    <th>Details</th>
-                    <th>Qty</th>
-                    <th>Price</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($orderDetails as $item)
-                <tr>
-                    <td><strong>{{ $item->product_name }}</strong></td>
-                    <td>
-                        @if($item->product_size)
-                            Size: {{ $item->product_size }}<br>
-                        @endif
-                        @if($item->product_color)
-                            Color: {{ $item->product_color }}
-                        @endif
-                    </td>
-                    <td>{{ $item->quantity }}</td>
-                    <td>₦{{ number_format($item->product_price, 2) }}</td>
-                    <td>₦{{ number_format($item->product_price * $item->quantity, 2) }}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-
-        @if($order->notes)
-        <div class="order-info">
-            <h3>Customer Notes</h3>
-            <p><em>"{{ $order->notes }}"</em></p>
-        </div>
-        @endif
-
-        <div class="action-buttons">
-            <h3>🎯 Required Actions</h3>
-
-            @if($type === 'new_order' || $type === 'payment_uploaded')
-                @if($order->payment_receipt)
-                    <a href="{{ asset('storage/' . $order->payment_receipt) }}" class="button info" target="_blank">
-                        📄 View Payment Receipt
-                    </a>
-                @endif
-
-                <a href="/admin/orders/{{ $order->id }}/edit" class="button success">
-                    ✅ Confirm Order
-                </a>
-
-                <a href="/admin/orders" class="button primary">
-                    📋 Manage All Orders
-                </a>
-            @else
-                <a href="/admin/orders/{{ $order->id }}" class="button info">
-                    👁️ View Order
-                </a>
-
-                <a href="/admin/orders" class="button primary">
-                    📋 All Orders
-                </a>
-            @endif
-        </div>
-
-        @if($type === 'new_order' || $type === 'payment_uploaded')
-        <div class="payment-section">
-            <h3>⚡ Next Steps</h3>
-            @if($order->payment_receipt)
-                <p>1. ✅ <strong>Verify Payment:</strong> Check the uploaded receipt against bank records</p>
-                <p>2. 📧 <strong>Confirm Order:</strong> Update status to "confirmed" to notify customer</p>
-                <p>3. 📦 <strong>Process Items:</strong> Begin preparing items for shipment</p>
-                <p>4. 🚚 <strong>Ship Order:</strong> Add tracking number when shipped</p>
-            @else
-                <p>1. 💳 <strong>Awaiting Payment:</strong> Customer needs to upload payment receipt</p>
-                <p>2. 📞 <strong>Follow Up:</strong> Contact customer if payment is delayed</p>
-            @endif
-        </div>
-        @endif
-
-        <div class="footer">
-            <p><strong>{{ config('app.name', 'RoluxeAccessories') }} Admin Panel</strong></p>
-            <p>This notification was sent to all admin users.</p>
-            <p style="margin-top: 20px;">
-                <small>Login to the admin panel to take action on this order.</small>
-            </p>
-        </div>
-    </div>
+                    <!-- Action Buttons -->
+                    <tr>
+                        <td align="center" style="padding:0 20px 20px 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;">
+                                <tr>
+                                    <td align="center" style="padding:18px 0;">
+                                        <div style="font-size:16px;font-weight:bold;margin-bottom:10px;">🎯 Required Actions</div>
+                                        @if($type === 'new_order' || $type === 'payment_uploaded')
+                                            @if($order->payment_receipt)
+                                                <a href="{{ asset('storage/' . $order->payment_receipt) }}" target="_blank" style="display:inline-block;background:#17a2b8;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                                    📄 View Payment Receipt
+                                                </a>
+                                            @endif
+                                            <a href="/admin/orders/{{ $order->id }}/edit" style="display:inline-block;background:#28a745;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                                ✅ Confirm Order
+                                            </a>
+                                            <a href="/admin/orders" style="display:inline-block;background:#dc3545;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                                📋 Manage All Orders
+                                            </a>
+                                        @else
+                                            <a href="/admin/orders/{{ $order->id }}" style="display:inline-block;background:#17a2b8;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                                👁️ View Order
+                                            </a>
+                                            <a href="/admin/orders" style="display:inline-block;background:#dc3545;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                                📋 All Orders
+                                            </a>
+                                        @endif
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    <!-- Next Steps -->
+                    @if($type === 'new_order' || $type === 'payment_uploaded')
+                    <tr>
+                        <td align="center" style="padding:0 20px 20px 20px;">
+                            <table cellpadding="0" cellspacing="0" width="100%" style="max-width:500px;background:#fffbe6;border:1px solid #ffeaa7;border-radius:6px;">
+                                <tr>
+                                    <td style="padding:18px;">
+                                        <div style="font-size:16px;font-weight:bold;margin-bottom:8px;">⚡ Next Steps</div>
+                                        <div style="font-size:14px;color:#555;">
+                                            @if($order->payment_receipt)
+                                                <div>1. ✅ <strong>Verify Payment:</strong> Check the uploaded receipt against bank records</div>
+                                                <div>2. 📧 <strong>Confirm Order:</strong> Update status to "confirmed" to notify customer</div>
+                                                <div>3. 📦 <strong>Process Items:</strong> Begin preparing items for shipment</div>
+                                                <div>4. 🚚 <strong>Ship Order:</strong> Add tracking number when shipped</div>
+                                            @else
+                                                <div>1. 💳 <strong>Awaiting Payment:</strong> Customer needs to upload payment receipt</div>
+                                                <div>2. 📞 <strong>Follow Up:</strong> Contact customer if payment is delayed</div>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>
+                    @endif
+                    <!-- Footer -->
+                    <tr>
+                        <td align="center" style="padding:30px 0 20px 0;">
+                            <div style="font-size:14px;color:#666;">
+                                <strong>{{ config('app.name', 'RoluxeAccessories') }} Admin Panel</strong><br>
+                                This notification was sent to all admin users.<br>
+                                <span style="margin-top:10px;display:inline-block;">
+                                    <small>Login to the admin panel to take action on this order.</small>
+                                </span>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
 </body>
 </html>

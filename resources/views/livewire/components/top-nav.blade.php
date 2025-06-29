@@ -15,28 +15,6 @@
                 </ul>
             </div>
             <div class="right-content flex items-center gap-5 max-md:hidden">
-                <div class="choose-type choose-language flex items-center gap-1.5">
-                    <div class="select relative">
-                        <p class="selected caption2">English</p>
-                        <ul class="list-option bg-white">
-                            <li data-item="English" class="caption2 active">English</li>
-                            <li data-item="Espana" class="caption2">Espana</li>
-                            <li data-item="France" class="caption2">France</li>
-                        </ul>
-                    </div>
-                    <i class="ph ph-caret-down text-xs"></i>
-                </div>
-                <div class="choose-type choose-currency flex items-center gap-1.5">
-                    <div class="select relative">
-                        <p class="selected caption2">USD</p>
-                        <ul class="list-option bg-white">
-                            <li data-item="USD" class="caption2 active">USD</li>
-                            <li data-item="EUR" class="caption2">EUR</li>
-                            <li data-item="GBP" class="caption2">GBP</li>
-                        </ul>
-                    </div>
-                    <i class="ph ph-caret-down text-xs"></i>
-                </div>
                 <a href="https://www.facebook.com/" target="_blank">
                     <i class="icon-facebook"></i>
                 </a>

@@ -209,19 +209,19 @@ async function initMain() {
 
             formInput.addEventListener("keyup", (e) => {
                 if (e.key === "Enter") {
-                    window.location.href = `search-result.html?query=${formInput.value}`;
+                    window.location.href = `/search?q=${formInput.value}`;
                 }
             });
 
             if (searchIcon) {
                 searchIcon.addEventListener("click", (e) => {
-                    window.location.href = `search-result.html?query=${formInput.value}`;
+                    window.location.href = `/search?q=${formInput.value}`;
                 });
             }
 
             if (searchBtn) {
                 searchBtn.addEventListener("click", (e) => {
-                    window.location.href = `search-result.html?query=${formInput.value}`;
+                    window.location.href = `/search?q=${formInput.value}`;
                 });
             }
         });
@@ -731,7 +731,7 @@ async function initMain() {
                 // Add class 'swiper-slide-thumb-active' to slide in swiper 2
                 document
                     .querySelectorAll(".mySwiper .swiper-slide")
-                    [activeIndex].classList.add("swiper-slide-thumb-active");
+                [activeIndex].classList.add("swiper-slide-thumb-active");
             },
         },
     });
@@ -990,9 +990,8 @@ async function initMain() {
         });
 
         productItem.innerHTML = `
-        <div class="product-main cursor-pointer block" data-item="${
-            product.id
-        }">
+        <div class="product-main cursor-pointer block" data-item="${product.id
+            }">
             <div class="product-thumb bg-white relative overflow-hidden rounded-2xl">
                 ${productTags}
                 <div class="list-action-right absolute top-3 right-3 max-lg:hidden">
@@ -1013,9 +1012,8 @@ async function initMain() {
                 <div class="product-img w-full h-full aspect-[3/4]">
                     ${productImages}
                 </div>
-                ${
-                    product.sale
-                        ? `
+                ${product.sale
+                ? `
                   <div class="countdown-time-block py-1.5 flex items-center justify-center">
                     <div class="text-xs font-semibold uppercase text-red">
                       <span class='countdown-day'>24</span>
@@ -1029,17 +1027,16 @@ async function initMain() {
                     </div>
                   </div>
                 `
-                        : ""
-                }
+                : ""
+            }
                 <div class="list-action grid grid-cols-2 gap-3 px-5 absolute w-full bottom-5">
                     <div
                         class="quick-view-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white">
                         <span class="max-lg:hidden">Quick View</span>
                         <i class="ph ph-eye lg:hidden text-xl"></i>
                         </div>
-                        ${
-                            product.action === "add to cart"
-                                ? `
+                        ${product.action === "add to cart"
+                ? `
                             <div
                                 class="add-cart-btn w-full text-button-uppercase py-2 text-center rounded-full duration-300 bg-white hover:bg-black hover:text-white"
                                 >
@@ -1047,7 +1044,7 @@ async function initMain() {
                                 <i class="ph ph-shopping-bag-open lg:hidden text-xl"></i>
                             </div>
                         `
-                                : `
+                : `
                             <div
                                 class="quick-shop-btn text-button-uppercase py-2 text-center rounded-full duration-500 bg-white hover:bg-black hover:text-white max-lg:hidden">
                                 Quick Shop</div>
@@ -1059,29 +1056,28 @@ async function initMain() {
                             </div>
                             <div class="quick-shop-block absolute left-5 right-5 bg-white p-5 rounded-[20px]">
                                 <div class="list-size flex items-center justify-center flex-wrap gap-2">
-                                    ${
-                                        product.sizes &&
-                                        product.sizes
-                                            .map(
-                                                (size, index) =>
-                                                    `<div key="${index}" class="size-item w-10 h-10 rounded-full flex items-center justify-center text-button bg-white border border-line">${size.trim()}</div>`,
-                                            )
-                                            .join("")
-                                    }
+                                    ${product.sizes &&
+                product.sizes
+                    .map(
+                        (size, index) =>
+                            `<div key="${index}" class="size-item w-10 h-10 rounded-full flex items-center justify-center text-button bg-white border border-line">${size.trim()}</div>`,
+                    )
+                    .join("")
+                }
                                 </div >
     <div class="add-cart-btn button-main w-full text-center rounded-full py-3 mt-4">Add
         To cart</div>
                             </div >
     `
-                        }
+            }
                 </div>
             </div>
             <div class="product-infor mt-4 lg:mb-7">
                 <div class="product-sold sm:pb-4 pb-2">
                     <div class="progress bg-line h-1.5 w-full rounded-full overflow-hidden relative">
                         <div class='progress-sold bg-red absolute left-0 top-0 h-full' style="width: ${Math.floor(
-                            (product.sold / product.quantity) * 100,
-                        )}%">
+                (product.sold / product.quantity) * 100,
+            )}%">
                         </div>
                     </div>
                     <div class="flex items-center justify-between gap-3 gap-y-1 flex-wrap mt-2">
@@ -1093,24 +1089,21 @@ async function initMain() {
                         <div class="text-button-uppercase">
                             <span class='text-secondary2 max-sm:text-xs'>Available:
                             </span>
-                            <span class='max-sm:text-xs'>${
-                                product.quantity - product.sold
-                            }</span>
+                            <span class='max-sm:text-xs'>${product.quantity - product.sold
+            }</span>
                         </div>
                     </div>
                 </div>
-                <div class="product-name text-title duration-300">${
-                    product.name
-                }</div>
-                ${
-                    product.variation.length > 0 &&
-                    product.action === "add to cart"
-                        ? `
+                <div class="product-name text-title duration-300">${product.name
+            }</div>
+                ${product.variation.length > 0 &&
+                product.action === "add to cart"
+                ? `
                         <div class="list-color py-2 max-md:hidden flex items-center gap-3 flex-wrap duration-500">
                             ${product.variation
-                                .map(
-                                    (item, index) =>
-                                        `<div
+                    .map(
+                        (item, index) =>
+                            `<div
                                     key="${index}"
                                     class="color-item w-8 h-8 rounded-full duration-300 relative"
                                     style="background-color:${item.colorCode};"
@@ -1118,15 +1111,15 @@ async function initMain() {
                                     <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">${item.color}</div>
                                 </div>
                                 `,
-                                )
-                                .join("")}
+                    )
+                    .join("")}
                         </div>`
-                        : `
+                : `
                     <div class="list-color list-color-image max-md:hidden flex items-center gap-3 flex-wrap duration-500">
                         ${product.variation
-                            .map(
-                                (item, index) =>
-                                    `
+                    .map(
+                        (item, index) =>
+                            `
                             <div
                                 class="color-item w-12 h-12 rounded-xl duration-300 relative"
                                 key="${index}"
@@ -1139,16 +1132,15 @@ async function initMain() {
                                 <div class="tag-action bg-black text-white caption2 capitalize px-1.5 py-0.5 rounded-sm">${item.color}</div>
                             </div>
                         `,
-                            )
-                            .join("")}
+                    )
+                    .join("")}
                     </div>
                 `
-                }
+            }
         <div
         class="product-price-block flex items-center gap-2 flex-wrap mt-1 duration-300 relative z-[1]">
         <div class="product-price text-title">$${product.price}.00</div>
-        ${
-            Math.floor(100 - (product.price / product.originPrice) * 100) > 0
+        ${Math.floor(100 - (product.price / product.originPrice) * 100) > 0
                 ? `
                 <div class="product-origin-price caption1 text-secondary2">
                     <del>$${product.originPrice}.00</del>
@@ -1156,12 +1148,12 @@ async function initMain() {
                 <div
                     class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
                     -${Math.floor(
-                        100 - (product.price / product.originPrice) * 100,
-                    )}%
+                    100 - (product.price / product.originPrice) * 100,
+                )}%
                 </div>
         `
                 : ""
-        }
+            }
             </div>
         </div>
         </div>
@@ -2269,7 +2261,6 @@ async function initMain() {
     const menuTab = document.querySelector(".menu-tab");
     const listQuestion = document.querySelector(".list-question");
     const tabQuestions = document.querySelectorAll(".tab-question");
-    const questionItems = document.querySelectorAll(".question-item");
 
     if (tabItems) {
         tabItems.forEach((tabItem) => {
@@ -2298,20 +2289,21 @@ async function initMain() {
         });
     }
 
-    if (questionItems) {
-        questionItems.forEach((item, index) => {
-            item.addEventListener("click", () => {
-                item.classList.toggle("open");
-
+    $(".question-item").each(function(index, item) {
+        item.addEventListener("click", () => {
+            if (item.classList.contains("open")) {
+                item.classList.remove("open");
+            } else {
+                item.classList.add("open");
                 removeOpen(index);
-            });
+            }
         });
-    }
+    });
 
     function removeOpen(index1) {
-        questionItems.forEach((item2, index2) => {
-            if (index1 != index2) {
-                item2.classList.remove("open");
+        $(".question-item").each(function(index, item) {
+            if (index !== index1) {
+                item.classList.remove("open");
             }
         });
     }

@@ -106,4 +106,9 @@ class Product extends Model
     {
         return $this->hasMany(ProductRating::class);
     }
+
+    public function orderDetails()
+    {
+        return $this->hasMany(OrderDetail::class);
+    }
 }

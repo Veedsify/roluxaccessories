@@ -121,65 +121,39 @@
                         <div class="recent md:mt-10 mt-6 pb-8 border-b border-line">
                             <div class="heading6">Recent Posts</div>
                             <div class="list-recent pt-1">
+                                @foreach($recentPosts as $post)
                                 <div class="blog-item flex gap-4 mt-5 cursor-pointer" data-item="13">
-                                    <img src="{{ asset('frontend/images/blog/yoga1.png')}}" alt="img" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" />
+                                    <img src="{{ asset('storage/' . $post->coverImg)}}" alt="img" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" />
                                     <div>
-                                        <div class="blog-tag whitespace-nowrap bg-green py-0.5 px-2 rounded-full text-button-uppercase text-xs inline-block">Jean</div>
-                                        <div class="text-title mt-1">Fashion Trends in Summer 2024</div>
+                                        <div class="blog-tag whitespace-nowrap bg-green py-0.5 px-2 rounded-full text-button-uppercase text-xs inline-block">
+                                            {{ $post->blogCategory->name }}
+                                        </div>
+                                        <div class="text-title mt-1">
+                                            <a href="{{route('blog.detail', ['slug' => $post->slug])}}" class="text-secondary hover:text-black duration-300">
+                                                {{ $post->title }}
+                                            </a>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="blog-item flex gap-4 mt-5 cursor-pointer" data-item="16">
-                                    <img src="{{ asset('frontend/images/blog/organic1.png')}}" alt="img" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" />
-                                    <div>
-                                        <div class="blog-tag whitespace-nowrap bg-green py-0.5 px-2 rounded-full text-button-uppercase text-xs inline-block">fruits</div>
-                                        <div class="text-title mt-1">Organic Good for Health trending in winter 2024</div>
-                                    </div>
-                                </div>
-                                <div class="blog-item flex gap-4 mt-5 cursor-pointer" data-item="15">
-                                    <img src="{{ asset('frontend/images/blog/yoga3.png')}}" alt="img" class="w-20 h-20 object-cover rounded-lg flex-shrink-0" />
-                                    <div>
-                                        <div class="blog-tag whitespace-nowrap bg-green py-0.5 px-2 rounded-full text-button-uppercase text-xs inline-block">Yoga</div>
-                                        <div class="text-title mt-1">Trending Excercise in Summer 2024</div>
-                                    </div>
-                                </div>
+                                @endforeach
                             </div>
                         </div>
                         <div class="filter-category md:mt-10 mt-6 pb-8 border-b border-line">
                             <div class="heading6">Categories</div>
                             <div class="list-cate pt-1">
+                                @foreach($categories as $category)
                                 <div class="cate-item flex items-center justify-between cursor-pointer mt-3" data-item="Fashion">
-                                    <div class="capitalize has-line-before hover:text-black text-secondary">Fashion</div>
-                                    <div class="text-secondary2">3</div>
+                                    <div class="capitalize has-line-before hover:text-black text-secondary">
+                                        <a href="" class="text-secondary hover:text-black duration-300">
+                                            {{ $category->name }}
+                                        </a>
+                                    </div>
+                                    <div class="text-secondary2">
+                                        <span class="text-secondary2">{{ $category->blog_count() }}</span>
+
+                                    </div>
                                 </div>
-                                <div class="cate-item flex items-center justify-between cursor-pointer mt-3" data-item="cosmetic">
-                                    <div class="capitalize has-line-before hover:text-black text-secondary">cosmetic</div>
-                                    <div class="text-secondary2">3</div>
-                                </div>
-                                <div class="cate-item flex items-center justify-between cursor-pointer mt-3" data-item="toys-kid">
-                                    <div class="capitalize has-line-before hover:text-black text-secondary">toys kid</div>
-                                    <div class="text-secondary2">3</div>
-                                </div>
-                                <div class="cate-item flex items-center justify-between cursor-pointer mt-3" data-item="yoga">
-                                    <div class="capitalize has-line-before hover:text-black text-secondary">yoga</div>
-                                    <div class="text-secondary2">3</div>
-                                </div>
-                                <div class="cate-item flex items-center justify-between cursor-pointer mt-3" data-item="organic">
-                                    <div class="capitalize has-line-before hover:text-black text-secondary">organic</div>
-                                    <div class="text-secondary2">3</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="filter-tags md:mt-10 mt-6">
-                            <div class="heading6">Tags Cloud</div>
-                            <div class="list-tags menu-tab flex items-center flex-wrap gap-3 mt-4">
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">Style</div>
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">Makeup</div>
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">wear</div>
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">Men</div>
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">Women</div>
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">Beauty</div>
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">Trends</div>
-                                <div class="tags tab-item bg-white border border-line py-1.5 px-4 rounded-full text-button-uppercase text-secondary cursor-pointer duration-300 hover:bg-black hover:text-white">Beachwear</div>
+                                @endforeach
                             </div>
                         </div>
                     </div>

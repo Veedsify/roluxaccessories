@@ -13,6 +13,11 @@ class BlogPage extends Component
         return view('livewire.page.blog-page', [
             'posts' => \App\Models\Blog::orderBy('created_at', 'desc')
                 ->paginate(6),
+            'recentPosts' => \App\Models\Blog::orderBy('created_at', 'desc')
+                ->take(3)
+                ->get(),
+            'categories' => \App\Models\BlogCategory::orderBy('name', 'asc')
+                ->get(),
         ]);
     }
 }

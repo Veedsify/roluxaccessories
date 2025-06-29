@@ -3,8 +3,8 @@
         <h2 class="text-2xl font-semibold text-center mb-8">Checkout</h2>
 
         <!-- Progress Steps -->
-        <div class="progress-bar mb-8">
-            <div class="flex items-center justify-center space-x-8">
+        <div class="progress-bar mt-4">
+            <div class="flex items-center justify-center space-x-8 gap-8">
                 <div class="progress-step active flex items-center space-x-2">
                     <div class="step-circle w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center text-sm font-medium">1</div>
                     <span class="text-sm font-medium">Information</span>
@@ -20,7 +20,7 @@
             </div>
         </div>
 
-        <div class="content-main flex max-lg:flex-col-reverse gap-y-10 gap-x-8 justify-between">
+        <div class="content-main flex max-lg:flex-col-reverse gap-y-10 gap-x-8 justify-between mt-3">
             <div class="left lg:w-1/2 w-full">
                 @if(!$isLoggedIn)
                 <div class="login bg-surface py-3 px-4 flex justify-between rounded-lg mb-4">

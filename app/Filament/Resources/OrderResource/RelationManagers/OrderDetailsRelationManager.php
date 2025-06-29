@@ -50,7 +50,14 @@ class OrderDetailsRelationManager extends RelationManager
                         Forms\Components\TextInput::make('total')
                             ->required()
                             ->numeric()
-                            ->maxLength(255),
+                            ->maxLength(255)
+                            ,
+                Forms\Components\TextInput::make('product_size')
+                    ->required()
+                    ->maxLength(255),
+                Forms\Components\TextInput::make('product_color')
+                    ->required()
+                    ->maxLength(255),
                         Forms\Components\Select::make('status')
                             ->native(false)
                             ->options([
@@ -92,6 +99,12 @@ class OrderDetailsRelationManager extends RelationManager
                 Tables\Columns\TextColumn::make('quantity')
                     ->label('Quantity')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('product_size')
+                    ->label('Size')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('product_color')
+                    ->label('Color')
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('price')
                     ->label('Price')
                     ->numeric()
@@ -102,6 +115,16 @@ class OrderDetailsRelationManager extends RelationManager
                     ->sortable(),
                 Tables\Columns\TextColumn::make('status')
                     ->label('Status')
+                    ->badge()
+                    ->color(fn ($state) => match ($state) {
+                        'pending' => 'warning',
+                        'processing' => 'primary',
+                        'completed' => 'success',
+                        'cancelled' => 'danger',
+                        'shipped' => 'info',
+                        'delivered' => 'teal',
+                        default => 'secondary',
+                    })
                     ->html()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tracking_number')

@@ -24,7 +24,7 @@ class StatsOverView extends BaseWidget
                 ->icon('heroicon-o-cog')
                 ->color('info')
                 ->description('In Progress'),
-            Stat::make('Products', \App\Models\Product::where('active', 1)->count())
+            Stat::make('Products', \App\Models\Product::where('active', true)->count())
                 ->icon('heroicon-o-document-text')
                 ->color('success')
                 ->description('Published'),

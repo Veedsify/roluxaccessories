@@ -85,7 +85,7 @@
                             <div class="step-status @if(in_array($order->status,['confirmed','processing','shipped','delivered','pending']))" style="color:#10b981;" @elseif($order->status==='cancelled')" style="color:#c00;" @else in-progress @endif">
                                 @if($order->status==='cancelled')
                                 ✗ Cancelled
-                                @elseif(in_array($order->status,['confirmed','processing','shipped','delivered','pending']))
+                                @elseif(in_array($order->status,['confirmed','processing','shipped','delivered']))
                                 ✓ Completed
                                 @else
                                 🔄 In Progress
