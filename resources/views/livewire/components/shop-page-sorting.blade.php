@@ -295,17 +295,15 @@
                                             <div class="product-price text-title">
                                                 ₦ {{number_format($product->price)}}
                                             </div>
-                                            @if($product->originPrice)
-                                            <div class="product-origin-price caption1 text-secondary2">
-                                                <del>₦ {{number_format($product->originPrice)}}</del>
-                                            </div>
-                                            @endif
+                                            @if($product->originPrice && $product->originPrice > $product->price)
+                                            <span class="product-origin-price font-normal text-secondary2"><del>₦{{ number_format($product->originPrice, 2) }}</del></span>
                                             <div class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
                                                 {{
-                                                $product->originPrice ? '-'.round((($product->originPrice -
-                                                $product->price) / $product->originPrice) * 100). '%' : ''
-                                                }}
+                                                    $product->originPrice > $product->price ? '-'.round((($product->originPrice -
+                                                    $product->price) / $product->originPrice) * 100). '%' : ''
+                                                    }}
                                             </div>
+                                            @endif
                                         </div>
                                         <div class="text-secondary desc mt-5 max-sm:hidden">
                                             {!! $product->description ? Str::limit($product->description, 200) : 'No

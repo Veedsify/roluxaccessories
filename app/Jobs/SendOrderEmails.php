@@ -28,7 +28,7 @@ class SendOrderEmails implements ShouldQueue
     public function __construct(
         Order $order,
         string $type,
-        string $previousStatus = null
+        string $previousStatus,
     ) {
         $this->order = $order;
         $this->type = $type;

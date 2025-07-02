@@ -24,7 +24,7 @@ class OrderStatusUpdated extends Mailable implements ShouldQueue
     public function __construct(
         Order $order,
         string $status,
-        string $previousStatus = null
+        string $previousStatus,
     ) {
         $this->order = $order;
         $this->status = $status;

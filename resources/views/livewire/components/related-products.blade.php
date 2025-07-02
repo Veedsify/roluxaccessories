@@ -71,12 +71,13 @@
                                             <del>₦ {{number_format($product->originPrice)}}</del>
                                         </div>
                                         @endif
-                                        @if($product->originPrice > 0)
+                                        @if($product->originPrice && $product->originPrice > $product->price)
+                                        <span class="product-origin-price font-normal text-secondary2"><del>₦{{ number_format($product->originPrice, 2) }}</del></span>
                                         <div class="product-sale caption1 font-medium bg-green px-3 py-0.5 inline-block rounded-full">
                                             {{
-                                            $product->originPrice ? '-'.round((($product->originPrice - $product->price)
-                                            / $product->originPrice) * 100). '%' : ''
-                                            }}
+                                                $product->originPrice > $product->price ? '-'.round((($product->originPrice -
+                                                $product->price) / $product->originPrice) * 100). '%' : ''
+                                                }}
                                         </div>
                                         @endif
                                     </div>

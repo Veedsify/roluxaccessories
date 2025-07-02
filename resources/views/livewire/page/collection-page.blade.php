@@ -18,7 +18,6 @@
                         </div>
                         <div class="filter-type menu-tab flex flex-wrap items-center justify-center gap-y-5 gap-8 lg:mt-[70px] mt-12 overflow-hidden">
                             @foreach($collections as $collection)
-
                                 <div class="item tab-item text-button-uppercase cursor-pointer has-line-before line-2px" data-item="{{ $collection->slug }}">{{ $collection->name }}</div>
                             @endforeach
                         </div>

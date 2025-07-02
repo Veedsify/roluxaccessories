@@ -124,7 +124,6 @@ class ProductResource extends Resource
                                     ->minValue(0),
                                 Forms\Components\TextInput::make('originPrice')
                                     ->label('Original Price')
-                                    ->required()
                                     ->numeric()
                                     ->default(0)
                                     ->prefix('₦')

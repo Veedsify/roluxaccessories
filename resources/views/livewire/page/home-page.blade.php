@@ -259,7 +259,7 @@
             </div>
         </div>
 
-        <div class="featured-product underwear filter-product-img md:mt-20 mt-10 md:py-20 py-10 bg-surface">
+        {{-- <div class="featured-product underwear filter-product-img md:mt-20 mt-10 md:py-20 py-10 bg-surface">
             <div class="container flex lg:items-center justify-between gap-y-6 flex-wrap">
                 <div class="list-img md:w-1/2 md:pr-4 w-full flex-shrink-0">
                     <img src="{{ asset('frontend/images/product/jewelry/1-1.png')}}" class="w-full aspect-[3/4] object-cover rounded-2xl" alt="img" />
@@ -331,7 +331,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <div class="benefit-block py-[60px] bg-linear">
             <div class="container">

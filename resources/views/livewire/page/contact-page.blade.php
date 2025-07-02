@@ -56,15 +56,12 @@ use Livewire\Volt\Component;
                     <div class="right lg:w-1/4 lg:pl-4">
                         <div class="item">
                             <div class="heading4">Our Store</div>
-                            <p class="mt-3">2163 Phillips Gap Rd, West Jefferson, North Carolina, United States</p>
-                            <p class="mt-3">Phone: <span class="whitespace-nowrap">+1 666 8888</span></p>
-                            <p class="mt-1">Email: <span class="whitespace-nowrap">hi.avitex@gmail.com</span></p>
-                        </div>
-                        <div class="item mt-10">
-                            <div class="heading4">Open Hours</div>
-                            <p class="mt-3">Mon - Fri: <span class="whitespace-nowrap">7:30am - 8:00pm PST</span></p>
-                            <p class="mt-3">Saturday: <span class="whitespace-nowrap">8:00am - 6:00pm PST</span></p>
-                            <p class="mt-3">Sunday: <span class="whitespace-nowrap">9:00am - 5:00pm PST</span></p>
+                            <p class="mt-3">142 Raufu Baruwa, Itire Surulere, Lagos.</p>
+
+                            <p class="mt-3">Phone: <span class="whitespace-nowrap">+234 909 318 9011</span></p>
+
+                            <p class="mt-1">Email: <span class="whitespace-nowrap">aseyeronke25@gmail.com</span></p>
+
                         </div>
                     </div>
                 </div>
@@ -72,7 +69,9 @@ use Livewire\Volt\Component;
         </div>
 
         <div class="map xl:h-[600px] sm:h-[500px] h-[450px] overflow-hidden">
-            <iframe class="w-full h-full" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1087.1466107534056!2d-81.49247136581288!3d36.40281150719292!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8851ac9789084bdd%3A0x854168300ff0fb4b!2sDr%20Pepper.Grapette%20Bottling%20Co.!5e1!3m2!1svi!2s!4v1721783628866!5m2!1svi!2s" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3964.1538383018087!2d3.328543876550907!3d6.5022010934900045!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x103b8ea28c56fdc1%3A0x91901797e5872491!2s142%20Raufu%20Baruwa%20St%2C%20Itire%2C%20Lagos%20101241%2C%20Lagos!5e0!3m2!1sen!2sng!4v1751445900751!5m2!1sen!2sng" 
+            allowfullscreen="" class="w-full h-full"
+            loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
 
         @include('partials.footer')

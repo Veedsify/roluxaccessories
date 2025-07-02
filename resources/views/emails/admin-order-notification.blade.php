@@ -233,8 +233,8 @@
                                                         @endif
                                                     </td>
                                                     <td align="center" style="padding:8px 6px;font-size:14px;">{{ $item->quantity }}</td>
-                                                    <td align="right" style="padding:8px 6px;font-size:14px;">₦{{ number_format($item->product_price, 2) }}</td>
-                                                    <td align="right" style="padding:8px 6px;font-size:14px;">₦{{ number_format($item->product_price * $item->quantity, 2) }}</td>
+                                                    <td align="right" style="padding:8px 6px;font-size:14px;">₦{{ number_format($item->price, 2) }}</td>
+                                                    <td align="right" style="padding:8px 6px;font-size:14px;">₦{{ number_format($item->price * $item->quantity, 2) }}</td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -272,14 +272,14 @@
                                                     📄 View Payment Receipt
                                                 </a>
                                             @endif
-                                            <a href="/admin/orders/{{ $order->id }}/edit" style="display:inline-block;background:#28a745;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                            <a href="{{url('admin/orders/'.$order->id.'/edit')}}" style="display:inline-block;background:#28a745;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
                                                 ✅ Confirm Order
                                             </a>
-                                            <a href="/admin/orders" style="display:inline-block;background:#dc3545;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                            <a href="{{url('admin/orders')}}" style="display:inline-block;background:#dc3545;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
                                                 📋 Manage All Orders
                                             </a>
                                         @else
-                                            <a href="/admin/orders/{{ $order->id }}" style="display:inline-block;background:#17a2b8;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
+                                            <a href="{{url('admin/orders/'.$order->id)}}" style="display:inline-block;background:#17a2b8;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">
                                                 👁️ View Order
                                             </a>
                                             <a href="/admin/orders" style="display:inline-block;background:#dc3545;color:#fff;text-decoration:none;padding:10px 22px;border-radius:4px;font-weight:bold;margin:4px 6px;font-size:14px;">

@@ -658,7 +658,7 @@ async function initMain() {
                 nextEl: ".swiper-button-next2",
             },
             loop: true,
-            slidesPerView: 2,
+            slidesPerView: 3,
             spaceBetween: 16,
             breakpoints: {
                 640: {
