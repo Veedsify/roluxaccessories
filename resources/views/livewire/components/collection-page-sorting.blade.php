@@ -29,23 +29,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="check-sale flex items-center gap-2 cursor-pointer">
-                        <input type="checkbox" name="filterSale" id="filter-sale" class="border-line" />
-                        <label for="filter-sale" class="cation1 cursor-pointer">Show only products on sale</label>
-                    </div>
-                </div>
-                <div class="sort-product right flex items-center gap-3">
-                    <label for="select-filter" class="caption1 capitalize">Sort by</label>
-                    <div class="select-block relative">
-                        <select id="select-filter" name="select-filter" class="caption1 py-2 pl-3 md:pr-20 pr-10 rounded-lg border border-line">
-                            <option value="Sorting">Sorting</option>
-                            <option value="soldQuantityHighToLow">Best Selling</option>
-                            <option value="discountHighToLow">Best Discount</option>
-                            <option value="priceHighToLow">Price High To Low</option>
-                            <option value="priceLowToHigh">Price Low To High</option>
-                        </select>
-                        <i class="ph ph-caret-down absolute top-1/2 -translate-y-1/2 md:right-4 right-2"></i>
-                    </div>
                 </div>
             </div>
 
@@ -57,9 +40,6 @@
                 <h1 class="heading2 text-center max-lg:text-xl max-md:text-lg ">
                     {{ $collection->name }}
                 </h1>
-                <button class="button-main text-button-uppercase px-4 py-2 rounded-lg duration-300 max-lg:hidden">
-                    view all
-                </button>
             </div>
             <div class="list-product hide-product-sold grid sm:grid-cols-3 grid-cols-2 sm:gap-[30px] gap-[20px] mt-7" data-item="12">
                 @foreach($collection->products as $product)

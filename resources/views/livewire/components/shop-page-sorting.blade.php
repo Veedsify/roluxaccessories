@@ -109,11 +109,6 @@
                                     </div>
                                 </button>
                             </div>
-                            <div class="check-sale flex items-center gap-2 cursor-pointer">
-                                <input type="checkbox" name="filterSale" id="filter-sale" class="border-line" />
-                                <label for="filter-sale" class="cation1 cursor-pointer">Show only products on
-                                    sale</label>
-                            </div>
                         </div>
                         <div class="sort-product right flex items-center gap-3">
                             <label for="select-filter" class="caption1 capitalize">Sort by</label>

@@ -13,8 +13,7 @@ return new class extends Migration {
         Schema::table("orders", function (Blueprint $table) {
             $table
                 ->string("payment_receipt")
-                ->nullable()
-                ->after("payment_method");
+                ->nullable();
             $table->text("notes")->nullable()->after("payment_receipt");
         });
     }

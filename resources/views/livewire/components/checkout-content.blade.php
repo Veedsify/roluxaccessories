@@ -207,7 +207,7 @@
                 </div>
             </div>
             <div class="right lg:w-5/12 w-full">
-                <div class="checkout-block bg-white rounded-lg shadow-lg p-6 sticky top-4" id="orderSummary">
+                <div class="checkout-block bg-white rounded-lg shadow-lg sticky top-4" id="orderSummary">
                     <div class="heading5 pb-4 border-b border-gray-200 mb-4 flex items-center gap-2">
                         <i class="ph ph-shopping-cart text-primary"></i>
                         Your Order
@@ -220,6 +220,20 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Free Shipping Indicator -->
+                    <div id="freeShippingIndicator" class="free-shipping-indicator mt-4 p-3 rounded-lg border hidden">
+                        <div class="flex items-center gap-2">
+                            <i class="ph ph-truck text-lg"></i>
+                            <span class="text-sm font-medium" id="freeShippingText"></span>
+                        </div>
+                        <div class="progress-bar mt-2 hidden" id="freeShippingProgress">
+                            <div class="w-full bg-gray-200 rounded-full h-2">
+                                <div class="bg-green-500 h-2 rounded-full transition-all duration-300" id="freeShippingProgressBar" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="order-summary-totals mt-4 pt-4 border-gray-200 space-y-3">
                         <div class="ship-block flex justify-between items-center py-2">
                             <div class="text-gray-600">

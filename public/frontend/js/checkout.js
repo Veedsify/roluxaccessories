@@ -17,6 +17,20 @@ class SimpleCheckoutManager {
     this.loadCart();
     this.loadUserData();
     this.updateOrderSummary();
+
+    // After everything is loaded, check for pre-selected state and calculate shipping
+    this.checkInitialState();
+  }
+
+  checkInitialState() {
+    // Wait a bit more to ensure all DOM elements are ready
+    setTimeout(() => {
+      const stateSelect = document.getElementById("state");
+      if (stateSelect && stateSelect.value) {
+        console.log('Checking initial state and calculating shipping:', stateSelect.value);
+        this.updateShipping();
+      }
+    }, 500);
   }
 
   getDataAttribute(name) {
@@ -96,6 +110,15 @@ class SimpleCheckoutManager {
         setTimeout(() => this.updateShipping(), 500);
       }
     }
+
+    // Check if state is selected (even for non-logged-in users) and calculate shipping
+    setTimeout(() => {
+      const stateSelect = document.getElementById("state");
+      if (stateSelect && stateSelect.value && !this.isLoggedIn) {
+        console.log('Found pre-selected state on page load:', stateSelect.value);
+        this.updateShipping();
+      }
+    }, 1000); // Give time for other scripts to load
   }
 
   calculateSubtotal() {
@@ -104,6 +127,12 @@ class SimpleCheckoutManager {
       0,
     );
     this.calculateTotal();
+
+    // Recalculate shipping when subtotal changes (to check for free shipping eligibility)
+    const stateSelect = document.getElementById("state");
+    if (stateSelect && stateSelect.value) {
+      this.updateShipping();
+    }
   }
 
   calculateTotal() {
@@ -131,6 +160,29 @@ class SimpleCheckoutManager {
       return;
     }
 
+    // Check if cart total qualifies for free shipping (₦50,000 or more)
+    const freeShippingThreshold = 50000;
+    const qualifiesForFreeShipping = this.subtotal >= freeShippingThreshold;
+
+    if (qualifiesForFreeShipping) {
+      // Free shipping for orders ₦50,000 and above
+      this.shippingCost = 0;
+      const shippingCostElement = document.getElementById("shippingCost");
+      const selectedStateElement = document.getElementById("selectedState");
+
+      if (shippingCostElement) {
+        shippingCostElement.innerHTML =
+          '<span class="text-green-600 font-medium">FREE</span>';
+      }
+      if (selectedStateElement) {
+        selectedStateElement.textContent = `(${state})`;
+      }
+
+      this.calculateTotal();
+      this.updateTotals();
+      return;
+    }
+
     try {
       const response = await fetch("/api/shipping/calculate", {
         method: "POST",
@@ -138,7 +190,10 @@ class SimpleCheckoutManager {
           "Content-Type": "application/json",
           "X-CSRF-TOKEN": this.getDataAttribute("csrfToken"),
         },
-        body: JSON.stringify({ state }),
+        body: JSON.stringify({
+          state: state,
+          cart_total: this.subtotal
+        }),
       });
 
       const data = await response.json();
@@ -148,8 +203,13 @@ class SimpleCheckoutManager {
         const selectedStateElement = document.getElementById("selectedState");
 
         if (shippingCostElement) {
-          shippingCostElement.textContent =
-            "₦" + this.shippingCost.toLocaleString();
+          if (data.data.is_free_shipping) {
+            shippingCostElement.innerHTML =
+              '<span class="text-green-600 font-medium">FREE</span>';
+          } else {
+            shippingCostElement.textContent =
+              "₦" + this.shippingCost.toLocaleString();
+          }
         }
         if (selectedStateElement) {
           selectedStateElement.textContent = `(${state})`;
@@ -221,9 +281,7 @@ class SimpleCheckoutManager {
 
     cartItemsContainer.innerHTML = itemsHTML;
     this.updateTotals();
-  }
-
-  updateTotals() {
+  } updateTotals() {
     const subtotalElement = document.getElementById("subtotal");
     const totalElement = document.getElementById("total");
 
@@ -233,6 +291,46 @@ class SimpleCheckoutManager {
     if (totalElement) {
       totalElement.textContent = this.total.toLocaleString();
     }
+
+    // Update free shipping indicator
+    this.updateFreeShippingIndicator();
+  }
+
+  updateFreeShippingIndicator() {
+    const freeShippingThreshold = 50000;
+    const indicator = document.getElementById("freeShippingIndicator");
+    const text = document.getElementById("freeShippingText");
+    const progress = document.getElementById("freeShippingProgress");
+    const progressBar = document.getElementById("freeShippingProgressBar");
+
+    if (!indicator || !text) return;
+
+    const remaining = freeShippingThreshold - this.subtotal;
+
+    if (this.subtotal >= freeShippingThreshold) {
+      // Qualified for free shipping
+      indicator.className = "free-shipping-indicator mt-4 p-3 rounded-lg border border-green-200 bg-green-50";
+      text.className = "text-sm font-medium text-green-700";
+      text.innerHTML = '<i class="ph ph-check-circle mr-1"></i>Congratulations! You qualify for FREE shipping!';
+
+      if (progress) {
+        progress.classList.add("hidden");
+      }
+    } else {
+      // Show how much more is needed
+      const progressPercentage = Math.min((this.subtotal / freeShippingThreshold) * 100, 100);
+
+      indicator.className = "free-shipping-indicator mt-4 p-3 rounded-lg border border-blue-200 bg-blue-50";
+      text.className = "text-sm font-medium text-blue-700";
+      text.innerHTML = `Add ₦${remaining.toLocaleString()} more to qualify for FREE shipping!`;
+
+      if (progress && progressBar) {
+        progress.classList.remove("hidden");
+        progressBar.style.width = `${progressPercentage}%`;
+      }
+    }
+
+    indicator.classList.remove("hidden");
   }
 
   validateForm() {
@@ -332,19 +430,22 @@ class SimpleCheckoutManager {
           localStorage.removeItem("cart");
         }
 
-        // Show success message
-        this.showNotification(
-          `Order placed successfully! Order Number: ${data.data.order_number}`,
-          "success",
-        );
 
         // Update progress to confirmation
         updateProgressStep("confirmation");
+
+        window.removeEventListener("beforeunload", () => {});
 
         // Redirect after a brief delay
         setTimeout(() => {
           window.location.href = `/order/confirmation/${data.data.order_number}`;
         }, 2000);
+
+        // Show success message
+        this.showNotification(
+          `Order placed successfully! Order Number: ${data.data.order_number}`,
+          "success",
+        );
       } else {
         // Handle validation errors
         if (data.errors) {
@@ -354,10 +455,11 @@ class SimpleCheckoutManager {
       }
     } catch (error) {
       console.error("Error placing order:", error);
-      this.showNotification(
-        error.message || "Something went wrong. Please try again.",
-        "error",
-      );
+      swal({
+        title: "Error",
+        icon: "error",
+        text: error.message || "Something went wrong. Please try again.",
+      })
     } finally {
       // Hide loading overlay
       this.showLoadingOverlay(false);
@@ -1080,18 +1182,6 @@ window.addEventListener("offline", function () {
   }
 });
 
-// Clean up on page unload
-window.addEventListener("beforeunload", function (e) {
-  // Only warn if user is in the middle of checkout process
-  const placeOrderSection = document.getElementById("place-order-section");
-  if (placeOrderSection && placeOrderSection.style.display !== "none") {
-    e.preventDefault();
-    e.returnValue =
-      "Are you sure you want to leave? Your checkout progress will be lost.";
-    return e.returnValue;
-  }
-});
-
 // Listen for Livewire events if available
 document.addEventListener("livewire:init", function () {
   console.log("Livewire initialized, checking checkout manager...");
@@ -1237,8 +1327,30 @@ window.checkoutDebugInfo = function () {
     window.checkoutManager ? window.checkoutManager.cart : "N/A",
   );
   console.log(
+    "Subtotal:",
+    window.checkoutManager ? window.checkoutManager.subtotal : "N/A",
+  );
+  console.log(
+    "Shipping Cost:",
+    window.checkoutManager ? window.checkoutManager.shippingCost : "N/A",
+  );
+  console.log(
+    "Total:",
+    window.checkoutManager ? window.checkoutManager.total : "N/A",
+  );
+  console.log(
     "States:",
     window.checkoutManager ? window.checkoutManager.states : "N/A",
   );
-  console.log("===========================");
+
+  // Also check DOM elements
+  const subtotalEl = document.getElementById("subtotal");
+  const shippingEl = document.getElementById("shippingCost");
+  const totalEl = document.getElementById("total");
+  //
+  // console.log("DOM Elements:");
+  // console.log("Subtotal element value:", subtotalEl ? subtotalEl.textContent : "Not found");
+  // console.log("Shipping element value:", shippingEl ? shippingEl.textContent : "Not found");
+  // console.log("Total element value:", totalEl ? totalEl.textContent : "Not found");
+  // console.log("===========================");
 };

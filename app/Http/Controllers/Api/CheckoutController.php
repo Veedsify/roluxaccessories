@@ -43,7 +43,7 @@ class CheckoutController extends Controller
                 "shippingCost" => "required|numeric|min:0",
                 "total" => "required|numeric|min:0",
                 "paymentReceipt" =>
-                    "required|file|mimes:pdf,jpg,jpeg,png|max:5120",
+                "required|file|mimes:pdf,jpg,jpeg,png|max:5120",
                 "note" => "nullable|string|max:1000",
             ]);
 
@@ -65,6 +65,43 @@ class CheckoutController extends Controller
                     [
                         "success" => false,
                         "message" => "Cart is empty",
+                    ],
+                    400
+                );
+            }
+
+            // Validate that the cart total and shipping calculations are correct
+            $calculatedSubtotal = collect($cartItems)->sum(function ($item) {
+                return $item["price"] * $item["quantity"];
+            });
+
+            // Check if the submitted subtotal matches calculated subtotal
+            if (abs($calculatedSubtotal - $request->subtotal) > 0.01) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Cart total mismatch. Please refresh and try again.",
+                    ],
+                    400
+                );
+            }
+
+            // Verify free shipping logic
+            $freeShippingThreshold = 50000;
+            $expectedShippingCost = 0;
+
+            if ($calculatedSubtotal >= $freeShippingThreshold) {
+                $expectedShippingCost = 0; // Free shipping
+            } else {
+                $expectedShippingCost = ShippingRate::getRateForState($request->state) ?? 0;
+            }
+
+            // Check if submitted shipping cost matches expected
+            if (abs($expectedShippingCost - $request->shippingCost) > 0.01) {
+                return response()->json(
+                    [
+                        "success" => false,
+                        "message" => "Shipping cost mismatch. Please recalculate shipping.",
                     ],
                     400
                 );
@@ -93,8 +130,13 @@ class CheckoutController extends Controller
             // Create order details
             $this->createOrderDetails($order, $cartItems);
 
+            // Update product sold and quantity
+            foreach ($cartItems as $item) {
+                $this->updateProductSold($item["id"], $item["quantity"]);
+            }
+
             // Send email notifications
-            SendOrderEmails::dispatch($order, "placed");
+            SendOrderEmails::dispatch($order, "placed", "pending");
 
             DB::commit();
 
@@ -232,8 +274,18 @@ class CheckoutController extends Controller
             return $item["price"] * $item["quantity"];
         });
 
-        $calculatedShipping =
-            ShippingRate::getRateForState($request->state) ?? 0;
+        // Free shipping threshold (₦50,000)
+        $freeShippingThreshold = 50000;
+
+        // Calculate shipping cost
+        $calculatedShipping = 0;
+        if ($calculatedSubtotal >= $freeShippingThreshold) {
+            // Free shipping for orders ₦50,000 and above
+            $calculatedShipping = 0;
+        } else {
+            // Use normal shipping rate
+            $calculatedShipping = ShippingRate::getRateForState($request->state) ?? 0;
+        }
 
         // Use calculated values for security
         return Order::query()->create([
@@ -275,6 +327,15 @@ class CheckoutController extends Controller
                     "product_image" => $item["image"] ?? null,
                 ]);
             }
+        }
+    }
+
+    private function updateProductSold(int $productId, int $quantity): void
+    {
+        $product = Product::query()->find($productId);
+        if ($product) {
+            $product->increment("sold", $quantity);
+            $product->decrement("quantity", $quantity);
         }
     }
 }

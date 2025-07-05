@@ -31,7 +31,9 @@
                         </li>
                         <li class="h-full flex items-center justify-center logo" style="color: {{ request()->routeIs('home') ? 'red' : 'black' }}">
 
-                            <a href="{{route('home')}}" class="heading4"> Roluxe </a>
+                            <a href="{{route('home')}}" class="heading4">
+                                {{config_get("site_short_name", "Roluxe")}}
+                            </a>
                         </li>
                         <li class="h-full">
                             <a href="{{route('collection')}}" class="text-button-uppercase duration-300 h-full flex items-center justify-center {{ request()->routeIs('collection') ? 'active' : '' }}">
@@ -89,7 +91,7 @@
                             <i class="ph ph-x text-sm"></i>
                         </div>
                         <a href="{{route('home')}}" class="logo text-3xl font-semibold text-center">
-                            Rolux
+                            {{config_get("site_short_name", "Roluxe")}}
                         </a>
                     </div>
                     <div class="form-search relative mt-2">

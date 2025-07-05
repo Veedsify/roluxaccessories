@@ -1,7 +1,9 @@
 <div class="tab-features-block filter-product-block md:py-20 py-10">
     @if(!$relatedProducts->isEmpty())
     <div class="container">
-        <div class="heading3 text-center">Related Products</div>
+        <div class="heading3 text-center">
+            {{$title ?? 'Related Products'}}
+        </div>
         <div class="list-product six-product hide-product-sold relative section-swiper-navigation style-outline style-small-border md:mt-10 mt-6">
             <div class="swiper-button-prev2 sm:left-10 left-6" tabindex="0" role="button" aria-label="Previous slide" aria-controls="swiper-wrapper-d4efcb5895b1e2a8">
                 <i class="ph-bold ph-caret-left text-xl"></i>
@@ -29,7 +31,7 @@
                                             <i class="ph ph-heart text-lg"></i>
                                         </div>
                                     </div>
-                                    <a href={{route('product.detail', ['slug'=> $product->slug])}} class="product-img block w-full h-full aspect-[3/4]">
+                                    <a href="{{route('product.detail', ['slug'=> $product->slug])}}" class="product-img block w-full h-full aspect-[3/4]">
 
                                         <img key="0" class="w-full h-full object-cover duration-700" src="{{asset('storage/'. $product->images[0]['url'])}}" alt="img">
 

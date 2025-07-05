@@ -33,5 +33,10 @@ class DatabaseSeeder extends Seeder
             'last_login_at' => now(),
             'email_verified_at' => now(),
         ]);
+
+        // Seed configuration settings
+        $this->call([
+            ConfigurationSeeder::class,
+        ]);
     }
 }

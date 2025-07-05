@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Shipping Test</title>
+    <script src="https://unpkg.com/phosphor-icons@1.4.3/src/index.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+        }
+
+        .test-container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .free-shipping-indicator {
+            transition: all 0.3s ease-in-out;
+            margin: 10px 0;
+        }
+
+        .progress-bar {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .totals {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Free Shipping Feature Test</h1>
+
+    <div class="test-container">
+        <h2>Cart Total Simulator</h2>
+        <div class="totals">
+            <div>Subtotal: ₦<span id="subtotal">25000</span></div>
+            <div>Shipping: <span id="shippingCost">₦2500</span></div>
+            <div><strong>Total: ₦<span id="total">27500</span></strong></div>
+        </div>
+
+        <!-- Free Shipping Indicator -->
+        <div id="freeShippingIndicator"
+            class="free-shipping-indicator mt-4 p-3 rounded-lg border border-blue-200 bg-blue-50">
+            <div class="flex items-center gap-2">
+                <i class="ph ph-truck text-lg"></i>
+                <span class="text-sm font-medium text-blue-700" id="freeShippingText">Add ₦25,000 more to qualify for
+                    FREE shipping!</span>
+            </div>
+            <div class="progress-bar mt-2" id="freeShippingProgress">
+                <div style="width: 100%; background: #e9ecef; border-radius: 10px; height: 8px;">
+                    <div style="background: #28a745; height: 8px; border-radius: 10px; transition: all 0.3s;"
+                        id="freeShippingProgressBar" style="width: 50%"></div>
+                </div>
+            </div>
+        </div>
+
+        <h3>Test Scenarios:</h3>
+        <button onclick="updateCartTotal(25000)">₦25,000 (50% progress)</button>
+        <button onclick="updateCartTotal(35000)">₦35,000 (70% progress)</button>
+        <button onclick="updateCartTotal(45000)">₦45,000 (90% progress)</button>
+        <button onclick="updateCartTotal(50000)">₦50,000 (Free shipping!)</button>
+        <button onclick="updateCartTotal(75000)">₦75,000 (Free shipping!)</button>
+    </div>
+
+    <div class="test-container">
+        <h2>How it works:</h2>
+        <ul>
+            <li><strong>Free shipping threshold:</strong> ₦50,000</li>
+            <li><strong>Below threshold:</strong> Shows progress bar and remaining amount needed</li>
+            <li><strong>At/above threshold:</strong> Shows "FREE" shipping and congratulations message</li>
+            <li><strong>Automatic calculation:</strong> Updates when cart items change, quantities change, or items are
+                added/removed</li>
+            <li><strong>Visual feedback:</strong> Color changes from blue (progress) to green (qualified)</li>
+        </ul>
+    </div>
+
+    <script>
+        let currentSubtotal = 25000;
+        const freeShippingThreshold = 50000;
+        const baseShippingCost = 2500;
+
+        function updateCartTotal(newSubtotal) {
+            currentSubtotal = newSubtotal;
+            updateDisplay();
+        }
+
+        function updateDisplay() {
+            const indicator = document.getElementById("freeShippingIndicator");
+            const text = document.getElementById("freeShippingText");
+            const progress = document.getElementById("freeShippingProgress");
+            const progressBar = document.getElementById("freeShippingProgressBar");
+            const subtotalEl = document.getElementById("subtotal");
+            const shippingEl = document.getElementById("shippingCost");
+            const totalEl = document.getElementById("total");
+
+            const remaining = freeShippingThreshold - currentSubtotal;
+            let shippingCost = baseShippingCost;
+
+            // Update subtotal display
+            subtotalEl.textContent = currentSubtotal.toLocaleString();
+
+            if (currentSubtotal >= freeShippingThreshold) {
+                // Qualified for free shipping
+                shippingCost = 0;
+                indicator.className = "free-shipping-indicator mt-4 p-3 rounded-lg border border-green-200 bg-green-50";
+                text.className = "text-sm font-medium text-green-700";
+                text.innerHTML = '<i class="ph ph-check-circle" style="margin-right: 4px;"></i>Congratulations! You qualify for FREE shipping!';
+
+                progress.style.display = "none";
+                shippingEl.innerHTML = '<span style="color: #28a745; font-weight: bold;">FREE</span>';
+            } else {
+                // Show how much more is needed
+                const progressPercentage = Math.min((currentSubtotal / freeShippingThreshold) * 100, 100);
+
+                indicator.className = "free-shipping-indicator mt-4 p-3 rounded-lg border border-blue-200 bg-blue-50";
+                text.className = "text-sm font-medium text-blue-700";
+                text.innerHTML = `Add ₦${remaining.toLocaleString()} more to qualify for FREE shipping!`;
+
+                progress.style.display = "block";
+                progressBar.style.width = `${progressPercentage}%`;
+                shippingEl.textContent = `₦${shippingCost.toLocaleString()}`;
+            }
+
+            // Update total
+            const total = currentSubtotal + shippingCost;
+            totalEl.textContent = total.toLocaleString();
+        }
+
+        // Initialize display
+        updateDisplay();
+    </script>
+</body>
+
+</html>

@@ -9,11 +9,22 @@ use Livewire\Component;
 class RelatedProducts extends Component
 {
     public $productSlug;
+
+    public $title = "Related Products";
     public $relatedProducts = [];
-    public function mount($slug)
+    public function mount($slug, $title = "Related Products")
     {
+        $this->title = $title;
         $this->productSlug = $slug; // Store the product slug for fetching related products
-        $category = \App\Models\Product::where('slug', $this->productSlug)->first()->category;
+        $category = \App\Models\Product::where('slug', $this->productSlug)->first()?->category;
+        if(!$category){
+            $this->relatedProducts = \App\Models\Product::where('active', true)
+                ->latest() // Exclude the current product
+                ->inRandomOrder()
+                ->take(4)
+                ->get();
+            return;
+        }
         $this->relatedProducts = \App\Models\Product::where('category_id', $category->id)
             ->where('active', true)
             ->where('slug', '!=', $this->productSlug) // Exclude the current product
@@ -60,6 +71,7 @@ class RelatedProducts extends Component
         return view('livewire.components.related-products', [
             'relatedProducts' => $this->relatedProducts,
             'productSlug' => $this->productSlug,
+            'title' => $this->title,
         ]);
     }
 }

@@ -57,9 +57,9 @@ class CartManager {
       (cartItem) =>
         cartItem.id === item.id &&
         (cartItem.size?.name ?? cartItem.size) ===
-          (item.size?.name ?? item.size) &&
+        (item.size?.name ?? item.size) &&
         (cartItem.color?.name ?? cartItem.color) ===
-          (item.color?.name ?? item.color),
+        (item.color?.name ?? item.color),
     );
 
     if (existingItem) {
@@ -253,7 +253,7 @@ class CartManager {
     // Update all total displays
     $(
       ".modal-cart-block .total-cart, .total-cart-block .total-cart, .total-block .total-product",
-    ).text(total === 0 ? "0.00" : formattedTotal);
+    ).text(total === 0 ? "₦0.00" : '₦' + formattedTotal);
 
     // Update free shipping status
     const $freeShipping = $(".ship-block .free-shipping-applied");
@@ -415,6 +415,8 @@ class CartManager {
   // Shipping calculation methods
   async calculateShippingCost(state) {
     try {
+      const cartTotal = this.calculateTotal();
+
       const response = await fetch("/api/shipping/calculate", {
         method: "POST",
         headers: {
@@ -424,7 +426,10 @@ class CartManager {
               .querySelector('meta[name="csrf-token"]')
               ?.getAttribute("content") || "",
         },
-        body: JSON.stringify({ state }),
+        body: JSON.stringify({
+          state: state,
+          cart_total: cartTotal
+        }),
       });
 
       const data = await response.json();
@@ -566,6 +571,27 @@ class CheckoutManager {
   init() {
     this.bindCheckoutEvents();
     this.updateCheckoutDisplay();
+
+    // Check if state is already selected on page load and calculate shipping
+    this.calculateInitialShipping();
+  }
+
+  async calculateInitialShipping() {
+    const stateSelect = document.querySelector('select[wire\\:model\\.live="state"]') ||
+      document.getElementById('state');
+
+    if (stateSelect && stateSelect.value) {
+      const state = stateSelect.value;
+      console.log('Calculating initial shipping for state:', state);
+
+      this.currentShippingCost = await this.cartManager.calculateShippingCost(state);
+      this.updateCheckoutDisplay();
+
+      // Notify Livewire component about shipping cost
+      if (typeof Livewire !== "undefined") {
+        Livewire.dispatch("shippingCalculated", [this.currentShippingCost]);
+      }
+    }
   }
 
   bindCheckoutEvents() {
@@ -622,9 +648,15 @@ $(document).ready(function () {
   window.cartManager = new CartManager();
   window.cartManager.init();
 
-  // Initialize checkout manager if on checkout page
+  // Initialize checkout manager only if on checkout page AND checkout.js hasn't loaded yet
   if (window.location.pathname === "/checkout") {
-    window.checkoutManager = new CheckoutManager(window.cartManager);
+    // Give checkout.js a chance to load first
+    setTimeout(() => {
+      if (!window.checkoutManager) {
+        console.log("Creating fallback checkout manager from custom.js");
+        window.checkoutManager = new CheckoutManager(window.cartManager);
+      }
+    }, 100);
   }
 });
 

@@ -17,7 +17,10 @@
                         </button>
                     </div>
                     <div class="text-button-uppercase continue mt-4 text-center has-line-before cursor-pointer inline-block">
-                        Or continue shopping</div>
+                        <a href="{{route('shop')}}">
+                        Or continue shopping
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

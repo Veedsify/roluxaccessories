@@ -30,6 +30,26 @@
             animation: slideIn 0.3s ease-out;
         }
 
+        .free-shipping-indicator {
+            transition: all 0.3s ease-in-out;
+        }
+
+        .free-shipping-indicator .progress-bar {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
         @keyframes slideIn {
             from {
                 transform: translateX(100%);

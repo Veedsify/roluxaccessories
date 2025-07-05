@@ -36,4 +36,9 @@ Route::get("/faqs", FaqsPage::class)->name("faqs");
 Route::get("/privacy-policy", PrivacyPolicyPage::class)->name("privacy.policy");
 Route::get("/order-tracking", OrderTrackingPage::class)->name("order.tracking");
 
+// Test route for configuration system
+Route::get("/config-test", function () {
+    return view('welcome');
+})->name('config-test');
+
 require __DIR__ . "/auth.php";

@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        .debug-info {
+            background: #f5f5f5;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        select,
+        input {
+            padding: 8px;
+            margin: 5px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Checkout Free Shipping Debug Test</h1>
+
+    <div class="debug-info">
+        <h3>Current State:</h3>
+        <p><strong>Cart Total:</strong> <span id="currentTotal">₦0</span></p>
+        <p><strong>Shipping Cost:</strong> <span id="currentShipping">₦0</span></p>
+        <p><strong>Final Total:</strong> <span id="finalTotal">₦0</span></p>
+        <p><strong>Free Shipping Status:</strong> <span id="freeShippingStatus">Not Qualified</span></p>
+    </div>
+
+    <div class="debug-info">
+        <h3>Test Cart Scenarios:</h3>
+        <button onclick="setCartTotal(25000)">₦25,000 Cart (Should charge shipping)</button>
+        <button onclick="setCartTotal(50000)">₦50,000 Cart (Should be FREE)</button>
+        <button onclick="setCartTotal(75000)">₦75,000 Cart (Should be FREE)</button>
+    </div>
+
+    <div class="debug-info">
+        <h3>State Selection:</h3>
+        <select id="stateSelect" onchange="calculateShipping()">
+            <option value="">Select State</option>
+            <option value="Lagos">Lagos</option>
+            <option value="Abuja">Abuja</option>
+            <option value="Kano">Kano</option>
+            <option value="Rivers">Rivers</option>
+        </select>
+    </div>
+
+    <div class="debug-info">
+        <h3>Manual API Test:</h3>
+        <button onclick="testShippingAPI()">Test Shipping API Directly</button>
+        <div id="apiResult"></div>
+    </div>
+
+    <script>
+        let currentCartTotal = 0;
+        let currentShippingCost = 0;
+        const FREE_SHIPPING_THRESHOLD = 50000;
+
+        function setCartTotal(amount) {
+            currentCartTotal = amount;
+            updateDisplay();
+
+            // Recalculate shipping if state is selected
+            const state = document.getElementById('stateSelect').value;
+            if (state) {
+                calculateShipping();
+            }
+        }
+
+        function updateDisplay() {
+            document.getElementById('currentTotal').textContent = `₦${currentCartTotal.toLocaleString()}`;
+            document.getElementById('currentShipping').textContent = `₦${currentShippingCost.toLocaleString()}`;
+            document.getElementById('finalTotal').textContent = `₦${(currentCartTotal + currentShippingCost).toLocaleString()}`;
+
+            const isQualified = currentCartTotal >= FREE_SHIPPING_THRESHOLD;
+            const statusEl = document.getElementById('freeShippingStatus');
+            statusEl.textContent = isQualified ? 'QUALIFIED ✅' : 'Not Qualified ❌';
+            statusEl.className = isQualified ? 'success' : 'warning';
+        }
+
+        async function calculateShipping() {
+            const state = document.getElementById('stateSelect').value;
+            if (!state) {
+                currentShippingCost = 0;
+                updateDisplay();
+                return;
+            }
+
+            try {
+                console.log('Calculating shipping for:', state, 'with cart total:', currentCartTotal);
+
+                const response = await fetch('/api/shipping/calculate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || ''
+                    },
+                    body: JSON.stringify({
+                        state: state,
+                        cart_total: currentCartTotal
+                    })
+                });
+
+                const data = await response.json();
+                console.log('API response:', data);
+
+                if (data.success) {
+                    currentShippingCost = data.data.shipping_cost;
+
+                    const resultDiv = document.getElementById('apiResult');
+                    resultDiv.innerHTML = `
+                        <div class="success">
+                            <strong>API Response:</strong><br>
+                            State: ${data.data.state}<br>
+                            Shipping Cost: ₦${data.data.shipping_cost.toLocaleString()}<br>
+                            Is Free Shipping: ${data.data.is_free_shipping ? 'Yes' : 'No'}<br>
+                            ${data.data.remaining_for_free_shipping ? `Remaining for Free: ₦${data.data.remaining_for_free_shipping.toLocaleString()}` : ''}
+                        </div>
+                    `;
+                } else {
+                    currentShippingCost = 0;
+                    document.getElementById('apiResult').innerHTML = `<div class="error">Error: ${data.message}</div>`;
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                currentShippingCost = 0;
+                document.getElementById('apiResult').innerHTML = `<div class="error">Network Error: ${error.message}</div>`;
+            }
+
+            updateDisplay();
+        }
+
+        async function testShippingAPI() {
+            const state = document.getElementById('stateSelect').value;
+            if (!state) {
+                alert('Please select a state first');
+                return;
+            }
+
+            await calculateShipping();
+        }
+
+        // Initialize with default values
+        setCartTotal(30000);
+    </script>
+</body>
+
+</html>
