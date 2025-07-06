@@ -85,7 +85,7 @@
                                 <a href="{{config_get('facebook_url')}}" target="_blank">
                                     <div class="ph ph-facebook-logo text-2xl text-black"></div>
                                 </a>
-                                <a href="{{config_get('Instagram_url')}}" target="_blank">
+                                <a href="{{config_get('instagram_url')}}" target="_blank">
 
                                     <div class="ph ph-instagram-logo text-2xl text-black"></div>
                                 </a>

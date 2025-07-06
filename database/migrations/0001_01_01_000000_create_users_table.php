@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('user_id')->unique();
             $table->string('role')->default('customer'); // customer, admin, vendor
             $table->string('status')->default('active'); // active, inactive, suspended
             $table->string('phone')->nullable();

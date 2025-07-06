@@ -125,7 +125,7 @@
                     <div class="swiper swiper-instagram-three">
                         <div class="swiper-wrapper">
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file23.jpeg')}}" alt="0"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>
@@ -135,7 +135,7 @@
                                 </a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file1.jpeg')}}" alt="1"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>
@@ -145,7 +145,7 @@
                                 </a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file2.jpeg')}}" alt="2"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>
@@ -155,7 +155,7 @@
                                 </a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file3.jpeg')}}" alt="3"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>
@@ -165,7 +165,7 @@
                                 </a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file4.jpeg')}}" alt="4"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>
@@ -175,7 +175,7 @@
                                 </a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file5.jpeg')}}" alt="5"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>
@@ -185,7 +185,7 @@
                                 </a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file10.jpeg')}}" alt="10"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>
@@ -195,7 +195,7 @@
                                 </a>
                             </div>
                             <div class="swiper-slide">
-                                <a href="{{config_get("Instagram_url")}}" target="_blank"
+                                <a href="{{config_get("instagram_url")}}" target="_blank"
                                    class="item relative block overflow-hidden">
                                     <img src="{{ asset('frontend/images/commons/file5.jpeg')}}" alt="yoga5"
                                          class="h-full w-full duration-500 relative" style="aspect-ratio: 1/1; object-fit: cover;"/>

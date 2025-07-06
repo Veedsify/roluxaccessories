@@ -15,5 +15,18 @@
 <link rel="stylesheet" href="{{ asset('dist/output-tailwind.css')}}" />
 <link rel="stylesheet" href="{{ asset('frontend/css/checkout-enhancements.css') }}">
 <link rel="stylesheet" href="{{ asset('frontend/css/order-confirmation.css') }}">
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{{ url()->current() }}" />
+<meta property="og:title" content="{{ $title ?? config('app.name') }}" />
+<meta property="og:description" content="{{ $description ?? 'Premium accessories for your lifestyle' }}" />
+<meta property="og:image" content="{{ $ogImage ?? asset('images/og-default.jpg') }}" />
+
+<!-- Twitter -->
+<meta property="twitter:card" content="summary_large_image" />
+<meta property="twitter:url" content="{{ url()->current() }}" />
+<meta property="twitter:title" content="{{ $title ?? config('app.name') }}" />
+<meta property="twitter:description" content="{{ $description ?? 'Premium accessories for your lifestyle' }}" />
+<meta property="twitter:image" content="{{ $ogImage ?? asset('images/og-default.jpg') }}" />
 @stack('styles')
 @livewireStyles

@@ -179,6 +179,15 @@ class ConfigurationSeeder extends Seeder
                 'description' => 'Symbol to display for prices',
                 'sort_order' => 1,
             ],
+            [
+                'key' => 'site_short_name',
+                'value' => 'Roluxe',
+                'type' => 'text',
+                'group' => 'general',
+                'label' => 'Site Short Name',
+                'description' => 'Short name for your website, used in URLs and titles',
+                'sort_order' => 11,
+            ]
         ];
 
         foreach ($configurations as $config) {

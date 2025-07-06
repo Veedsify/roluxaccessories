@@ -17,11 +17,10 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Admin User',
-            'email' => 'test@example.com',
+            'email' => 'aseyeronke25@gmail.com',
             'is_admin' => true,
             'is_active' => true,
             'is_verified' => true,
-            'user_id' => 'admin_user',
             'role' => 'admin', // customer, admin, vendor
             'status' => 'active', // active, inactive, suspended
             'phone' => '1234567890',

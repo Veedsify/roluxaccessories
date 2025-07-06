@@ -65,7 +65,7 @@ class Configuration extends Model
     /**
      * Set configuration value
      */
-    public static function set(string $key, $value, string $type = 'text', string $group = 'general', string $label = null): void
+    public static function set(string $key, $value, string $type = 'text', string $group = 'general', ?string $label = null): void
     {
         static::updateOrCreate(
             ['key' => $key],

@@ -26,7 +26,6 @@ class User extends Authenticatable
         "is_admin",
         "is_active",
         "is_verified",
-        "user_id",
         "role", // customer, admin, vendor
         "status", // active, inactive, suspended
         "phone",
